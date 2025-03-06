@@ -4,3 +4,4 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 
 # fonctionnalite
 ## 1 Gestion des clients
+- [ ] allo
