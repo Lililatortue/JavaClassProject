@@ -48,3 +48,5 @@ client peux faire:
 - [ ] creation de rapport auto genere 
 ## 9 evolutivite & architecture modulaire
 - [ ] Enforcer les principes SOLID
+- [ ] utilisation des patterns ou ces necessaires
+- [ ] decouplement du ui, bus et dal
