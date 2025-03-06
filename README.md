@@ -35,7 +35,7 @@ client peux faire:
 - [ ] consulter historique
 
 ## 6 Gestion des interets et du credit
-- [ ]compte epargne genere interet annuel
+- [ ] compte epargne genere interet annuel
 
 ## 7 Notification & Alerttes en temps reel
 - [ ] notifier le client quand transaction est effectue ou soldes est faible
@@ -45,3 +45,6 @@ client peux faire:
 - [ ] gestionnaire accede au log des clients
 - [ ] gestionnaire accede au log des transactions
 - [ ] gestionnaire accede au log des comptes
+- [ ] creation de rapport auto genere 
+## 9 evolutivite & architecture modulaire
+- [ ] Enforcer les principes SOLID
