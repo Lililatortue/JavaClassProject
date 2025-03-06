@@ -4,4 +4,44 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 
 # fonctionnalite
 ## 1 Gestion des clients
-- [ ] allo
+- [ ]  client doit avoir  numero d'identifaction (clef primaire) , prenom , nom , nip(psw)
+- [ ]  client doit avoir d' autres formes d'identification e.g adresse , email et num tel.
+
+## 2 Gestion des comptes client
+- [ ] compte cheques obligatoire pour chaque client
+- #### compte optionnel pour le clien a integrer:
+- [ ] compte epargne --> contient taux interet annuel et calcul du gain annuel
+- [ ] compte credit ---> limite et emprunt
+- [ ] ligne de credit --> taux d'interet et un mecanisme emprunt et remboursement
+- [ ] Compte devise ---> doit rester actif a tous les ans
+
+## 3 traitement des transactions
+- [ ] type de transaction disponible--> depot retrait virement
+- [ ] compte a un historique
+- [ ] compte cheque 2 transaction gratuit par moi
+- [ ] frais applique si transaction depasse quota
+
+## 4 Operation du gestionnaire de la banque
+le role de gestionnaire de la banque peux faire
+- [ ] creer client
+- [ ] approuver les demandes de comptes supplementaire
+- [ ] fermer des comptes client
+- [ ] et si fermer compte cheque effacer le client
+
+## 5 Operations des clients
+client peux faire:
+- [ ] transaction
+- [ ] consulter le solde
+- [ ] consulter historique
+
+## 6 Gestion des interets et du credit
+- [ ]compte epargne genere interet annuel
+
+## 7 Notification & Alerttes en temps reel
+- [ ] notifier le client quand transaction est effectue ou soldes est faible
+- [ ] notifier gestionnaire quand demande compte est faite ou tombe en dessous du seuil critique
+
+## 8 Rapport Financiers et Audits
+- [ ] gestionnaire accede au log des clients
+- [ ] gestionnaire accede au log des transactions
+- [ ] gestionnaire accede au log des comptes
