@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.1.1">
   <diagram name="Page-1" id="80t52LJbAGnGbvyIK6xW">
-    <mxGraphModel dx="496" dy="214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+    <mxGraphModel dx="737" dy="318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -74,7 +74,7 @@
           <mxGeometry y="112" width="260" height="26" as="geometry" />
         </mxCell>
         <mxCell id="T-ztOBFdZPyea2kKap5X-13" value="&lt;div&gt;hashtree&lt;/div&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1840" y="720" width="280" height="164" as="geometry" />
+          <mxGeometry x="1840" y="720" width="280" height="138" as="geometry" />
         </mxCell>
         <mxCell id="T-ztOBFdZPyea2kKap5X-14" value="- root HashNode" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-13" vertex="1">
           <mxGeometry y="26" width="280" height="26" as="geometry" />
@@ -90,9 +90,6 @@
         </mxCell>
         <mxCell id="T-ztOBFdZPyea2kKap5X-17" value="+ printTree(HashNode* node, int depth=0): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-13" vertex="1">
           <mxGeometry y="112" width="280" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="T-ztOBFdZPyea2kKap5X-18" value="+ update(string filesystem_name): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-13" vertex="1">
-          <mxGeometry y="138" width="280" height="26" as="geometry" />
         </mxCell>
         <mxCell id="T-ztOBFdZPyea2kKap5X-19" value="&lt;div&gt;hashing&lt;/div&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1560" y="321" width="260" height="138" as="geometry" />
