@@ -65,7 +65,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="T-ztOBFdZPyea2kKap5X-7" value="&lt;div&gt;fileWriter&lt;/div&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1890" y="706" width="340" height="138" as="geometry" />
+          <mxGeometry x="1890" y="706" width="340" height="216" as="geometry" />
         </mxCell>
         <mxCell id="T-ztOBFdZPyea2kKap5X-8" value="- gardenpath fs::path" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
           <mxGeometry y="26" width="340" height="26" as="geometry" />
@@ -73,14 +73,23 @@
         <mxCell id="T-ztOBFdZPyea2kKap5X-9" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
           <mxGeometry y="52" width="340" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="T-ztOBFdZPyea2kKap5X-10" value="+ createFileStructure(const HashNode&amp;amp;, string , string): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
+        <mxCell id="T-ztOBFdZPyea2kKap5X-10" value="- createFileStructure(const HashNode&amp;amp;, string , string): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
           <mxGeometry y="60" width="340" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="T-ztOBFdZPyea2kKap5X-11" value="+ filetoGarden(const HashNode&amp;amp;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
+        <mxCell id="T-ztOBFdZPyea2kKap5X-11" value="- filetoGarden(const HashNode&amp;amp;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
           <mxGeometry y="86" width="340" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="T-ztOBFdZPyea2kKap5X-12" value="+ update(string filesystem_name): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
+        <mxCell id="T-ztOBFdZPyea2kKap5X-12" value="- FolderToFile(const HashNode&amp;amp;, string filename): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T-ztOBFdZPyea2kKap5X-7" vertex="1">
           <mxGeometry y="112" width="340" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ILbymL3zQHqLycvMSJ-40" value="- folderToGarden(const HashNode&amp;amp;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="T-ztOBFdZPyea2kKap5X-7">
+          <mxGeometry y="138" width="340" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ILbymL3zQHqLycvMSJ-55" value="- FolderToFile(const HashNode&amp;amp;, string filename): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="T-ztOBFdZPyea2kKap5X-7">
+          <mxGeometry y="164" width="340" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ILbymL3zQHqLycvMSJ-56" value="+ createGarden(HashNode current): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="T-ztOBFdZPyea2kKap5X-7">
+          <mxGeometry y="190" width="340" height="26" as="geometry" />
         </mxCell>
         <mxCell id="n_ILbymL3zQHqLycvMSJ-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="T-ztOBFdZPyea2kKap5X-13" target="T-ztOBFdZPyea2kKap5X-4">
           <mxGeometry relative="1" as="geometry" />
