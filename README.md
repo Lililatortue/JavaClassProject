@@ -4,8 +4,8 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 
 # fonctionnalite
 ## 1 Gestion des clients
-- [ ]  client doit avoir  numero d'identifaction (clef primaire) , prenom , nom , nip(psw)
-- [ ]  client doit avoir d' autres formes d'identification e.g adresse , email et num tel.
+- [x]  client doit avoir  numero d'identifaction (clef primaire) , prenom , nom , nip(psw)
+- [x]  client doit avoir d' autres formes d'identification e.g adresse , email et num tel.
 
 ## 2 Gestion des comptes client
 - [ ] compte cheques obligatoire pour chaque client
