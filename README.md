@@ -17,9 +17,9 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 
 ## 3 traitement des transactions
 - [ ] type de transaction disponible--> depot retrait virement
-- [ ] compte a un historique
-- [ ] compte cheque 2 transaction gratuit par moi
-- [ ] frais applique si transaction depasse quota
+- [x] compte a un historique
+- [x] compte cheque 2 transaction gratuit par moi
+- [x] frais applique si transaction depasse quota
 
 ## 4 Operation du gestionnaire de la banque
 le role de gestionnaire de la banque peux faire
