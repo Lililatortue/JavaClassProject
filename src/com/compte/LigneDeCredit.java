@@ -1,28 +1,34 @@
 package com.compte;
 
-import java.time.Month;
+import java.time.LocalDate;
 
-import com.Observer.TimeObserver;
-
-public class LigneDeCredit extends AbstractCompte implements TimeObserver {
-	
-	private final double tauxInteret=0.05;
-	private Double plafond;
-	
-	public LigneDeCredit(String numero, Double solde, Double plafond) {
-		super(numero, solde);
-		this.plafond=plafond;
-	}
-
-	@Override
-	public void update(Month currentMonth) {
-		int month_passed=currentMonth.compareTo(this.month);
-		this.solde= solde +(1 * this.tauxInteret)*month_passed;
-	}
-
-	@Override
-	public Month getState() {
-		return this.month;
-	}
-
+public class LigneDeCredit extends CompteDeCredit {
+	//variable
+	//constructeur
+		public LigneDeCredit(String n, double ti) {
+			super(n, ti, LocalDate.now());
+			this.interetMensuelDu=0.0;
+		}
+		
+		protected LigneDeCredit(String n, double ti, LocalDate ld) {
+			super(n, ti, ld);
+			update();
+		}
+		
+	//fonction public 
+		public double emprunter(double montant) throws Exception {
+				return this.retirer(montant);
+		}
+	// CompteDeCredit implimentation
+		@Override
+		protected void setInteretMensuelDu() {
+			this.interetMensuelDu+=(this.getTauxInteretAnnuel() / 12) * this.solde;
+		}
+	//IInterestEvent
+		@Override
+		public void update() {
+			if(this.getMois().getValue() < LocalDate.now().getMonth().getValue())
+				setInteretMensuelDu();
+		}
+			
 }

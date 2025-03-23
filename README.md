@@ -10,10 +10,10 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 ## 2 Gestion des comptes client
 - [ ] compte cheques obligatoire pour chaque client
 - #### compte optionnel pour le clien a integrer:
-- [ ] compte epargne --> contient taux interet annuel et calcul du gain annuel
-- [ ] compte credit ---> limite et emprunt
-- [ ] ligne de credit --> taux d'interet et un mecanisme emprunt et remboursement
-- [ ] Compte devise ---> doit rester actif a tous les ans
+- [x] compte epargne --> contient taux interet annuel et calcul du gain annuel
+- [x] compte credit ---> limite et emprunt
+- [x] ligne de credit --> taux d'interet et un mecanisme emprunt et remboursement
+- [x] Compte devise ---> doit rester actif a tous les ans
 
 ## 3 traitement des transactions
 - [ ] type de transaction disponible--> depot retrait virement
@@ -35,9 +35,9 @@ client peux faire:
 - [ ] consulter historique
 
 ## 6 Gestion des interets et du credit
-- [ ] compte epargne genere interet annuel
+- [x] compte epargne genere interet annuel
 
-## 7 Notification & Alerttes en temps reel
+## 7 Notification & Alertes en temps reel
 - [ ] notifier le client quand transaction est effectue ou soldes est faible
 - [ ] notifier gestionnaire quand demande compte est faite ou tombe en dessous du seuil critique
 
