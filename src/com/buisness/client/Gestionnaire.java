@@ -12,7 +12,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
 	
 	
 	public Gestionnaire(int id, String nom, String prenom, String adresse, String nip, String role) {
-        super(id, nom, prenom, adresse, nip);
+        super(id, nom, prenom, adresse, nip, "Gestionnaire");
         this.role = role;
     }
 	
@@ -56,7 +56,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
     // Approuver l'ouverture d'un compte
     public void approuverCompte(Client client, Compte compte) {
         client.ajouterCompte(compte);
-        System.out.println("Compte " + compte.getType() + " approuvé pour le client " + client.getNom());
+        System.out.println("Compte " + compte.getCompteId() + " approuvé pour le client " + client.getNom());
     }
     
     

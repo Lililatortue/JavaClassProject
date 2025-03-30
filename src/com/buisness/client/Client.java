@@ -13,7 +13,7 @@ public class Client extends Utilisateur implements Serializable {
 	 private List<Compte> comptes;
 	
 	 public Client(int id, String nom, String prenom, String adresse, String nip, String email, String telephone) {
-		 super(id, nom, prenom, adresse, nip);
+		 super(id, nom, prenom, adresse, nip, "Client");
 	     this.email = email;
 	     this.telephone = telephone;
 	     this.comptes = new ArrayList<>();
@@ -46,7 +46,7 @@ public class Client extends Utilisateur implements Serializable {
 		this.telephone = telephone;
 	}
 	private void setComptePreRequis() {
-		CompteCheque c = new CompteCheque("CHCK", 0.0, 5.0);
+		CompteCheque c = new CompteCheque(this, 0.0, 5.0);
 		this.comptes = new ArrayList<>();
 		this.ajouterCompte(c);
 	}

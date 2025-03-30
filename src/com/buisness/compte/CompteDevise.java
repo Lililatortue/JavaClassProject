@@ -1,5 +1,7 @@
 package com.buisness.compte;
 
+import com.buisness.client.Client;
+
 public class CompteDevise extends Compte {
 
 	/**
@@ -7,9 +9,15 @@ public class CompteDevise extends Compte {
 	 */
 	private static final long serialVersionUID = 826859753794501933L;
 	private Devise devise;
-	public CompteDevise(String type, double solde,Devise devise) {
-		super(type, solde);
+	public CompteDevise(Client clientId, String type, double solde,Devise devise) {
+		super(clientId, solde);
+		setCompteId(clientId);
 		this.devise = devise;
+	}
+	@Override
+	public void setCompteId(Client clientId) {
+		this.compteId = "DEV"+clientId.getId();
+		
 	}
 
 	@Override
@@ -24,6 +32,7 @@ public class CompteDevise extends Compte {
 		return montant / devise.exchangeRate;
 	}
 
+	
 
 	
 
