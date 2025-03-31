@@ -2,6 +2,8 @@ package com.buisness.compte;
 
 import java.time.LocalDate;
 
+import com.buisness.client.Client;
+
 
 
 /*
@@ -16,12 +18,14 @@ public class CompteEpargne extends CompteInteret  {
 	private static final long serialVersionUID = -8110410012131872667L;
 	//variable
 		private double limite;
-		public CompteEpargne( double tauxInteret, double limite) {
-			super("EPRGN", tauxInteret, LocalDate.now());
+		public CompteEpargne(Client clientId, double tauxInteret, double limite) {
+			super(clientId, tauxInteret, LocalDate.now());
+			this.setCompteId(clientId);
 			this.limite = limite;
 		}
-		protected CompteEpargne(String type, double tauxInteret, LocalDate date, double limite) {
-			super(type, tauxInteret, date);
+		protected CompteEpargne(Client clientId, String type, double tauxInteret, LocalDate date, double limite) {
+			super(clientId, tauxInteret, date);
+			this.setCompteId(clientId);
 			this.limite = limite;
 			this.update();
 		}
@@ -34,6 +38,13 @@ public class CompteEpargne extends CompteInteret  {
 				//throw new Exception("doit deposer plus que 0.");
 		}
 		
+		@Override
+		public void setCompteId(Client clientId) {
+			this.compteId = "EPRGN"+clientId.getId();
+			
+		}
+		
+
 		@Override
 		protected double retirer(double montant) throws Exception  {
 			if(montant > 0 && this.solde - montant > 0 && this.limite-montant > 0) {
@@ -59,4 +70,5 @@ public class CompteEpargne extends CompteInteret  {
 		public String toString() {
 			return super.toString()+"\n\tLimite d'achat: "+this.limite;
 		}
+	
 }

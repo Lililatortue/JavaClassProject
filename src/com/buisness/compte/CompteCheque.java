@@ -1,5 +1,7 @@
 package com.buisness.compte;
 
+import com.buisness.client.Client;
+
 public class CompteCheque extends Compte{
 	/**
 	 * 
@@ -10,18 +12,19 @@ public class CompteCheque extends Compte{
 	private int TransactionRestante;
 	private double fraisTransaction;
 	
-	public CompteCheque(String numero, Double solde, double fraisTransaction) {
-		super(numero, solde);
-		setTransactionsGratuite(2);
-		setFraisTransaction(fraisTransaction);
+	public CompteCheque(Client clientId, double solde, double fraisTransaction) {
+		super(clientId, solde);
+		this.setCompteId(clientId);
+		this.setTransactionsGratuite(2);
+		this.setFraisTransaction(fraisTransaction);
 		this.TransactionRestante =this.nbTransGratuite;
 	}
 
-	protected CompteCheque(String numero, int i, double fraisTransaction,int transactionRestante) {
-		
-			super(numero, i);
-			setTransactionsGratuite(2);
-			setFraisTransaction(fraisTransaction);
+	protected CompteCheque(Client clientId,String numero, double solde, double fraisTransaction,int transactionRestante) {
+		    super(clientId, solde);
+		    this.setCompteId(clientId);
+		    this.setTransactionsGratuite(2);
+		    this.setFraisTransaction(fraisTransaction);
 			this.TransactionRestante =transactionRestante;
 	}
 	//getters
@@ -42,6 +45,12 @@ public class CompteCheque extends Compte{
 		this.nbTransGratuite = transactionsGratuite;
 	}
 
+	@Override
+	public void setCompteId(Client clientId) {
+		this.compteId = "CHK"+ clientId.getId() ;
+		
+	}
+	
 	@Override
 	public void deposer(double montant) {
 		// TODO Auto-generated method stub
@@ -64,9 +73,6 @@ public class CompteCheque extends Compte{
 	}
 
 	
-	
-	
-
 	
 	
 }

@@ -3,6 +3,7 @@ package com.buisness.compte;
 import java.time.LocalDate;
 import java.time.Month;
 import com.Event.IInterestEvent;
+import com.buisness.client.Client;
 /*
  * class abstraite pour subclass l'implimentation de la fonction setInteretMensuel 
  * set la variable interetMensuelDu 
@@ -20,8 +21,8 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 		protected double interetMensuelDu;
 		
 	//constructor
-		public CompteInteret(String type, double tauxInteret,LocalDate dateCreation) {
-			super(type,0);
+		public CompteInteret(Client client_id, double tauxInteret,LocalDate dateCreation) {
+			super(client_id,0);
 			this.setCurrentMonth(dateCreation);
 			this.setYear(dateCreation);
 			this.setTauxInteret(tauxInteret);

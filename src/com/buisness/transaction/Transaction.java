@@ -4,76 +4,57 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class Transaction implements Serializable {
+import com.buisness.client.Client;
+import com.buisness.compte.Compte;
 
-	// -- 1 -- 
-	// UID pour la sérialisation
-	
+public abstract class Transaction implements Serializable {	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2923352023714175172L;
 	
 	
-	// -- 2 --
+	
 	// Déclaration des attributs privés
+		private int idClient;
+		private String compteId;
+		private Date dateTransaction;
+		private double montant;
+		private Transaction_type type;
 	
-	private int id;
-	
-	private Date date;
-	
-	private double montant;
-	
-	private String numeroCompte;
-	
-	
-	// -- 3 --
 	// Méthodes publiques getters / setters
-	
-	public int getId() { return this.id; }
-	public void setId(int id) { this.id = id; }
-	
-	public Date getDate() { return this.date; }
-	public void setDate(Date date) { this.date = date; }
-	
-	public double getMontant() { return this.montant; }
-	public void setMontant(double montant) { this.montant = montant; }
-	
-	public String getNumeroCompte() { return this.numeroCompte; }
-	public void setNumeroCompte(String numeroCompte) { this.numeroCompte = numeroCompte; }
+		public int getClientId() { return this.idClient; }
+		public void setClientId(Compte compte) { this.idClient = compte.getClientId(); }
 	
 	
-	// -- 4 --
+		public String getCompteId() { return this.compteId; }
+		public void setCompteId(Compte compteId) { this.compteId = compteId.getCompteId(); }
+	
+		public Date getDate() { return this.dateTransaction; }
+		public void setDate(Date date) { this.dateTransaction = date; }
+	
+		public double getMontant() { return this.montant; }
+		public void setMontant(double montant) { this.montant = montant; }
+	
 	// Constructeurs
 	
-	public Transaction() {
-		this.id = 0;
-		this.date = new Date();
-		this.montant = 0.00;
-		this.numeroCompte = "C000";
-	}
-	
-	public Transaction(int id, Date date, double montant, String numeroCompte) {
-		this.id = id;
-		this.date = date;
+	public Transaction(Compte compte, Date date, double montant) {
+		this.setClientId(compte);
+		this.setCompteId(compte);
+		this.setDate(date);
 		this.montant = montant;
-		this.numeroCompte = numeroCompte;
 	}
 		
-	
-	// -- 5 --
 	// Méthode abstraite
 	
 	public abstract void executer();
-		
-	
-	// -- 6 --
+
 	// Override pour le formatage
 	
 	@Override
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		return "Transaction #" + id + " | Compte: " + numeroCompte + 
-			   " | Montant: " + montant + "$ | Date: " + sdf.format(date);
+		return "Transaction #" + "to implement" + " | Compte: " + compteId + 
+			   " | Montant: " + montant + "$ | Date: " + sdf.format(dateTransaction);
 	}
 }

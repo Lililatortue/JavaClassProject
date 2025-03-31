@@ -2,6 +2,8 @@ package com.buisness.compte;
 
 import java.time.LocalDate;
 
+import com.buisness.client.Client;
+
 public class LigneDeCredit extends CompteInteret {
 	/**
 	 * 
@@ -9,15 +11,22 @@ public class LigneDeCredit extends CompteInteret {
 		private static final long serialVersionUID = -3662972914243024057L;
 	//variable
 	//constructeur
-		public LigneDeCredit(double tauxInteret) {
-			super("LGNCRED", tauxInteret, LocalDate.now());
+		public LigneDeCredit(Client clientId,double tauxInteret) {
+			super(clientId, tauxInteret, LocalDate.now());
 			this.interetMensuelDu=0.0;
 		}
 		
-		protected LigneDeCredit(String n, double ti, LocalDate ld) {
-			super(n, ti, ld);
+		protected LigneDeCredit(Client clientId, double tauxInteret, LocalDate localDate) {
+			super(clientId, tauxInteret, localDate);
 			update();
 		}
+		
+		@Override
+		public void setCompteId(Client clientId) {
+			this.compteId = "LGNCRED"+clientId.getId();
+			
+		}
+		
 		
 	//fonction public 
 		public double emprunter(double montant) throws Exception {
@@ -39,4 +48,6 @@ public class LigneDeCredit extends CompteInteret {
 		public String toString() {
 			return super.toString();
 		}
+
+		
 }
