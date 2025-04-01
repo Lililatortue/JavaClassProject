@@ -84,6 +84,10 @@ public abstract class Transaction implements Serializable {
 		this.montant = montant;
 	} // Définit le montant de la transaction
 	
+	public void setType(Transaction_type type) {
+		this.type = type;
+	}
+	
 	// MÉTHODE ABSTRAITE
 	// Exécute la transaction; sera implémentée dans les classes dérivées
 	public abstract void executer();
