@@ -1,0 +1,13 @@
+package business;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class DemandeClient implements Serializable {
+	
+	private int clientId;                  // ID du client concerné
+    private String typeDemande;           // "AJOUT", "FERMETURE", "FERMETURE_TOTALE"
+    private String typeCompteSouhaite;    // "CHEQUE", "EPARGNE", "CREDIT", "LIGNE", "DEVISE" (pour AJOUT)
+    private String compteCible;           // Numéro du compte à fermer (si applicable)
+    private LocalDate dateDemande;        // Date de la demande
+}

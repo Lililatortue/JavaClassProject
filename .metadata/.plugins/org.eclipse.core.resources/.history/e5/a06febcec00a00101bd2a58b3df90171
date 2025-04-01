@@ -1,0 +1,84 @@
+package ui;
+
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+
+
+public class Main_V2 extends JFrame {
+	
+	private static final long serialVersionUID = -8127836578271881936L;
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Main_V2 frame = new Main_V2();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null); // Centrer la fenêtre
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Main_V2() {
+		setTitle("Fortis Bank - Menu Principal");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JButton btnGestionnaire = new JButton("Connexion Gestionnaire");
+		btnGestionnaire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Ouvrir la fenêtre de connexion gestionnaire
+				//LoginGestionnaire login = new LoginGestionnaire();
+				//login.setVisible(true);
+				//login.setLocationRelativeTo(null);
+				dispose();
+			}
+		});
+		btnGestionnaire.setBounds(125, 70, 200, 30);
+		contentPane.add(btnGestionnaire);
+
+		JButton btnClient = new JButton("Connexion Client");
+		btnClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Ouvrir la fenêtre de connexion client
+				// LoginClient login = new LoginClient();
+				// login.setVisible(true);
+				// dispose();
+			}
+		});
+		btnClient.setBounds(125, 120, 200, 30);
+		contentPane.add(btnClient);
+
+		JButton btnQuitter = new JButton("Quitter");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnQuitter.setBounds(125, 170, 200, 30);
+		contentPane.add(btnQuitter);
+	}
+}

@@ -1,0 +1,10 @@
+package business;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class DemandeClient implements Serializable {
+	
+	
+
+}
