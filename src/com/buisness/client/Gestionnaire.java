@@ -4,38 +4,48 @@ import java.io.Serializable;
 import java.util.List;
 import com.buisness.compte.Compte;
 
+ /*
+ * La classe Gestionnaire représente un utilisateur ayant un rôle administratif dans le système bancaire.
+ * Elle hérite de la classe Utilisateur et implémente Serializable pour permettre la persistance des données.
+ * 
+ * Un gestionnaire peut créer, modifier et supprimer des clients, approuver l'ouverture de comptes,
+ * et générer des rapports sur les clients de la banque.
+ */
+
 public class Gestionnaire extends Utilisateur implements Serializable {
 	
-	
 	private static final long serialVersionUID = 263713853896394328L;
+	
+	// Rôle spécifique du gestionnaire
 	private String role;
 	
-	
+	 /*
+	 * Constructeur de la classe Gestionnaire.
+	 */
 	public Gestionnaire(int id, String nom, String prenom, String adresse, String nip, String role) {
         super(id, nom, prenom, adresse, nip, "Gestionnaire");
         this.role = role;
     }
 	
-	
 	// GETTERS
     public String getRole() {
         return role;
-    }
+    } // Retourne le rôle du gestionnaire
 
-    // SETTER
+    // SETTERS
     public void setRole(String role) {
         this.role = role;
-    }
+    } // Modifie le rôle du gestionnaire
     
     
-    // Créer un client
+    // MÉTHODES
+    // Ajoute un nouveau client à la liste des clients de la banque
     public void creerClient(List<Client> clients, Client client) {
         clients.add(client);
         System.out.println("Client " + client.getNom() + " créé avec succès");
     }
     
-    
-    // Modifier un client
+    // Modifie les informations d'un client existant
     public void modifierClient(Client client, String email, String telephone, String adresse) {
         client.setEmail(email);
         client.setTelephone(telephone);
@@ -43,7 +53,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
         System.out.println("Informations du client " + client.getNom() + " mises à jour");
     }
     
-    // Supprimer un client
+    // Supprime un client de la liste des clients de la banque
     public void supprimerClient(List<Client> clients, Client client) {
         if (clients.remove(client)) {
             System.out.println("Client " + client.getNom() + " supprimé avec succès");
@@ -53,19 +63,19 @@ public class Gestionnaire extends Utilisateur implements Serializable {
     }
     
     
-    // Approuver l'ouverture d'un compte
+    // Approuve l'ouverture d'un compte pour un client
     public void approuverCompte(Client client, Compte compte) {
         client.ajouterCompte(compte);
         System.out.println("Compte " + compte.getCompteId() + " approuvé pour le client " + client.getNom());
     }
     
     
-    // Utilisation de la classe Rapport
+    // Génère un rapport sur l'ensemble des clients
     public void genererRapports(List<Client> clients) {
         Rapport.genererRapport(clients);
     }
     
-    
+    // Affiche les détails du gestionnaire
     @Override
     public void afficherDetails() {
         System.out.println("Gestionnaire : " + nom + " " + prenom +
