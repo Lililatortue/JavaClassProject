@@ -8,25 +8,13 @@ public class Gestionnaire extends Utilisateur implements Serializable {
 	
 	
 	private static final long serialVersionUID = 263713853896394328L;
-	private String role;
 	
 	
-	public Gestionnaire(int id, String nom, String prenom, String adresse, String nip, String role) {
-        super(id, nom, prenom, adresse, nip, "Gestionnaire");
-        this.role = role;
+	public Gestionnaire(int id, String nom, String prenom, String adresse, String nip,String email) {
+        super(id, nom, prenom, adresse, nip, email, "Gestionnaire");
     }
 	
 	
-	// GETTERS
-    public String getRole() {
-        return role;
-    }
-
-    // SETTER
-    public void setRole(String role) {
-        this.role = role;
-    }
-    
     
     // Créer un client
     public void creerClient(List<Client> clients, Client client) {
@@ -37,7 +25,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
     
     // Modifier un client
     public void modifierClient(Client client, String email, String telephone, String adresse) {
-        client.setEmail(email);
+        //client.setEmail(email);
         client.setTelephone(telephone);
         client.setAdresse(adresse);
         System.out.println("Informations du client " + client.getNom() + " mises à jour");
@@ -56,7 +44,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
     // Approuver l'ouverture d'un compte
     public void approuverCompte(Client client, Compte compte) {
         client.ajouterCompte(compte);
-        System.out.println("Compte " + compte.getCompteId() + " approuvé pour le client " + client.getNom());
+        System.out.println("Compte " + compte.getType() + " approuvé pour le client " + client.getNom());
     }
     
     

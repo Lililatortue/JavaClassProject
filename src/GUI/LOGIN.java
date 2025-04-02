@@ -26,7 +26,7 @@ public class LOGIN extends JFrame {
 	
 	/**
 	 * Launch the application.
-	 */
+	*/
 	public static void main(String[] args) {
 		//set chain of responsability
 	
@@ -34,10 +34,8 @@ public class LOGIN extends JFrame {
 	Authorisation authorisation = new Authorisation();
 	ConnectionHandler connHandler= new ConnectionHandler();
 	
-	
 	connHandler.setNext(authentification);
 	authentification.setNext(authorisation);						
-		
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

@@ -8,7 +8,7 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 - [x]  client doit avoir d' autres formes d'identification e.g adresse , email et num tel.
 
 ## 2 Gestion des comptes client
-- [ ] compte cheques obligatoire pour chaque client
+- [x] compte cheques obligatoire pour chaque client
 - #### compte optionnel pour le clien a integrer:
 - [x] compte epargne --> contient taux interet annuel et calcul du gain annuel
 - [x] compte credit ---> limite et emprunt
@@ -18,7 +18,7 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 ## 3 traitement des transactions
 - [ ] type de transaction disponible--> depot retrait virement
 - [ ] compte a un historique
-- [ ] compte cheque 2 transaction gratuit par moi
+- [x] compte cheque 2 transaction gratuit par moi
 - [ ] frais applique si transaction depasse quota
 
 ## 4 Operation du gestionnaire de la banque
@@ -47,6 +47,6 @@ client peux faire:
 - [ ] gestionnaire accede au log des comptes
 - [ ] creation de rapport auto genere 
 ## 9 evolutivite & architecture modulaire
-- [ ] Enforcer les principes SOLID
-- [ ] utilisation des patterns ou ces necessaires
-- [ ] decouplement du ui, bus et dal
+- [x] Enforcer les principes SOLID
+- [x] utilisation des patterns ou ces necessaires
+- [x] decouplement du ui, bus et dal

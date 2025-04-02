@@ -20,15 +20,16 @@ public abstract class Compte implements Serializable{
 	private int clientId;
 	private LocalDate dateOuverture;
 	protected double solde;
-	protected String compteId;
+	protected CompteType type;
 	//constructor
 	/*
 	 * set la date du compte a aujourd'hui a etre utiliser pour creer un compte;
 	 */
-		public Compte(Client clientId, double solde) {
+		public Compte(Client clientId, double solde, CompteType type) {
 			this.clientId = clientId.getId();
 			this.setSolde(solde);
 			this.dateOuverture = LocalDate.now();	
+			this.type = type;
 		}
 	
 	/*
@@ -44,9 +45,6 @@ public abstract class Compte implements Serializable{
 		protected abstract void deposer(double montant);
 		
 		protected abstract double retirer(double montant) throws Exception;
-	
-	//setters
-		public abstract void setCompteId(Client clientId);
 		
 		private void setSolde(double solde) {
 			this.solde = solde;
@@ -57,8 +55,8 @@ public abstract class Compte implements Serializable{
 		}
 
 	//getters
-		public String getCompteId() {
-			return this.compteId;
+		public CompteType getType() {
+			return this.type;
 		};
 		
 		public final double getSolde() {
@@ -75,9 +73,8 @@ public abstract class Compte implements Serializable{
 	//state
 	@Override	
 		public String toString() {
-		return 	"------------------------------------------------"+
-			    "\n\tDate ouverture du compte: "+this.dateOuverture+
-			    "\n\tSolde: "+this.solde;
+		return 	"Compte id: "+this.type;
+
 		}
 
 	

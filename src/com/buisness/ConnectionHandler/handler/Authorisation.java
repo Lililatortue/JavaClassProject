@@ -4,6 +4,7 @@ import com.buisness.ConnectionHandler.ConnectionHandler;
 import com.buisness.ConnectionHandler.Request;
 
 import GUI.*;
+import GUI.Gestionnaire.GestionnaireHub;
 
 public class Authorisation extends ConnectionHandler {
 	

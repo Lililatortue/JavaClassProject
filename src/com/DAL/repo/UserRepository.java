@@ -10,7 +10,6 @@ public class UserRepository implements IRepository<Utilisateur>{
 	private ArrayList<Utilisateur> _user;
 	private RecordStrategy<Utilisateur> _strategy;
 	
-
 	
 	@SuppressWarnings("unchecked")
 	public UserRepository(RecordStrategy<Utilisateur> strategy) {
@@ -35,6 +34,14 @@ public class UserRepository implements IRepository<Utilisateur>{
 	
 	@Override
 	public void create(Utilisateur user) {
+		//assurer integrite des donnes
+		for(var item : _user) {
+			if((item.getId()==user.getId())||(item.getEmail().equals(user.getEmail()))) {
+				System.out.print("error unique constraint violated\n");
+				//throw new UniqueConstraintViolation("Id and email must be unique keys");
+				return;
+			}
+		}
 		_user.add(user);
 		_strategy.set(_user);
 	}
@@ -50,8 +57,12 @@ public class UserRepository implements IRepository<Utilisateur>{
 	}
 	@Override
 	public void delete(Utilisateur user) {
-		_user.remove(user);
-		_strategy.set(_user);	
+		if (_user.contains(user)) {
+	        _user.remove(user);
+	        _strategy.set(_user);
+	    } else {
+	        System.out.println("User not found in the collection.");
+	    }
 	}
 
 

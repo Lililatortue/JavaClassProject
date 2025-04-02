@@ -6,8 +6,14 @@ import com.buisness.ConnectionHandler.ConnectionHandler;
 import com.buisness.ConnectionHandler.Request;
 import com.buisness.client.Utilisateur;
 
-import GUI.GestionnaireHub;
-
+import GUI.ClientHub;
+import GUI.Gestionnaire.GestionnaireHub;
+/* Handler qui valide une request de connection
+ * elle a pour but de valider les credentials 
+ * si les credential sont valides elle envoie la requete
+ * au prochain Handler
+ * 
+ * */
 public class Authentification extends ConnectionHandler{
 	
 	private Utilisateur _user;
@@ -17,9 +23,11 @@ public class Authentification extends ConnectionHandler{
 		
 		this._user = repo.findFirst((u)-> u.getId()==request.getId());
 		
+		
+		//segment pour tester juste rentrer 0  et le gestionnaire hub seras ouvert
 		if(request.getId()==0) {
-			GestionnaireHub hub =new GestionnaireHub();
-			hub.setVisible(true);
+			GestionnaireHub gHub =new GestionnaireHub();
+			gHub.setVisible(true);
 			return;
 		}//pour tester
 		

@@ -8,23 +8,23 @@ public class Client extends Utilisateur implements Serializable {
 	
 	private static final long serialVersionUID = 2445142944692786364L;
 	
-	 private String email;
 	 private String telephone;
 	 private List<Compte> comptes;
 	
 	 public Client(int id, String nom, String prenom, String adresse, String nip, String email, String telephone) {
-		 super(id, nom, prenom, adresse, nip, "Client");
-	     this.email = email;
+		 super(id, nom, prenom, adresse, nip, email, "Client");
 	     this.telephone = telephone;
 	     this.comptes = new ArrayList<>();
 	     this.setComptePreRequis();
 	 }
 	 
-	 
+	 public Client(Client c) {
+		 super(c.id, c.nom, c.prenom, c.adresse, c.nip, c.email, "Client");
+	     this.telephone = c.telephone;
+	     this.comptes = c.getComptes();
+	 }
 	// GETTERS
-	public String getEmail() {
-		return email;
-	}
+
 
 	public String getTelephone() {
 		return telephone;
@@ -37,10 +37,6 @@ public class Client extends Utilisateur implements Serializable {
 
 	
 	// SETTERS
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
@@ -71,7 +67,7 @@ public class Client extends Utilisateur implements Serializable {
         System.out.println("Client : " + nom + " " + prenom +
                            " | ID: " + id +
                            " | Adresse: " + adresse +
-                           " | Email: " + email +
+                           " | Email: " + super.getEmail() +
                            " | Téléphone: " + telephone);
         System.out.println("Comptes du client :");
         comptes.forEach(System.out::println);

@@ -7,22 +7,19 @@ import com.buisness.client.Client;
 /*
  * class abstraite pour subclass l'implimentation de la fonction setInteretMensuel 
  * set la variable interetMensuelDu 
- * 
  * */
 public abstract class CompteInteret extends Compte implements IInterestEvent {
-	/**
-	 * 
-	 */
-		private static final long serialVersionUID = -8200966552710101788L;
+	
 	//variable
+		private static final long serialVersionUID = -8200966552710101788L;
 		private int year;
 		private Month moiActuel;
 		private double tauxInteretParAnne;
 		protected double interetMensuelDu;
 		
 	//constructor
-		public CompteInteret(Client client_id, double tauxInteret,LocalDate dateCreation) {
-			super(client_id,0);
+		public CompteInteret(Client client_id, CompteType type, double tauxInteret,LocalDate dateCreation) {
+			super(client_id,0,type);
 			this.setCurrentMonth(dateCreation);
 			this.setYear(dateCreation);
 			this.setTauxInteret(tauxInteret);
@@ -47,29 +44,7 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 			return montant;	
 		}
 	
-	//setters
-		public void setCurrentMonth(LocalDate currentDate) {
-			if(currentDate.getYear()>=LocalDate.now().getYear()) {
-					this.moiActuel = currentDate.getMonth();
-			}	
-		}
-		
-		public void setYear(LocalDate currentDate) {
-			this.year=currentDate.getYear();	
-		}
-		
-		private void setTauxInteret(double tauxInteret) {
-			this.tauxInteretParAnne=tauxInteret;
-		}
-		 
-	//getters
-		public Month getMois(){
-			return this.moiActuel;
-		}
-		
-		public double getTauxInteretAnnuel() {
-			return this.tauxInteretParAnne;
-		}
+	
 	//state
 	@Override
 		public String toString() {
@@ -78,5 +53,37 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 				"\n\tTaux interet: "+this.tauxInteretParAnne+
 				"\n\tInteret mensuel du: "+this.interetMensuelDu;
 		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//setters
+			public void setCurrentMonth(LocalDate currentDate) {
+				if(currentDate.getYear()>=LocalDate.now().getYear()) {
+						this.moiActuel = currentDate.getMonth();
+				}	
+			}
+			
+			public void setYear(LocalDate currentDate) {
+				this.year=currentDate.getYear();	
+			}
+			
+			private void setTauxInteret(double tauxInteret) {
+				this.tauxInteretParAnne=tauxInteret;
+			}
+			 
+		//getters
+			public Month getMois(){
+				return this.moiActuel;
+			}
+			
+			public double getTauxInteretAnnuel() {
+				return this.tauxInteretParAnne;
+			}
 	
 }

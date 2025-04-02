@@ -20,24 +20,17 @@ public class CompteCredit extends CompteInteret {
 	//constructeur
 		//creation du compte
 		public CompteCredit(Client clientId, double tauxInteret, double limite){
-			super(clientId, tauxInteret, LocalDate.now());
-			this.setCompteId(clientId);
+			super(clientId, CompteType.CRED ,tauxInteret, LocalDate.now());
 			this.setLimite(limite);
 			this.interetMensuelDu = 0.0;
 		}
 		
 		protected CompteCredit(Client clientId, double tauxInteret, LocalDate localdate, double l){
-			super(clientId, tauxInteret, localdate);
-			this.setCompteId(clientId);
+			super(clientId, CompteType.CRED , tauxInteret, localdate);
 			this.setLimite(l);
 			this.update();
 		}
 	
-		@Override
-		public void setCompteId(Client clientId) {
-			this.compteId = "CMPTCRED"+clientId.getId();
-			
-		}
 		
 		
 	//fonction public 
@@ -72,7 +65,7 @@ public class CompteCredit extends CompteInteret {
 	//toString implementation
 		@Override
 		public String toString() {
-			return super.toString()+"\n\tLimite sur le compte: "+ this.limite;
+			return "Client id: "+this.getClientId() +"      Requete: "+this.type+"      taux interet: "+this.getTauxInteretAnnuel();
 		}
 
 		

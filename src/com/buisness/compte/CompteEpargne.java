@@ -12,20 +12,18 @@ import com.buisness.client.Client;
  * 
  * */
 public class CompteEpargne extends CompteInteret  {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8110410012131872667L;
 	//variable
+		private static final long serialVersionUID = -8110410012131872667L;
 		private double limite;
+		
+	//constructeur
 		public CompteEpargne(Client clientId, double tauxInteret, double limite) {
-			super(clientId, tauxInteret, LocalDate.now());
-			this.setCompteId(clientId);
+			super(clientId, CompteType.EPRGN , tauxInteret, LocalDate.now());
 			this.limite = limite;
 		}
-		protected CompteEpargne(Client clientId, String type, double tauxInteret, LocalDate date, double limite) {
-			super(clientId, tauxInteret, date);
-			this.setCompteId(clientId);
+		protected CompteEpargne(Client clientId, double tauxInteret, LocalDate date, double limite) {
+			super(clientId, CompteType.EPRGN , tauxInteret, date);
+	
 			this.limite = limite;
 			this.update();
 		}
@@ -36,12 +34,6 @@ public class CompteEpargne extends CompteInteret  {
 				this.solde+=montant;
 			//else
 				//throw new Exception("doit deposer plus que 0.");
-		}
-		
-		@Override
-		public void setCompteId(Client clientId) {
-			this.compteId = "EPRGN"+clientId.getId();
-			
 		}
 		
 
@@ -68,7 +60,7 @@ public class CompteEpargne extends CompteInteret  {
 	//state implementation
 		@Override
 		public String toString() {
-			return super.toString()+"\n\tLimite d'achat: "+this.limite;
+			return "Client id: "+this.getClientId() +"      Requete: "+this.type+"      taux interet: "+this.getTauxInteretAnnuel();
 		}
 	
 }

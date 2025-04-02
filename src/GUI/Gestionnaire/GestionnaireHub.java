@@ -1,20 +1,15 @@
-package GUI;
+package GUI.Gestionnaire;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.buisness.client.Utilisateur;
-
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class GestionnaireHub extends JFrame {
@@ -27,10 +22,7 @@ public class GestionnaireHub extends JFrame {
 	 * Launch the application.
 	 */
 
-	/**
-	 * Create the frame.
-	 * @throws IOException 
-	 */
+	
 	public GestionnaireHub()  {
 		
 		 
@@ -52,22 +44,32 @@ public class GestionnaireHub extends JFrame {
 		contentPane.add(Label_hub);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(328, 84, 279, 311);
+		panel.setBounds(328, 57, 279, 338);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnApprouveClientAccount = new JButton("Approuve account request");
-		btnApprouveClientAccount.setBounds(39, 212, 207, 25);
+		btnApprouveClientAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AccountApprouval frame = new AccountApprouval();
+				frame.setVisible(true);
+			}
+		});
+		btnApprouveClientAccount.setBounds(39, 177, 207, 25);
 		panel.add(btnApprouveClientAccount);
 		
 		JButton btnCloseAccount = new JButton("Close account");
-		btnCloseAccount.setBounds(39, 250, 207, 25);
+		btnCloseAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCloseAccount.setBounds(39, 213, 207, 25);
 		panel.add(btnCloseAccount);
 		
 		JButton btnAddClient = new JButton("Add client");
 		btnAddClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddClient frame = new AddClient();
+				CreationClient frame = new CreationClient();
 				frame.setVisible(true);
 			}
 		});
@@ -97,8 +99,23 @@ public class GestionnaireHub extends JFrame {
 		
 		JLabel Label_AccountManagement = new JLabel("ACCOUNT MANAGEMENT: ");
 		Label_AccountManagement.setFont(new Font("Tahoma", Font.BOLD, 18));
-		Label_AccountManagement.setBounds(12, 183, 255, 16);
+		Label_AccountManagement.setBounds(12, 150, 255, 16);
 		panel.add(Label_AccountManagement);
+		
+		JLabel Label_AccountManagement_1 = new JLabel("Creation de gestionnaire");
+		Label_AccountManagement_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		Label_AccountManagement_1.setBounds(12, 260, 255, 25);
+		panel.add(Label_AccountManagement_1);
+		
+		JButton btnAddGestionnaire = new JButton("Add gestionnaire");
+		btnAddGestionnaire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CreateGestionnaire frame = new CreateGestionnaire();
+				frame.setVisible(true);
+			}
+		});
+		btnAddGestionnaire.setBounds(39, 296, 207, 25);
+		panel.add(btnAddGestionnaire);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
