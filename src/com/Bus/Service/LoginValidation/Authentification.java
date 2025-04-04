@@ -1,20 +1,10 @@
 package com.Bus.Service.LoginValidation;
 
-import com.DAL.repo.UserRepository;
-import com.DAL.repo.strategy.SerializeRecord;
-import com.buisness.client.Utilisateur;
-
-<<<<<<< HEAD
-import GUI.ClientHub;
-import GUI.Gestionnaire.GestionnaireHub;
-/* Handler qui valide une request de connection
- * elle a pour but de valider les credentials 
- * si les credential sont valides elle envoie la requete
- * au prochain Handler
- * 
- * */
-=======
-import GUI.GestionnaireHub;
+import com.Bus.Model.Client.Utilisateur;
+import com.DAL.Repository.UserRepository;
+import com.DAL.Repository.Connection.SerializeRecord;
+import com.DAL.Repository.Exception.*;
+import com.Ui.GestionnaireHub.GestionnaireHub;
 
 /*
  * Classe gérant l'authentification des utilisateurs via la chaîne de responsabilité.
@@ -24,7 +14,7 @@ import GUI.GestionnaireHub;
  * à l'élément suivant dans la chaîne.
  */
 
->>>>>>> 539b806feaa973c9ec7d030e03f76368f1099ec0
+
 public class Authentification extends ConnectionHandler{
 	
 	// L'utilisateur authentifié
@@ -32,35 +22,37 @@ public class Authentification extends ConnectionHandler{
 	
 	// Gère la requête d'authentification
 	@Override
-	public void Handle(final Request request) {	
-		// Création du repository utilisateur avec sérialisation
-		UserRepository repo = new UserRepository(new SerializeRecord<Utilisateur>(".\\src\\data\\user\\UserList.ser"));
-		
-		// Recherche du premier utilisateur correspondant à l'ID de la requête
-		this._user = repo.findFirst((u)-> u.getId()==request.getId());
-		
-<<<<<<< HEAD
-		
-		//segment pour tester juste rentrer 0  et le gestionnaire hub seras ouvert
-=======
+	public void Handle(final Request request) throws Exception  {	
 		// Cas spécial : ID 0 pour tester, ouvre l'interface de gestion
->>>>>>> 539b806feaa973c9ec7d030e03f76368f1099ec0
+
 		if(request.getId()==0) {
 			GestionnaireHub gHub =new GestionnaireHub();
 			gHub.setVisible(true);
 			return;
 		}
+		// Création du repository utilisateur avec sérialisation
+		UserRepository repo = new UserRepository(new SerializeRecord<Utilisateur>(".\\src\\data\\user\\UserList.ser"));
+		
+		
+		
+		
+				
+		// Recherche du premier utilisateur correspondant à l'ID de la requête
+		this._user = repo.findFirst((u)-> u.getId()==request.getId());
+		
+		
+		//segment pour tester juste rentrer 0  et le gestionnaire hub seras ouvert
+
+		
 		
 		// Vérification des identifiants
 		if(_user !=null && request.getPassword().equals(_user.getNip())) {
 			// Associe l'utilisateur validé à la requête
 			request.setUser(_user);
-			
 			// Passe la requête au prochain gestionnaire dans la chaîne
 			super.Handle(request);
 		} else {
-			System.out.print("Invalid Credential");
-			// throw new InvalidConnectionCredentialException("Invalid IDs");
+			throw new InvariantException("Invalid Credential");
 		}
 	}
 }

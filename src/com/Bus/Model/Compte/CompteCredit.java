@@ -20,7 +20,7 @@ public class CompteCredit extends CompteInteret {
 	/*
 	 *constructeur par default
 	 */
-	public CompteCredit(int clientId, double tauxInteret){
+	public CompteCredit(int clientId, double tauxInteret,double limite){
 		super(clientId, tauxInteret,CompteType.CRED);
 		this.setLimite(limite);
 		this.interetMensuelDu = 0.0;
@@ -77,6 +77,6 @@ public class CompteCredit extends CompteInteret {
 	 */
 	@Override
 	public String toString() {
-		return super.toString()+"\n\tLimite sur le compte: "+ this.limite;
+		return 	"\n\ttype de compte: "+ type + " Solde :"+super.solde+" limite: "+limite;
 	}		
 }

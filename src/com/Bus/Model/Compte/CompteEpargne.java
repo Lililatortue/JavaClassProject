@@ -2,7 +2,7 @@ package com.Bus.Model.Compte;
 
 import java.time.LocalDate;
 
-import com.buisness.client.Client;
+
 
 /*
  * Représente un compte d'épargne avec des intérêts mensuels.

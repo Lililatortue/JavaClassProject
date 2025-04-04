@@ -1,0 +1,7 @@
+ Client : 1 1 | ID: 6 | Adresse: 1 | Email: 1 | Téléphone: 1
+compte: [
+	type de compte: CHECK Solde: 0.0, 
+	type de compte: CREDIT Solde :0.0 limite: 0.0, 
+	type de compte: CREDIT Solde :0.0 limite: 0.0, 
+	type de compte: CREDIT Solde :0.0 limite: 0.0, 
+	type de compte: CREDIT Solde :0.0 limite: 0.0]

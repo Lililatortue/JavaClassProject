@@ -19,7 +19,6 @@ public class Client extends Utilisateur implements Serializable {
 	
 
 	// Informations personnelles du client
-	private String email;
 	private String telephone;
 
 	
@@ -31,7 +30,7 @@ public class Client extends Utilisateur implements Serializable {
 	 * Initialise un client avec ses informations personnelles et lui attribue un compte chèque par défaut.
 	 */
 	 public Client(int id, String nom, String prenom, String adresse, String nip, String email, String telephone) {
-		 super(id, nom, prenom, adresse, nip, email, "Client");
+		 super(id, nom, prenom, adresse, nip, "Client",email);
 	     this.telephone = telephone;
 	     this.comptes = new ArrayList<>();
 	     this.setComptePreRequis(); // Attribution d'un compte chèque par défaut
@@ -57,18 +56,13 @@ public class Client extends Utilisateur implements Serializable {
 		 return comptes;
 	 } // Retourne la liste des comptes associés au client
 
-	
-	// SETTERS
-	 public void setEmail(String email) {
-		 this.email = email;
-	 } // Met à jour l'adresse email du client
 	 
 	 public void setTelephone(String telephone) {
 		 this.telephone = telephone;
 	 } // Met à jour le numéro de téléphone du client
 	 
 	 private void setComptePreRequis() {
-		 CompteCheque c = new CompteCheque(this, 0.0, 5.0);
+		 CompteCheque c = new CompteCheque(this.id, 0.0, 5.0);
 		 this.comptes = new ArrayList<>();
 		 this.ajouterCompte(c);
 	 } // Crée et ajoute un compte chèque par défaut au client
@@ -99,6 +93,14 @@ public class Client extends Utilisateur implements Serializable {
 		 System.out.println("Comptes du client :");
 		 comptes.forEach(System.out::println);
 	 }
-
+	 
+	 @Override 
+	 public String toString() {
+		 return "Client : " + nom + " " + prenom +" | ID: " + id +
+                 " | Adresse: " + adresse +
+                 " | Email: " + email +
+                 " | Téléphone: " + telephone+
+                 "\ncompte: " + comptes;
+	 }
 }
 

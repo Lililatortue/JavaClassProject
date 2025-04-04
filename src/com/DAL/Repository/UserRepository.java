@@ -2,9 +2,9 @@ package com.DAL.Repository;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
-
 import com.Bus.Model.Client.Utilisateur;
 import com.DAL.Repository.Connection.RecordStrategy;
+import com.DAL.Repository.Exception.*;
 
 public class UserRepository implements IRepository<Utilisateur>{
 	private ArrayList<Utilisateur> _user;
@@ -22,26 +22,25 @@ public class UserRepository implements IRepository<Utilisateur>{
 		this._strategy = strategy;
 	}
 	
-	public Utilisateur findFirst(Predicate<Utilisateur> predicate) {
+	public Utilisateur findFirst(Predicate<Utilisateur> predicate) throws InvariantException {
 		for(var user : _user) {
 			if(predicate.test(user)) {
 				return user;
 			}
 		}
-		return null;
+		throw new InvariantException("User non existant");
 	}
 	
 	
 	@Override
-	public void create(Utilisateur user) {
+	public void create(Utilisateur user) throws KeyConstraintException {
 		//assurer integrite des donnes
 		for(var item : _user) {
 			if((item.getId()==user.getId())||(item.getEmail().equals(user.getEmail()))) {
-				System.out.print("error unique constraint violated\n");
-				//throw new UniqueConstraintViolation("Id and email must be unique keys");
-				return;
+				throw new KeyConstraintException("User id or email already exist");	
 			}
 		}
+		
 		_user.add(user);
 		_strategy.set(_user);
 	}
@@ -53,15 +52,20 @@ public class UserRepository implements IRepository<Utilisateur>{
 	
 	@Override
 	public void  update(Utilisateur user) {
-		System.out.print("feature not provided");
+		for(var  users : _user) {
+	        if(user.getId()==users.getId()) {
+	        	users=user;
+	        }    	
+	    }
+	        _strategy.set(_user);
 	}
 	@Override
-	public void delete(Utilisateur user) {
+	public void delete(Utilisateur user) throws InvariantException {
 		if (_user.contains(user)) {
 	        _user.remove(user);
 	        _strategy.set(_user);
 	    } else {
-	        System.out.println("User not found in the collection.");
+	    	throw new InvariantException("User non existant");
 	    }
 	}
 

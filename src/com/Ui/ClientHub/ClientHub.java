@@ -7,8 +7,10 @@ import javax.swing.border.EmptyBorder;
 import com.Bus.Model.Client.Client;
 import com.Bus.Model.Client.Utilisateur;
 import com.Bus.Model.Compte.*;
+import com.Bus.Service.CompteManagement.CompteRequestManagement;
 import com.DAL.Repository.CompteRepository;
 import com.DAL.Repository.Connection.SerializeRecord;
+import com.DAL.Repository.Exception.KeyConstraintException;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -21,8 +23,7 @@ public class ClientHub extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private CompteRepository _repo = new CompteRepository(
-			new SerializeRecord<Compte>(".\\src\\data\\user\\AccountRequest.ser"));
+	private CompteRequestManagement request = new CompteRequestManagement();
 
 	/**
 	 * Create the frame.
@@ -96,22 +97,23 @@ public class ClientHub extends JFrame {
 		panel_1.add(comboBox_1);
 		setCompteDisponible((Client) user,comboBox_1);
 		
-		
-		
-		
+
 		JButton btnAppliquerLaDemande = new JButton("appliquer la demande");
 		btnAppliquerLaDemande.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Compte item = null;
-				switch((Compte)comboBox_1.getSelectedItem()) {
-					case CRED: 	 item = new CompteCredit((Client) user,0.05,5000.0);break;
-					case LGNCRED:item = new LigneDeCredit((Client) user,0.05);break;
-					case DEV:	 item = new CompteDevise((Client) user,0,Devise.EUR);break;
-					case EPRGN:	 item = new CompteEpargne((Client) user,0.05,2000.0);break;
+				switch((CompteType)comboBox_1.getSelectedItem()) {
+					case CRED: 	 item = new CompteCredit(user.getId(),0.05,5000);break;
+					case LGNCRED:item = new LigneDeCredit(user.getId(),0.05);break;
+					case DEV:	 item = new CompteDevise(user.getId(),0,Devise.EUR);break;
+					case EPRGN:	 item = new CompteEpargne(user.getId(),0.05,2000.0);break;
 					default:
 				}
-				
-				_repo.create(item);
+				try {
+					request.AccountRequest(item);
+				} catch (KeyConstraintException e1) {
+					
+				}
 			}	
 		});
 		btnAppliquerLaDemande.setBounds(200, 61, 97, 25);

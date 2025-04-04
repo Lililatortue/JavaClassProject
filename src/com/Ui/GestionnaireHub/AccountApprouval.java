@@ -1,22 +1,14 @@
 package com.Ui.GestionnaireHub;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.Bus.Model.Client.Client;
-import com.Bus.Model.Client.Utilisateur;
 import com.Bus.Model.Compte.Compte;
-import com.DAL.Repository.CompteRepository;
-import com.DAL.Repository.UserRepository;
-import com.DAL.Repository.Connection.SerializeRecord;
-
-import javax.swing.JList;
+import com.Bus.Service.CompteManagement.CompteRequestManagement;
+import com.Bus.Service.UserManagement.UserValidationException;
+import com.DAL.Repository.Exception.InvariantException;
 import javax.swing.JLabel;
 import java.awt.Font;
-
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -26,10 +18,7 @@ public class AccountApprouval extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private CompteRepository _CompteRepo = new CompteRepository(
-			new SerializeRecord <Compte> (".\\src\\data\\user\\AccountRequest.ser"));
-	private UserRepository _UserRepo = new UserRepository(
-			new SerializeRecord <Utilisateur> (".\\src\\data\\user\\UserList.ser"));
+	CompteRequestManagement requestManagement = new CompteRequestManagement();
 	/**
 	 * Create the frame.
 	 */
@@ -45,11 +34,17 @@ public class AccountApprouval extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JComboBox comboBox_approuvedAccount = new JComboBox();
+		JLabel lbl_error_stream = new JLabel("input");
+		lbl_error_stream.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lbl_error_stream.setBounds(10, 268, 45, 13);
+		contentPane.add(lbl_error_stream);
+		
+		JComboBox<Compte> comboBox_approuvedAccount = new JComboBox<Compte>();
 		comboBox_approuvedAccount.setBounds(10, 156, 526, 22);
 		contentPane.add(comboBox_approuvedAccount);
-		
-		setUserComboBox(comboBox_approuvedAccount);
+		for(var item : requestManagement.read()) {
+			comboBox_approuvedAccount.addItem(item);
+		}
 		
 		JLabel lblApprouveOfThe = new JLabel("Approuve of the account");
 		lblApprouveOfThe.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -59,10 +54,12 @@ public class AccountApprouval extends JFrame {
 		JButton btnNewButton = new JButton("APPROUVE");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Client user = new Client((Client) _UserRepo.findFirst(
-						(u)->u.getId()== ((Compte)comboBox_approuvedAccount.getSelectedItem()).getClientId()));
-				user.ajouterCompte((Compte)comboBox_approuvedAccount.getSelectedItem());
-				_UserRepo.create(user);
+				try {
+					requestManagement.ApprouveRequestCompte(
+							(Compte)comboBox_approuvedAccount.getSelectedItem());
+				} catch (UserValidationException | InvariantException e1) {
+					lbl_error_stream.setText(e1.getMessage());
+				} 
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -72,7 +69,12 @@ public class AccountApprouval extends JFrame {
 		JButton btnRefuse = new JButton("REFUSE");
 		btnRefuse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//besoin de rajouter une fonction pour delete 
+				try {
+					requestManagement.DenyRequestCompte(
+							(Compte)comboBox_approuvedAccount.getSelectedItem());
+				} catch (InvariantException e1) {
+					lbl_error_stream.setText(e1.getMessage());
+				}
 			}
 		});
 		btnRefuse.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -80,11 +82,6 @@ public class AccountApprouval extends JFrame {
 		contentPane.add(btnRefuse);
 		
 		
-	}
-	
-	public void setUserComboBox(JComboBox<Compte> combobox) {
-		for(var compte : _CompteRepo.read()) {
-			combobox.addItem(compte);
-		}
+		
 	}
 }

@@ -13,10 +13,13 @@ import javax.swing.border.EmptyBorder;
 
 import com.Bus.Model.Client.Gestionnaire;
 import com.Bus.Model.Client.Utilisateur;
+import com.Bus.Service.UserManagement.GestionnaireManagement;
+import com.Bus.Service.UserManagement.UserValidationException;
 import com.DAL.Repository.UserRepository;
 import com.DAL.Repository.Connection.SerializeRecord;
+import com.DAL.Repository.Exception.KeyConstraintException;
 
-public class CreateGestionnaire extends JFrame {
+public class CreationGestionnaire extends JFrame {
 
 
 	private static final long serialVersionUID = 1L;
@@ -27,12 +30,11 @@ public class CreateGestionnaire extends JFrame {
 	private JTextField textField_nom;
 	private JTextField textField_prenom;
 	private JTextField textField_email;
-	private UserRepository _repo= new UserRepository(
-			new SerializeRecord<Utilisateur>(".\\src\\data\\user\\UserList.ser"));
+	private GestionnaireManagement management = new GestionnaireManagement();
 	/**
 	 * Create the frame.
 	 */
-	public CreateGestionnaire() {
+	public CreationGestionnaire() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 403, 362);
 		contentPane = new JPanel();
@@ -96,26 +98,32 @@ public class CreateGestionnaire extends JFrame {
 		textField_prenom.setBounds(12, 158, 116, 22);
 		contentPane.add(textField_prenom);
 		
+		JLabel lblPlsInputGestionnaire = new JLabel("pls input gestionnaire info");
+		lblPlsInputGestionnaire.setBounds(12, 254, 338, 58);
+		contentPane.add(lblPlsInputGestionnaire);
+		
 		JButton btn_create = new JButton("Create");
 		btn_create.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Gestionnaire gestionnaire = new Gestionnaire(Integer.parseInt(textField_id.getText()),
-										   textField_nom.getText(),
-										   textField_prenom.getText(),
-										   textField_adresse.getText(),
-										   textField_psw.getText(),
-										   textField_email.getText()
-										   );
-				_repo.create(gestionnaire);
-
+						   									 textField_nom.getText(),
+						   									 textField_prenom.getText(),
+						   									 textField_adresse.getText(),
+						   									 textField_psw.getText(),
+						   									 textField_email.getText()
+															);
+				
+				try {
+					management.ADDGestionnaire(gestionnaire);
+				} catch (UserValidationException | KeyConstraintException e1) {	
+					lblPlsInputGestionnaire.setText(e1.getMessage());
+				}
 			}
 		});
 		btn_create.setBounds(234, 200, 116, 43);
 		contentPane.add(btn_create);
 		
-		JLabel lblPlsInputGestionnaire = new JLabel("pls input gestionnaire info");
-		lblPlsInputGestionnaire.setBounds(12, 254, 338, 58);
-		contentPane.add(lblPlsInputGestionnaire);
+		
 		
 		textField_email = new JTextField();
 		textField_email.setColumns(10);

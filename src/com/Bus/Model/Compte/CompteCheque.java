@@ -1,6 +1,5 @@
 package com.Bus.Model.Compte;
 
-import com.Bus.Model.Client.Client;
 
 /*
  * Classe représentant un compte courant (CompteCheque) dans le système bancaire.
@@ -81,10 +80,8 @@ public class CompteCheque extends Compte{
 			this.nbTransGratuite = transactionsGratuite;
 		}
 
-		@Override
-		public void setCompteId(Client clientId) {
-			// TODO Auto-generated method stub
-			
+		@Override 
+		public String toString() {
+			return "\n\ttype de compte: "+super.getType()+ " Solde: "+super.solde+""; 
 		}
-	
 }

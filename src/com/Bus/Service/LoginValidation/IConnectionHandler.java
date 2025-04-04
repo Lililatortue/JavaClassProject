@@ -11,5 +11,5 @@ public interface IConnectionHandler {
 	public void setNext(IConnectionHandler n);
 	
 	// Traite une requête et, si nécessaire, la transmet au gestionnaire suivant
-	public void Handle(Request request);
+	public void Handle(Request request) throws Exception;
 }

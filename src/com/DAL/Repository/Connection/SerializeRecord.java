@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-public class SerializeRecord<c> implements RecordStrategy<c>{
+public  class SerializeRecord<c> implements RecordStrategy<c>{
 	String connectionString;
 
 	public SerializeRecord(String connectionString) {
@@ -65,7 +65,4 @@ public class SerializeRecord<c> implements RecordStrategy<c>{
 		}
 		return temp;
 	}
-
-
-
 }

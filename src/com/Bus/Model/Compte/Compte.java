@@ -82,9 +82,7 @@ public abstract class Compte implements Serializable{
 	// Affiche l'état du compte
 	@Override
 	public String toString() {
-		return 	"------------------------------------------------"+
-				"\n\tDate ouverture du compte: "+this.dateOuverture+
-			    "\n\tSolde: "+this.solde;
+		return 	"Client Id: "+clientId+" type de compte: "+type;
 	}	
 }	
 

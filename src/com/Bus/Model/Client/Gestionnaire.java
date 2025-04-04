@@ -20,7 +20,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
 	 /*
 	 * Constructeur de la classe Gestionnaire.
 	 */
-	public Gestionnaire(int id, String nom, String prenom, String adresse, String nip, String role,String email) {
+	public Gestionnaire(int id, String nom, String prenom, String adresse, String nip,String email) {
         super(id, nom, prenom, adresse, nip, "Gestionnaire",email);
     }
 	//prototype
@@ -29,11 +29,9 @@ public class Gestionnaire extends Utilisateur implements Serializable {
     }
 	
     // SETTERS
-    public void setRole(String role) {
-        this.role = role;
-    } // Modifie le rôle du gestionnaire
+
     
-    
+    /*
     // MÉTHODES
     // Ajoute un nouveau client à la liste des clients de la banque
     public void creerClient(List<Client> clients, Client client) {
@@ -62,7 +60,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
     // Approuve l'ouverture d'un compte pour un client
     public void approuverCompte(Client client, Compte compte) {
         client.ajouterCompte(compte);
-        System.out.println("Compte " + compte.getCompteId() + " approuvé pour le client " + client.getNom());
+        System.out.println("Compte " + compte.getType() + " approuvé pour le client " + client.getNom());
     }
     
     
@@ -70,14 +68,13 @@ public class Gestionnaire extends Utilisateur implements Serializable {
     public void genererRapports(List<Client> clients) {
         Rapport.genererRapport(clients);
     }
-    
+    */
     // Affiche les détails du gestionnaire
     @Override
     public void afficherDetails() {
         System.out.println("Gestionnaire : " + nom + " " + prenom +
                            " | ID: " + id +
-                           " | Adresse: " + adresse +
-                           " | Rôle: " + role);
+                           " | Adresse: " + adresse);
     }
 }
 

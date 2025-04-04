@@ -49,4 +49,8 @@ public abstract class Utilisateur extends Personne {
 		return this.email;
 	} // Retourne le type de l'utilisateur
 
+	@Override
+	public String toString() {
+		return "Id: "+id+" Nom: "+ nom+" Prenom: "+ prenom;
+	}
 }

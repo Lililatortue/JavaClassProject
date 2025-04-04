@@ -2,7 +2,6 @@ package com.Bus.Model.Compte;
 
 import java.time.LocalDate;
 
-import com.buisness.client.Client;
 
 public class LigneDeCredit extends CompteInteret {
 	

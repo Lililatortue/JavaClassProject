@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.Bus.Service.LoginValidation.*;
-import com.Bus.Service.LoginValidation.handler.*;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -66,6 +65,10 @@ public static void main(String[] args) {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JLabel lbl_error_stream = new JLabel("input");
+		lbl_error_stream.setBounds(23, 214, 252, 27);
+		contentPane.add(lbl_error_stream);
+		
 		JLabel lblLogin = new JLabel("WELCOME TO FORTIS BANK");
 		lblLogin.setFont(new Font("Arial", Font.BOLD, 18));
 		lblLogin.setBounds(23, 21, 252, 41);
@@ -96,11 +99,16 @@ public static void main(String[] args) {
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				h.Handle(new Request(Integer.parseInt(textB_name.getText()),textB_psw.getText()));
+				try {
+					h.Handle(new Request(Integer.parseInt(textB_name.getText()),textB_psw.getText()));
+				} catch (Exception e1) {
+					lbl_error_stream.setText(e1.getMessage());
+				}
 			}
 		});
-		btnNewButton.setBounds(97, 231, 101, 34);
+		btnNewButton.setBounds(97, 242, 101, 34);
 		contentPane.add(btnNewButton);
+		
+		
 	}
-
 }

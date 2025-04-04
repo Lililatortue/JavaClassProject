@@ -5,9 +5,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.Bus.Model.Client.Client;
-import com.Bus.Model.Client.Utilisateur;
-import com.DAL.Repository.UserRepository;
-import com.DAL.Repository.Connection.SerializeRecord;
+import com.Bus.Service.UserManagement.ClientManagement;
+import com.Bus.Service.UserManagement.UserValidationException;
+import com.DAL.Repository.Exception.KeyConstraintException;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -27,8 +27,7 @@ public class CreationClient extends JFrame {
 	private JTextField textField_prenom;
 	private JTextField textField_email;
 	private JTextField textField_telephone;
-	private UserRepository _repo= new UserRepository(
-			new SerializeRecord<Utilisateur>(".\\src\\data\\user\\UserList.ser"));
+	private ClientManagement management= new ClientManagement();
 	/**
 	 * Create the frame.
 	 */
@@ -96,6 +95,10 @@ public class CreationClient extends JFrame {
 		textField_prenom.setBounds(12, 158, 116, 22);
 		contentPane.add(textField_prenom);
 		
+		JLabel lblPlsInputClient = new JLabel("pls input client info");
+		lblPlsInputClient.setBounds(12, 329, 396, 43);
+		contentPane.add(lblPlsInputClient);
+		
 		JButton btn_create = new JButton("Create");
 		btn_create.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -108,17 +111,19 @@ public class CreationClient extends JFrame {
 										   textField_telephone.getText()
 										   );
 				
-				_repo.create(client);
-					
-				
+				client.afficherDetails();
+				try {
+					management.ADDClient(client);	
+					lblPlsInputClient.setText("Client added");
+				} catch (KeyConstraintException | UserValidationException e1) {
+					lblPlsInputClient.setText(e1.getMessage());
+				}
 			}
 		});
 		btn_create.setBounds(234, 218, 97, 25);
 		contentPane.add(btn_create);
 		
-		JLabel lblPlsInputClient = new JLabel("pls input client info");
-		lblPlsInputClient.setBounds(12, 329, 396, 43);
-		contentPane.add(lblPlsInputClient);
+		
 		
 		textField_email = new JTextField();
 		textField_email.setColumns(10);

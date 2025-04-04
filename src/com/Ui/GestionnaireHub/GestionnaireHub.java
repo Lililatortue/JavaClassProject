@@ -7,8 +7,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -16,7 +14,6 @@ public class GestionnaireHub extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -24,10 +21,9 @@ public class GestionnaireHub extends JFrame {
 
 	
 	public GestionnaireHub()  {
-		
-		 
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 648, 447);
+		setBounds(100, 100, 652, 453);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -44,7 +40,7 @@ public class GestionnaireHub extends JFrame {
 		contentPane.add(Label_hub);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(328, 57, 279, 338);
+		panel.setBounds(347, 43, 279, 352);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -79,7 +75,7 @@ public class GestionnaireHub extends JFrame {
 		JButton btnRemoveClient = new JButton("remove client");
 		btnRemoveClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RemoveClient frame = new RemoveClient();
+				EffacerClient frame = new EffacerClient();
 				frame.setVisible(true);
 				
 			}
@@ -104,62 +100,35 @@ public class GestionnaireHub extends JFrame {
 		
 		JLabel Label_AccountManagement_1 = new JLabel("Creation de gestionnaire");
 		Label_AccountManagement_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		Label_AccountManagement_1.setBounds(12, 260, 255, 25);
+		Label_AccountManagement_1.setBounds(12, 249, 255, 25);
 		panel.add(Label_AccountManagement_1);
 		
 		JButton btnAddGestionnaire = new JButton("Add gestionnaire");
 		btnAddGestionnaire.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CreateGestionnaire frame = new CreateGestionnaire();
+				CreationGestionnaire frame = new CreationGestionnaire();
 				frame.setVisible(true);
 			}
 		});
-		btnAddGestionnaire.setBounds(39, 296, 207, 25);
+		btnAddGestionnaire.setBounds(39, 273, 207, 25);
 		panel.add(btnAddGestionnaire);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panel_1.setBounds(22, 84, 279, 311);
-		contentPane.add(panel_1);
+		JButton btnRemoveGestionnaire = new JButton("remove gestionnaire");
+		btnRemoveGestionnaire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EffacerGestionnaire frame = new EffacerGestionnaire();
+				frame.setVisible(true);
+			}
+		});
+		btnRemoveGestionnaire.setBounds(39, 309, 207, 25);
+		panel.add(btnRemoveGestionnaire);
+
+		RapportGeneratorPanel rapportPanel = new RapportGeneratorPanel();
+		rapportPanel.setBounds(10, 70, 279, 322);
+		contentPane.add(rapportPanel);
+		rapportPanel.setLayout(null);
 		
-		JLabel Label_RapportGeneration = new JLabel("GENERER UN RAPPORT");
-		Label_RapportGeneration.setFont(new Font("Tahoma", Font.BOLD, 18));
-		Label_RapportGeneration.setBounds(12, 13, 224, 16);
-		panel_1.add(Label_RapportGeneration);
 		
-		JLabel Label_clientInfo = new JLabel("CLIENT INFO: ");
-		Label_clientInfo.setFont(new Font("Tahoma", Font.BOLD, 18));
-		Label_clientInfo.setBounds(12, 34, 224, 16);
-		panel_1.add(Label_clientInfo);
 		
-		JLabel Label_AccountInfo = new JLabel("RAPPORT INFO");
-		Label_AccountInfo.setFont(new Font("Tahoma", Font.BOLD, 18));
-		Label_AccountInfo.setBounds(12, 127, 255, 16);
-		panel_1.add(Label_AccountInfo);
-		
-		textField = new JTextField();
-		textField.setBounds(12, 87, 255, 22);
-		panel_1.add(textField);
-		textField.setColumns(10);
-		
-		JLabel Label_welcome_1 = new JLabel("client id");
-		Label_welcome_1.setBounds(12, 58, 152, 16);
-		panel_1.add(Label_welcome_1);
-		
-		JButton btnGenererRapport = new JButton("generer rapport");
-		btnGenererRapport.setBounds(35, 273, 207, 25);
-		panel_1.add(btnGenererRapport);
-		
-		JCheckBox chckbxClientLog = new JCheckBox("client log");
-		chckbxClientLog.setBounds(12, 152, 111, 25);
-		panel_1.add(chckbxClientLog);
-		
-		JCheckBox chckbxAccountLog = new JCheckBox("Account log");
-		chckbxAccountLog.setBounds(12, 188, 111, 25);
-		panel_1.add(chckbxAccountLog);
-		
-		JCheckBox chckbxTransactionLog = new JCheckBox("Transaction log");
-		chckbxTransactionLog.setBounds(12, 218, 111, 25);
-		panel_1.add(chckbxTransactionLog);
 	}
 }

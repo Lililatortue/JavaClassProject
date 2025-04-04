@@ -18,7 +18,7 @@ public class ConnectionHandler implements IConnectionHandler {
 	}
 	
 	// Traite une requête en la passant au prochain gestionnaire s'il existe
-	public void Handle(Request request) {
+	public void Handle(Request request) throws Exception {
 		if(_next != null) {
 			_next.Handle(request);
 		}
