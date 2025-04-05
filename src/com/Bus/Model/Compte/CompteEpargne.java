@@ -57,7 +57,7 @@ public class CompteEpargne extends CompteInteret  {
 	 * Les retraits sont soumis à la vérification du montant, du solde et de la limite disponible sur le compte.
 	 */
 	@Override
-	protected double retirer(double montant) throws Exception  {
+	public double retirer(double montant) throws Exception  {
 		if(montant > 0 && this.solde - montant > 0 && this.limite-montant > 0) {
 			this.limite -= montant;
 			this.solde -= montant;

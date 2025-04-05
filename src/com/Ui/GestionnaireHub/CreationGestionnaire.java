@@ -3,20 +3,15 @@ package com.Ui.GestionnaireHub;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
 import com.Bus.Model.Client.Gestionnaire;
-import com.Bus.Model.Client.Utilisateur;
 import com.Bus.Service.UserManagement.GestionnaireManagement;
 import com.Bus.Service.UserManagement.UserValidationException;
-import com.DAL.Repository.UserRepository;
-import com.DAL.Repository.Connection.SerializeRecord;
 import com.DAL.Repository.Exception.KeyConstraintException;
 
 public class CreationGestionnaire extends JFrame {
@@ -115,6 +110,7 @@ public class CreationGestionnaire extends JFrame {
 				
 				try {
 					management.ADDGestionnaire(gestionnaire);
+					lblPlsInputGestionnaire.setText("Gestionnaire created.");
 				} catch (UserValidationException | KeyConstraintException e1) {	
 					lblPlsInputGestionnaire.setText(e1.getMessage());
 				}

@@ -42,24 +42,44 @@ public class CompteCheque extends Compte{
 
 
 		@Override
-		public void deposer(double montant) {
-			// TODO Auto-generated method stub
-		
+		public void deposer(double montant) throws Exception {
+			if(montant>0) {
+					this.solde+=montant;
+					return;
+			}	
+			throw new Exception("insuffisant funds");
 		}
 
 		@Override
-		protected double retirer(double montant) throws Exception{
-			if(this.solde-montant>0) {
-				if(this.TransactionRestante>0) {
+		public double retirer(double montant) throws Exception{
+			
+				if(this.TransactionRestante>0) 
+				{
+					//retire une transaction gratuite
 					this.TransactionRestante-=1;
-					this.solde-=montant;
-					return montant;
-				} else {
-				
+					if(this.solde-montant>0) {
+						
+						this.solde-=montant;
+						return montant;
+						
+					} else {
+						throw new Exception("insuffisant funds");
+					}
+						
+				} 
+				else 
+				{
+					if(this.solde-(montant+fraisTransaction)>0) {
+						
+						this.solde-=(montant+fraisTransaction);
+						return montant;
+					}
+					else {
+						throw new Exception("insuffisant funds");
+					}
 				}
-			}
-			throw new Exception("insuffisant funds");	
-		}
+		} 
+
 
 	
 	//getters
@@ -70,7 +90,9 @@ public class CompteCheque extends Compte{
 		public int getTransactionsGratuite() {
 			return nbTransGratuite;
 		}
-
+		public int getTransactionsRestante() {
+			return TransactionRestante;
+		}
 	//setters
 		public void setFraisTransaction(double fraisTransaction) {
 			this.fraisTransaction = fraisTransaction;

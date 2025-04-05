@@ -1,19 +1,15 @@
 package com.Ui.GestionnaireHub;
 
 import javax.swing.JPanel;
-
 import com.Bus.Model.Client.Client;
-
 import com.Bus.Service.GestionRapports.*;
 import com.Bus.Service.UserManagement.ClientManagement;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
-
 import java.awt.event.ActionEvent;
 
 public class RapportGeneratorPanel extends JPanel {
@@ -38,7 +34,11 @@ public class RapportGeneratorPanel extends JPanel {
 		JLabel lblClientId = new JLabel("client id:");
 		lblClientId.setBounds(10, 59, 152, 16);
 		add(lblClientId);
-		
+
+		JLabel lbl_error_stream = new JLabel("input");
+		lbl_error_stream.setBounds(10, 281, 45, 13);
+		add(lbl_error_stream);
+
 		JComboBox<Client> comboBox_ClientList = new JComboBox<Client>();
 		comboBox_ClientList.setBounds(10, 86, 224, 22);
 		add(comboBox_ClientList);
@@ -64,16 +64,17 @@ public class RapportGeneratorPanel extends JPanel {
 				Client _client=(Client)comboBox_ClientList.getSelectedItem();
 				
 				try {
-					_rapport = new RapportGenerator<Client>(new CSVStrategy(_client),"./src/Printer/default.csv");
+					_rapport = new RapportGenerator<Client>(new CSVStrategy<Client>(_client),"./src/Printer/default.csv");
 					_rapport.createDocument((Client)comboBox_ClientList.getSelectedItem());
 				} catch(Exception e1) {
-					System.out.print(e1.getMessage());
+					lbl_error_stream.setText(e1.getMessage());
 				} 
 				
 			}
 		});
 		btnGenererRapport.setBounds(20, 243, 207, 25);
 		add(btnGenererRapport);
+		
 
 	}
 }

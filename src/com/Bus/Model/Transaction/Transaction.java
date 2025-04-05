@@ -1,11 +1,9 @@
 package com.Bus.Model.Transaction;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.Bus.Model.Client.Client;
+import java.time.LocalDate;
 import com.Bus.Model.Compte.Compte;
+import com.Bus.Model.Compte.CompteType;
 
 /*
  * Classe abstraite représentant une transaction bancaire.
@@ -21,33 +19,30 @@ import com.Bus.Model.Compte.Compte;
  *   Le type de transaction
  */
 
-public abstract class Transaction implements Serializable {	
+public class Transaction implements Serializable {	
 
 	private static final long serialVersionUID = 2923352023714175172L;
 	
 	// Identifiant du client concerné
 	private int idClient;
-	
-	// Identifiant du compte impacté
-	private String compteId;
-	
+	private CompteType compteType;
 	// Date et heure de la transaction
-	private Date dateTransaction;
-	
+	private LocalDate dateTransaction;
 	// Montant de la transaction
 	private double montant;
-	
-	// Type de transaction
-	private Transaction_type type;
-	
+	//type de transaction
+	private TransactionType transactionType;
 	/*
 	 * Constructeur de la classe Transaction.
 	 */
-	public Transaction(Compte compte, Date date, double montant) {
-		this.setClientId(compte);
-		this.setCompteId(compte);
-		this.setDate(date);
-		this.montant = montant;
+	
+	public Transaction(int Id,CompteType compteType, double montant,TransactionType type) {	
+		//la clee unique de transaction est le id du client ET le type de compte
+		this.setClientId(Id);
+		this.compteType = compteType;
+		this.setDate(LocalDate.now());
+		this.transactionType = type;
+		this.setMontant(montant);
 	}
 	
 	// GETTERS
@@ -55,11 +50,7 @@ public abstract class Transaction implements Serializable {
 		return this.idClient;
 	} // Retourne l'ID du client associé à la transaction
 	
-	public String getCompteId() {
-		return this.compteId;
-	} // Retourne l'identifiant du compte concerné
-	
-	public Date getDate() {
+	public LocalDate getDate() {
 		return this.dateTransaction;
 	} // Retourne la date de la transaction
 	
@@ -67,16 +58,19 @@ public abstract class Transaction implements Serializable {
 		return this.montant;
 	} // Retourne le montant de la transaction
 	
+	public CompteType getCompteType() {
+		return this.compteType;
+	}
+	
+	public TransactionType getTransactionType() {
+		return this.transactionType;
+	}
 	// SETTERS
-	public void setClientId(Compte compte) {
-		this.idClient = compte.getClientId();
-	} // Définit l'ID du client en fonction du compte concerné
+	public void setClientId(int id) {
+		this.idClient =id;
+	}// Définit l'ID du client en fonction du compte concerné
 	
-	public void setCompteId(Compte compteId) {
-		this.compteId = compteId.getCompteId();
-	} // Définit l'identifiant du compte en fonction du compte concerné
-	
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.dateTransaction = date;
 	} // Définit la date de la transaction
 	
@@ -84,21 +78,20 @@ public abstract class Transaction implements Serializable {
 		this.montant = montant;
 	} // Définit le montant de la transaction
 	
-	public void setType(Transaction_type type) {
-		this.type = type;
+	public void setType(CompteType type) {
+		this.compteType = type;
 	}
 	
-	// MÉTHODE ABSTRAITE
-	// Exécute la transaction; sera implémentée dans les classes dérivées
-	public abstract void executer();
-
+	public void setTransactionType(TransactionType type) {
+		this.transactionType=type;
+	}
+	
 	/*
 	 * Redéfinition de la méthode toString pour afficher les détails de la transaction.
 	 */
 	@Override
 	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		return "Transaction #" + "to implement" + " | Compte: " + compteId + 
-			   " | Montant: " + montant + "$ | Date: " + sdf.format(dateTransaction);
+		return "Client #" + idClient + " | Compte: " + this.getCompteType()
+			   + " | Montant: " + montant + " $ | Date: " + dateTransaction+" $ | transaction type: " + transactionType;
 	}
 }

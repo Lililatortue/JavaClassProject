@@ -3,13 +3,10 @@ package com.Ui.ClientHub;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.Bus.Model.Client.Client;
 import com.Bus.Model.Client.Utilisateur;
 import com.Bus.Model.Compte.*;
 import com.Bus.Service.CompteManagement.CompteRequestManagement;
-import com.DAL.Repository.CompteRepository;
-import com.DAL.Repository.Connection.SerializeRecord;
+import com.Bus.Service.UserManagement.ClientManagement;
 import com.DAL.Repository.Exception.KeyConstraintException;
 
 import javax.swing.JLabel;
@@ -24,7 +21,7 @@ public class ClientHub extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private CompteRequestManagement request = new CompteRequestManagement();
-
+	private ClientManagement _client = new ClientManagement();
 	/**
 	 * Create the frame.
 	 */
@@ -62,18 +59,22 @@ public class ClientHub extends JFrame {
 		Label_list_Compte.setBounds(12, 35, 154, 16);
 		panel.add(Label_list_Compte);
 		
+		JComboBox<Compte> comboBox_compteDisponible = new JComboBox<Compte>();
+		comboBox_compteDisponible.setBounds(12, 64, 176, 22);
+		panel.add(comboBox_compteDisponible);
+		for(var item : _client.getClientCompte(user.getId()) ) {
+			comboBox_compteDisponible.addItem(item);
+		}
+		
 		JButton btnCompteConsulter = new JButton("consulter");
 		btnCompteConsulter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CompteDetail frame = new CompteDetail((Compte)comboBox_compteDisponible.getSelectedItem());
+				frame.setVisible(true);
 			}
 		});
 		btnCompteConsulter.setBounds(200, 63, 97, 25);
 		panel.add(btnCompteConsulter);
-		
-		JComboBox<Compte> comboBox = new JComboBox();
-		setUserComboBox((Client)user,comboBox);
-		comboBox.setBounds(12, 64, 176, 22);
-		panel.add(comboBox);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
@@ -90,19 +91,26 @@ public class ClientHub extends JFrame {
 		Label_list_Compte_1.setBounds(12, 35, 154, 16);
 		panel_1.add(Label_list_Compte_1);
 		
+		JComboBox<CompteType> comboBox_ouvertureCompte = new JComboBox<CompteType>();
+		comboBox_ouvertureCompte.setBounds(12, 61, 176, 22);
+		panel_1.add(comboBox_ouvertureCompte);
 		
-		
-		JComboBox<CompteType> comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(12, 61, 176, 22);
-		panel_1.add(comboBox_1);
-		setCompteDisponible((Client) user,comboBox_1);
-		
+		//elle ajoute le type a la combo box et si le client detient le compte elle s'enleve
+		for(var types: CompteType.values()) {
+			
+			comboBox_ouvertureCompte.addItem(types);
+			for(var item : _client.getClientCompte(user.getId())) {
+				if(item.getType() == types) {
+					comboBox_ouvertureCompte.removeItem(types);
+				}	
+			}
+		}
 
 		JButton btnAppliquerLaDemande = new JButton("appliquer la demande");
 		btnAppliquerLaDemande.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Compte item = null;
-				switch((CompteType)comboBox_1.getSelectedItem()) {
+				switch((CompteType)comboBox_ouvertureCompte.getSelectedItem()) {
 					case CRED: 	 item = new CompteCredit(user.getId(),0.05,5000);break;
 					case LGNCRED:item = new LigneDeCredit(user.getId(),0.05);break;
 					case DEV:	 item = new CompteDevise(user.getId(),0,Devise.EUR);break;
@@ -132,18 +140,4 @@ public class ClientHub extends JFrame {
 		panel_2.add(label_Event);
 	}
 	
-	public void setUserComboBox(Client user, JComboBox<Compte> combobox) {
-		for(var compte : user.getComptes()) {
-			combobox.addItem(compte);
-		}
-	}
-	public void setCompteDisponible(Client user, JComboBox<CompteType> combobox) {
-
-		for(var t : CompteType.values()) {	
-			combobox.addItem(t);
-		}
-		for(var compte : user.getComptes()) {
-				combobox.removeItem(compte.getType());	
-		}
-	}
 }

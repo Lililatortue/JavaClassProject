@@ -1,43 +1,53 @@
 package com.Bus.Model.Transaction;
 
-import java.util.Date;
-
 import com.Bus.Model.Compte.Compte;
+import com.Bus.Model.Compte.CompteType;
 
-/*
- * Représente une transaction de type virement entre deux comptes.
- */
+//est un proxy il contientune source, un destinataire, un mot de passe et la transaction
+//
+public class Virement extends Transaction{
 
-public class Virement extends Transaction {
+	private static final long serialVersionUID = 1L;
+	private Transaction destinataire;
+	//mot de passe pour acceder au virement
+	private String psw;
+	
+	
+	public Virement(Compte source, Transaction t, String psw) {
+		//retrait du compte source
+		super(source.getClientId(), source.getType(), t.getMontant(), TransactionType.retrait);
+		
+		//creation de la transaction destinataire
+		//set les prerequis
+		t.setTransactionType(TransactionType.depot);
+		t.setType(CompteType.VRMNT);
+		destinataire =t;
+		
+		this.setPassword(psw);
+	}
 
-	private static final long serialVersionUID = 7029230432078781532L;
+	//setters
+	public void setPassword(String psw){
+		this.psw = psw;
+	}
 	
-	// Compte bénéficiaire du virement
-	private Compte compteDestinataire;
+	//getters
+	public int getTransactionId(){
+		return this.destinataire.getClientId();
+	} 
 	
-	/*
-	 * Constructeur de la classe Virement
-	 */
-	public Virement(Compte compteSource, Compte compteDestinataire, Date date, double montant) {
-        super(compteSource, date, montant);
-        this.compteDestinataire = compteDestinataire;
-        this.setType(Transaction_type.virer); // Spécifie que c'est un virement
-    }
+	public Transaction getTransaction(String psw,CompteType type) throws Exception {
+		
+		if(this.psw.equals(psw)) {
+			destinataire.setType(type);
+			return this.destinataire;
+		}
+		else {
+			throw new Exception("Invalid credential ");
+		}
+	}
 	
-	/*
-     * Exécute la transaction de virement, retirant le montant du compte source
-     * et l'ajoutant au compte destinataire.
-     */
-    @Override
-    public void executer() {
-        // Logique du virement : retirer du compte source et ajouter au compte destinataire
-    }
-    
-    /*
-     * Redéfinition de la méthode toString pour afficher la transaction de virement.
-     */
-    @Override
-    public String toString() {
-        return super.toString() + " | Type: Virement | Compte destinataire: " + compteDestinataire.getCompteId();
-    }
+	public int GetDestinataireId() {
+		return this.destinataire.getClientId();
+	}
 }

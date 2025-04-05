@@ -1,7 +1,4 @@
 package com.Bus.Model.Compte;
-
-import com.Bus.Model.Client.Client;
-
 /*
  * Représente un compte bancaire en devise étrangère.
  * 
@@ -37,18 +34,23 @@ public class CompteDevise extends Compte {
 	 * Le montant déposé est converti selon le taux de change de la devise avant d'être ajouté au solde.
 	 */
 	@Override
-	protected void deposer(double montant) {
+	public void deposer(double montant) {
 		this.solde +=montant * devise.exchangeRate;
 	}
-
 	/*
 	 * Retrait d'une certaine somme du compte en devise.
 	 * Le montant retiré est d'abord soustrait du solde, puis converti en devise de retrait en fonction du taux de change.
 	 */
 	@Override
-	protected double retirer(double montant) throws Exception {
+	public double retirer(double montant) throws Exception {
 		this.solde -=montant ;
 		return montant / devise.exchangeRate;
+	}
+	
+	
+	//GETTERS
+	public Devise getDevise() {
+		return this.devise;
 	}
 }
 

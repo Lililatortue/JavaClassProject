@@ -67,7 +67,5 @@ public class UserValidation {
 	private static boolean isEmpty(String nom) {
 		return nom.length()<=0;
 	}
-	private boolean isNull(int num) {
-		return num>0;
-	}
+
 }

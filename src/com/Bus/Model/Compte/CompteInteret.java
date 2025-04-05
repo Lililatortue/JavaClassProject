@@ -69,7 +69,7 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 	 * Vérifie si le solde est suffisant avant d'autoriser le retrait.
 	 */
 	@Override
-	protected double retirer(double montant) throws Exception {
+	public double retirer(double montant) throws Exception {
 		this.solde += montant;
 		return montant;	
 	}

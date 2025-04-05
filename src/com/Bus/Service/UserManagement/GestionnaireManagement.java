@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.Bus.Model.Client.Gestionnaire;
 import com.Bus.Model.Client.Utilisateur;
-import com.Bus.Model.Compte.Compte;
 import com.DAL.Repository.UserRepository;
 import com.DAL.Repository.Connection.SerializeRecord;
 import com.DAL.Repository.Exception.InvariantException;

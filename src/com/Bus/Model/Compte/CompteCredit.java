@@ -1,8 +1,7 @@
 package com.Bus.Model.Compte;
 
 import java.time.LocalDate;
-
-import com.Bus.Model.Client.Client;
+ 
 
 /*
  * Classe représentant un compte de crédit dans le système bancaire.
@@ -70,7 +69,11 @@ public class CompteCredit extends CompteInteret {
 	private void setLimite(Double l) {
 		this.limite=l;
 	}
-	
+	// GETTERS
+		public Double getLimite() {
+			return this.limite;
+		}
+		
 	/*
 	 * Redéfinition de la méthode toString pour afficher les détails du compte de crédit.
 	 * Affiche la date d'ouverture, le solde et la limite de crédit disponible.

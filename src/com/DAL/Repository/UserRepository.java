@@ -10,8 +10,7 @@ public class UserRepository implements IRepository<Utilisateur>{
 	private ArrayList<Utilisateur> _user;
 	private RecordStrategy<Utilisateur> _strategy;
 	
-	
-	@SuppressWarnings("unchecked")
+
 	public UserRepository(RecordStrategy<Utilisateur> strategy) {
 		this.setStrategy(strategy);
 		_user = _strategy.get((u)-> u.getId() >0 );//always return true
@@ -63,11 +62,13 @@ public class UserRepository implements IRepository<Utilisateur>{
 	public void delete(Utilisateur user) throws InvariantException {
 		if (_user.contains(user)) {
 	        _user.remove(user);
-	        _strategy.set(_user);
+	       
 	    } else {
 	    	throw new InvariantException("User non existant");
 	    }
 	}
 
-
+	public void commit() {
+		 _strategy.set(_user);
+	}
 }

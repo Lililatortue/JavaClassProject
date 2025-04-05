@@ -25,11 +25,13 @@ public class CompteRequestManagement {
 			}
 		}	
 		_compteRepo.delete(compte);
+		_compteRepo.commit();
 	}
 
 	
-	public void  DenyRequestCompte(Compte u) throws InvariantException  {
-		_compteRepo.delete(u);
+	public void  DenyRequestCompte(Compte compte) throws InvariantException  {
+		_compteRepo.delete(compte);
+		_compteRepo.commit();
 	}
 	
 	public void  AccountRequest(Compte u) throws KeyConstraintException  {

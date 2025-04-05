@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import com.Bus.Model.Client.Gestionnaire;
 import com.Bus.Service.UserManagement.GestionnaireManagement;
 import com.Bus.Service.UserManagement.UserValidationException;
+import com.DAL.Repository.Exception.InvariantException;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -39,7 +40,12 @@ public class EffacerGestionnaire extends JFrame {
 		lblNewLabel.setBounds(10, 11, 142, 14);
 		contentPane.add(lblNewLabel);
 		
-		JComboBox comboBox = new JComboBox();
+		JLabel lbl_error_stream = new JLabel("input");
+		lbl_error_stream.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lbl_error_stream.setBounds(10, 159, 45, 13);
+		contentPane.add(lbl_error_stream);
+		
+		JComboBox<Gestionnaire> comboBox = new JComboBox<Gestionnaire>();
 		comboBox.setBounds(10, 74, 414, 22);
 		contentPane.add(comboBox);
 		for(var user : management.read()) {
@@ -51,14 +57,15 @@ public class EffacerGestionnaire extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					management.DeleteGestionnaire((Gestionnaire) comboBox.getSelectedItem());
-				} catch (UserValidationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (UserValidationException | InvariantException e1) {
+					lbl_error_stream.setText(e1.getMessage());
 				}
 			}
 		});
 		btnNewButton.setBounds(10, 40, 89, 23);
 		contentPane.add(btnNewButton);
+		
+
 		
 		
 	}

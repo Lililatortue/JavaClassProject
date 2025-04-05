@@ -4,7 +4,6 @@ package com.Bus.Model.Compte;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import com.Bus.Model.Client.Client;
 
  /*
  * Classe abstraite représentant un compte bancaire.
@@ -37,7 +36,7 @@ public abstract class Compte implements Serializable{
 	public Compte(int clientId, double solde,CompteType type) {
 		this.clientId = clientId;
 		this.setSolde(solde);
-		this.dateOuverture = LocalDate.now();	
+		this.setDateOuverture(LocalDate.now());	
 		this.type=type;
 	}
 
@@ -67,7 +66,7 @@ public abstract class Compte implements Serializable{
 	} 
 	
 		
-	private void setSolde(double solde) {
+	public void setSolde(double solde) {
 		this.solde = solde;
 	} // Définit le solde du compte
 			
@@ -76,8 +75,8 @@ public abstract class Compte implements Serializable{
 	} // Définit la date d'ouverture du compte
 	
 	// MÉTHODES ABSTRAITES
-	protected abstract void deposer(double montant);
-	protected abstract double retirer(double montant) throws Exception;
+	public abstract void deposer(double montant) throws Exception;
+	public abstract double retirer(double montant) throws Exception;
 	
 	// Affiche l'état du compte
 	@Override

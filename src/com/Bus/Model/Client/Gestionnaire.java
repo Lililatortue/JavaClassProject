@@ -1,9 +1,6 @@
 package com.Bus.Model.Client;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.Bus.Model.Compte.Compte;
 
  /*
  * La classe Gestionnaire représente un utilisateur ayant un rôle administratif dans le système bancaire.

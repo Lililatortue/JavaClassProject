@@ -5,7 +5,8 @@ public enum CompteType{
 	CRED("CREDIT"),
 	LGNCRED("LIGNE DE CREDIT"),
 	DEV("DEVISE"),
-	EPRGN("EPARGNE");
+	EPRGN("EPARGNE"),
+	VRMNT("VIREMENT");
 	private final String displayName;
 
     // Constructor to set the display name

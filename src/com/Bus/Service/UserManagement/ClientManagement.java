@@ -44,16 +44,29 @@ public class ClientManagement {
 	public void  DeleteClient(Client u) throws UserValidationException, InvariantException {
 		UserValidation.generalValidation(u);
 		_userRepo.delete(u);
+		//delete toute ces comptes
+		  ArrayList<Compte> accountsToDelete = new ArrayList<>();
+		    for (Compte item : _compteRepo.read()) {
+		        if (item.getClientId() == u.getId()) {
+		            accountsToDelete.add(item);
+		        }
+		    }
+
+		    for (Compte compte : accountsToDelete) {
+		        _compteRepo.delete(compte);
+		    }
+		_userRepo.commit();
+		_compteRepo.commit();
 	}
 	
 	public ArrayList<Client>read() {
 		return _client;
 	}
 	
-	public ArrayList<Compte> getClientCompte(Client u){
+	public ArrayList<Compte> getClientCompte(int id){
 		ArrayList<Compte> temp = new ArrayList<>();
 		for(var item: _compteRepo.read()) {
-			if(item.getClientId()==u.getId()) {
+			if(item.getClientId()==id) {
 				temp.add(item);
 			}
 		}
