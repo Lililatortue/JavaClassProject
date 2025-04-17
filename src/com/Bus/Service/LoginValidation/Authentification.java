@@ -7,50 +7,45 @@ import com.DAL.Repository.Exception.*;
 import com.Ui.GestionnaireHub.GestionnaireHub;
 
 /*
- * Classe gérant l'authentification des utilisateurs via la chaîne de responsabilité.
+ * Gestionnaire d'authentification des utilisateurs, faisant partie de la chaîne de responsabilité.
  * 
- * Cette classe vérifie si les identifiants fournis dans la Request correspondent à un utilisateur existant dans la base de données sérialisée.
- * Si l'authentification réussit, l'utilisateur est associé à la requête et la gestion de connexion est transmise
- * à l'élément suivant dans la chaîne.
+ * Cette classe vérifie si les identifiants fournis dans une Request correspondent
+ * à un utilisateur enregistré dans le système (base de données sérialisée).
+ * 
+ * Si l'utilisateur est trouvé et les identifiants sont valides, l'objet Utilisateur
+ * est associé à la requête, et la gestion de la connexion est transmise à l'élément suivant
+ * de la chaîne via super.Handle(request).
+ * 
+ * Un cas spécial est prévu : si l'ID saisi est 0, l'interface GestionnaireHub
+ * s'ouvre automatiquement (mode développeur/test).
  */
-
-
 public class Authentification extends ConnectionHandler{
 	
-	// L'utilisateur authentifié
+	// L'utilisateur authentifié lors de la validation
 	private Utilisateur _user;
 	
-	// Gère la requête d'authentification
+	/**
+ 	 * Gère la requête d'authentification
+ 	 * 
+ 	 * @param request - La requête de connexion contenant l'ID et le NIP
+ 	 * @throws Exception - Si la requête est invalide ou si les identifiants ne correspondent pas
+ 	 */
 	@Override
 	public void Handle(final Request request) throws Exception  {	
-		// Cas spécial : ID 0 pour tester, ouvre l'interface de gestion
-
+		// Cas spécial : accès développeur
 		if(request.getId()==0) {
 			GestionnaireHub gHub =new GestionnaireHub();
 			gHub.setVisible(true);
 			return;
 		}
-		// Création du repository utilisateur avec sérialisation
+		// Initialisation du repository utilisateur
 		UserRepository repo = new UserRepository(new SerializeRecord<Utilisateur>(".\\src\\data\\user\\UserList.ser"));
-		
-		
-		
-		
-				
-		// Recherche du premier utilisateur correspondant à l'ID de la requête
+		// Recherche de l'utilisateur correspondant à l'ID
 		this._user = repo.findFirst((u)-> u.getId()==request.getId());
-		
-		
-		//segment pour tester juste rentrer 0  et le gestionnaire hub seras ouvert
-
-		
-		
-		// Vérification des identifiants
+		// Vérification du NIP
 		if(_user !=null && request.getPassword().equals(_user.getNip())) {
-			// Associe l'utilisateur validé à la requête
-			request.setUser(_user);
-			// Passe la requête au prochain gestionnaire dans la chaîne
-			super.Handle(request);
+			request.setUser(_user); // Authentification réussie
+			super.Handle(request); // Transmission de la requête
 		} else {
 			throw new InvariantException("Invalid Credential");
 		}

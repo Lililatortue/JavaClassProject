@@ -3,13 +3,12 @@ package com.Bus.Service.LoginValidation;
 import com.Bus.Model.Client.Utilisateur;
 
 /*
- * Classe représentant une requête utilisateur pour la gestion des connexions.
+ * Représente une requête utilisateur pour le processus d'authentification et d'autorisation.
  * 
  * Cette classe encapsule les informations nécessaires à l'authentification d'un utilisateur, 
- * incluant son identifiant et son mot de passe.
+ * incluant son identifiant et son mot de passe, dans le cadre du processus de connexion
  * Une fois validée, un objet Utilisateur peut être associé à la requête.
  */
-
 public class Request {
 	
 	// Identifiant unique de l'utilisateur
@@ -21,29 +20,47 @@ public class Request {
 	// Objet Utilisateur associé après validation de la requête
 	private Utilisateur _user;
 	
-	/*
-     * Constructeur de la classe Request.
-     */
+	/**
+ 	 * Constructeur de la classe Request
+ 	 * 
+ 	 * @param id - L'identifiant unique de l'utilisateur
+ 	 * @param psw - Le mot de passe associé à cet identifiant
+ 	 */
 	public Request(int id, String psw) {
 		this._id= id;
 		this._password = psw;
 	}
 	
-	// GETTERS
+	/**
+ 	 * 
+ 	 * @return l'identifiant de l'utilisateur
+ 	 */
 	public int getId() {
 		return this._id;
-	} // Retourne l'identifiant de l'utilisateur
+	}
 	
+	/**
+ 	 * 
+ 	 * @return le mot de passe de l'utilisateur
+ 	 */
 	public String getPassword() {
 		return this._password;
-	} // Retourne le mot de passe de l'utilisateur
+	}
 	
+	/**
+ 	 * 
+ 	 * @return l'utilisateur associé à la requête, si l'authentification a réussi
+ 	 */
 	public Utilisateur getUser() {
 		return this._user;
-	} // Retourne l'utilisateur associé à la requête, si l'authentification a réussi
+	}
 	
-	// SETTERS
+	/**
+ 	 * Associe un utilisateur à la requête après authentification réussie
+ 	 * 
+ 	 * @param user - L'utilisateur validé
+ 	 */
 	public void setUser(Utilisateur user) {
 		this._user = user;
-	} // Associe un utilisateur validé à la requête
+	}
 }

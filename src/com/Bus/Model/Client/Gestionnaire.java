@@ -14,18 +14,28 @@ public class Gestionnaire extends Utilisateur implements Serializable {
 	
 	private static final long serialVersionUID = 263713853896394328L;
 	
-	 /*
-	 * Constructeur de la classe Gestionnaire.
+	/**
+	 * Constructeur de la classe Gestionnaire
+	 * 
+	 * @param id
+	 * @param nom
+	 * @param prenom
+	 * @param adresse
+	 * @param nip
+	 * @param email
 	 */
 	public Gestionnaire(int id, String nom, String prenom, String adresse, String nip,String email) {
         super(id, nom, prenom, adresse, nip, "Gestionnaire",email);
     }
-	//prototype
+	
+	/**
+	 * Constructeur de copie
+	 * 
+	 * @param user
+	 */
 	public Gestionnaire(Gestionnaire user) {
         super(user);
     }
-	
-    // SETTERS
 
     
     /*
@@ -66,7 +76,7 @@ public class Gestionnaire extends Utilisateur implements Serializable {
         Rapport.genererRapport(clients);
     }
     */
-    // Affiche les détails du gestionnaire
+    // Affiche les détails du gestionnaire dans la console
     @Override
     public void afficherDetails() {
         System.out.println("Gestionnaire : " + nom + " " + prenom +

@@ -2,14 +2,13 @@ package com.Bus.Model.Client;
 
 import java.io.Serializable;
 
- /*
+/*
  * Classe abstraite représentant une personne dans le système bancaire.
  * Elle implémente l'interface Serializable afin de permettre la persistance des données.
  * 
  * Cette classe sert de base pour les différentes catégories d'utilisateurs, comme les clients et les gestionnaires.
  * Elle définit des attributs communs à toutes les personnes ainsi qu'une méthode abstraite.
  */
-
 public abstract class Personne implements Serializable{
 	
 	private static final long serialVersionUID = -7143856928958832012L;
@@ -20,8 +19,13 @@ public abstract class Personne implements Serializable{
     protected String prenom;
     protected String adresse;
     
-     /*
-     * Constructeur de la classe Personne.
+    /**
+     * Constructeur de la classe Personne
+     * 
+     * @param id
+     * @param nom
+     * @param prenom
+     * @param adresse
      */
     public Personne(int id, String nom, String prenom, String adresse) {
         this.id = id;
@@ -29,7 +33,12 @@ public abstract class Personne implements Serializable{
         this.prenom = prenom;
         this.adresse = adresse;
     }
-    //prototype
+
+    /**
+     * Constructeur de copie
+     * 
+     * @param personne
+     */
     public Personne(Personne personne) {
         this.id = personne.id;
         this.nom = personne.nom;
@@ -37,32 +46,48 @@ public abstract class Personne implements Serializable{
         this.adresse = personne.adresse;
     }
 
-    // GETTERS
+    /**
+     * 
+     * @return l'identifiant unique de la personne
+     */
 	public int getId() {
 		return id;
-	} // Retourne l'identifiant unique de la personne
+	}
 
+	/**
+ 	 * 
+ 	 * @return le nom de la personne
+ 	 */
 	public String getNom() {
 		return nom;
-	} // Retourne le nom de la personne
+	} 
 
+	/**
+ 	 * 
+ 	 * @return le prénom de la personne
+ 	 */
 	public String getPrenom() {
 		return prenom;
-	} //Retourne le prénom de la personne
+	} 
 
+	/**
+ 	 * 
+ 	 * @return l'adresse de la personne
+ 	 */
 	public String getAdresse() {
 		return adresse;
-	} // Retourne l'adresse de la personne
+	}
 
-	// SETTERS
+	/**
+ 	 * Modifie l'adresse de la personne
+ 	 * 
+ 	 * @param adresse - Nouvelle adresse
+ 	 */
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
-	} // Modifie l'adresse de la personne
+	}
 	
-	 /*
-     * Méthode abstraite devant être implémentée par les classes enfants.
-     * Elle doit afficher les détails de la personne.
-     */
+	// Méthode abstraite devant être implémentée par les classes enfant
 	public abstract void afficherDetails();
 	 
 }

@@ -3,40 +3,47 @@ package com.Bus.Service.Logger;
 import java.util.function.Predicate;
 
 /*
- * Logger spécialisé pour l'affichage d'informations et les tests de conditions.
+ * Logger spécialisé pour l'affichage d'informations et l'évaluation de conditions.
  * 
- * Cette classe permet d'enregistrer des logs d'état et des tests conditionnels 
- * en fonction d'une stratégie de journalisation définie via LoggerStrategy.
+ * Cette classe permet de :
+ *    Journaliser des états ou des informations générales via logState(String).
+ *    Effectuer des tests conditionnels sur des objets avec un Predicate via logTest(Predicate, Object, String).
  * 
- * Elle peut être utilisée pour afficher des informations générales 
- * ou pour exécuter des tests sur des objets avec un retour détaillé.
+ * Elle utilise une stratégie de journalisation LoggerStrategy pour déléguer l'écriture réelle du log. 
+ * Cette classe est utile pour les phases de débogage, de validation ou de tests unitaires légers.
  */
-
 public class LoggerInfo extends Logger {
 	
 	// Message d'information stocké pour la journalisation
 	private String info;
 	
-	/*
-     * Constructeur permettant d'initialiser la stratégie de journalisation.
-     */
+	/**
+ 	 * Constructeur de LoggerInfo
+ 	 * 
+ 	 * @param strat - La stratégie de journalisation à utiliser
+ 	 */
 	public LoggerInfo(LoggerStrategy strat) {
 		super(strat);
 	}
 	
-	/*
-     * Enregistre l'état actuel d'un objet ou d'une variable.
-     */
+	/**
+ 	 * Journalise un état ou une information simple
+ 	 * 
+ 	 * @param state - L'état ou l'information à journaliser
+ 	 */
 	public void logState(String state) {
 		info=("["+LogLevel.INFO+"]"+" STATE: "+state);
 		this.strategy.log(this);
 	}
 	
-	/*
-     * Effectue un test conditionnel sur un objet et journalise le résultat.
-     * 
-     * Le test est basé sur un Predicate qui est évalué sur l'objet donné.
-     */
+	/**
+ 	 * Évalue une condition sur un objet et journalise le résultat du test
+ 	 * 
+ 	 * @param <T> - Le type de l'objet à tester
+ 	 * @param pred - Le prédicat représentant la condition à tester
+ 	 * @param object - L'objet à évaluer
+ 	 * @param condition - Description textuelle de la condition testée
+ 	 */
 	public <T> void logTest(Predicate<T> pred,T object,String condition) {
 		info="["+LogLevel.TEST+"] "+ "Condition: " + condition +
 			 "\n\t\tResult:"+((pred.test(object)) ? "SUCCES ": "FAIL ")+
@@ -44,19 +51,18 @@ public class LoggerInfo extends Logger {
 		this.strategy.log(this);
 	};
 
-	/*
-     * Redéfinition de la méthode toString pour afficher la chaîne de log actuelle.
+	/**
+     *
+     * @return le message d'information formaté
      */
 	@Override
 	public String toString() {	
 		return info;
 	}
 	
-	/*
-     * Implémentation vide de la méthode log(), car cette classe utilise des méthodes spécifiques.
-     */
+	// Implémentation vide de la méthode log(), car cette classe utilise des méthodes spécifiques
 	@Override
 	public void log() {
-		// Implémentation non nécessaire ici, car logState et logTest gèrent les logs directement
+		// Non utilisé dans LoggerInfo
 	};
 }

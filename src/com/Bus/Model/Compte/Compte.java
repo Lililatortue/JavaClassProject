@@ -5,15 +5,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 
- /*
+/*
  * Classe abstraite représentant un compte bancaire.
  * Elle contient les informations essentielles liées à un compte bancaire, telles que le solde,
- * la date d'ouverture, et l'identifiant unique du compte.
+ * la date d'ouverture, le type de compte et l'identifiant unique du client auquel il est associé.
  * 
- * La classe définit également des méthodes abstraites pour gérer les opérations de dépôt et de retrait sur le compte.
- * 
- * La gestion du solde et de la date d'ouverture est également incluse, avec la possibilité de définir des valeurs personnalisées
- * ou de les initialiser par défaut (date d'ouverture à la date actuelle).
+ * Elle sert de classe de base pour des types de comptes spécifiques.
  */
 public abstract class Compte implements Serializable{	
 	
@@ -25,14 +22,20 @@ public abstract class Compte implements Serializable{
 	// Date d'ouverture du compte
 	private LocalDate dateOuverture;
 	
-	// Solde du compte
+	// Solde actuel du compte
 	protected double solde;
-	// type du compte
+
+	// Type de compte
 	protected CompteType type;
 	
-	 /*
-	 * Constructeur de la classe Compte qui initialise le solde et la date d'ouverture à la date actuelle.
-	 */
+	/**
+ 	 * Constructeur de la classe Compte
+ 	 * Initialise le solde et définit la date d'ouverture à la date actuelle.
+ 	 * 
+ 	 * @param clientId
+ 	 * @param solde
+ 	 * @param type
+ 	 */
 	public Compte(int clientId, double solde,CompteType type) {
 		this.clientId = clientId;
 		this.setSolde(solde);
@@ -40,7 +43,11 @@ public abstract class Compte implements Serializable{
 		this.type=type;
 	}
 
-	//prototype
+	/**
+ 	 * Constructeur de copie
+ 	 * 
+ 	 * @param compte
+ 	 */
 	public Compte(Compte compte) {
 		this.clientId = compte.clientId;
 		this.solde = compte.solde;
@@ -48,37 +55,79 @@ public abstract class Compte implements Serializable{
 		this.type = compte.type;
 	}
 	
-	
+	/**
+ 	 * 
+ 	 * @return le solde actuel du compte
+ 	 */
 	public final double getSolde() {
 		return this.solde;
-	}; // Retourne le solde actuel du compte
+	};
 	
+	/**
+ 	 * 
+ 	 * @return la date d'ouverture du compte
+ 	 */
 	public LocalDate getDateOuverture() {
 		return this.dateOuverture;
-	}; // Retourne la date d'ouverture du compte
+	};
 	
+	/**
+ 	 * 
+ 	 * @return l'identifiant du client associé à ce compte
+ 	 */
 	public int getClientId(){
 		return this.clientId;
-	} // Retourne l'identifiant du client associé au compte
+	} 
 	
+	/**
+ 	 * 
+ 	 * @return le type de compte
+ 	 */
 	public CompteType getType(){
 		return this.type;
 	} 
 	
-		
+	/**
+ 	 * Modifie le solde du compte
+ 	 * 	
+ 	 * @param solde - Nouveau solde
+ 	 */
 	public void setSolde(double solde) {
 		this.solde = solde;
-	} // Définit le solde du compte
-			
+	}
+		
+	/**
+ 	 * Modifie la date d'ouverture du compte
+ 	 * 
+ 	 * @param dateOuverture - Date d'ouverture
+ 	 */
 	private void setDateOuverture(LocalDate dateOuverture) {
 		this.dateOuverture = dateOuverture;
-	} // Définit la date d'ouverture du compte
+	}
 	
 	// MÉTHODES ABSTRAITES
+	
+	/**
+ 	 * Effectue un dépôt sur le compte
+ 	 * 
+ 	 * @param montant - Montant à déposer
+ 	 * @throws Exception - Si le montant est invalide ou si une règle métier est violée
+ 	 */	
 	public abstract void deposer(double montant) throws Exception;
+	
+	/**
+ 	 * Effectue un retrait sur le compte
+ 	 * 
+ 	 * @param montant - Montant à retirer
+ 	 * @return Montant réellement retiré
+ 	 * @throws Exception - Si le montant est invalide ou si le solde est insuffisant
+ 	 */
 	public abstract double retirer(double montant) throws Exception;
 	
-	// Affiche l'état du compte
+	/**
+ 	 * 
+ 	 * @return une représentation textuelle du compte
+ 	 */
 	@Override
 	public String toString() {
 		return 	"Client Id: "+clientId+" type de compte: "+type;

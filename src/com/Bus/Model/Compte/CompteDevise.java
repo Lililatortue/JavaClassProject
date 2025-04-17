@@ -1,54 +1,68 @@
 package com.Bus.Model.Compte;
+
 /*
  * Représente un compte bancaire en devise étrangère.
  * 
- * Cette classe permet de gérer un compte dont le solde est exprimé dans une devise spécifique.
- * Elle inclut des fonctionnalités de dépôt et de retrait, avec des conversions basées sur le taux de change de la devise.
- * 
- * Le compte de devise utilise une instance de la classe Devise pour déterminer le taux de change applicable
- * lors des opérations financières.
+ * Ce type de compte permet de gérer des opérations (dépôts et retraits)
+ * dans une devise étrangère, en appliquant un taux de change via une instance Devise.
+ * Le solde est exprimé en devise locale (convertie automatiquement à chaque opération).
  */
-
 public class CompteDevise extends Compte {
 
 	private static final long serialVersionUID = 826859753794501933L;
 	
-	// Devise associée à ce compte
+	// Devise associée à ce compte, contenant le taux de change
 	private Devise devise;
 	
-	/*
-	 * Constructeur pour initialiser un compte bancaire en devise étrangère.
-	 */
+	/**
+ 	 * Constructeur de la classe CompteDevise
+ 	 * 
+ 	 * @param clientId
+ 	 * @param solde
+ 	 * @param devise
+ 	 */
 	public CompteDevise(int clientId, double solde,Devise devise) {
 		super(clientId, solde,CompteType.DEV);
 		this.devise = devise; // Associe la devise au compte
 	}
 	
-	//prototype
+	/**
+ 	 * Constructeur de copie
+ 	 * 
+ 	 * @param compte
+ 	 */
 	public CompteDevise(CompteDevise compte) {
 		super(compte);
 		this.devise = compte.devise; // Associe la devise au compte
 	}
-	/*
-	 * Dépôt d'une certaine somme sur le compte en devise.
-	 * Le montant déposé est converti selon le taux de change de la devise avant d'être ajouté au solde.
-	 */
+
+	/**
+ 	 * Dépose un montant dans le compte en convertissant la somme selon le taux de change.
+ 	 *
+ 	 * @param montant - Montant à déposer (exprimé dans la devise étrangère)
+ 	 */
 	@Override
 	public void deposer(double montant) {
 		this.solde +=montant * devise.exchangeRate;
 	}
-	/*
-	 * Retrait d'une certaine somme du compte en devise.
-	 * Le montant retiré est d'abord soustrait du solde, puis converti en devise de retrait en fonction du taux de change.
-	 */
+	
+	/**
+ 	 * Retire un montant du compte, exprimé dans la devise locale
+ 	 * Le montant retourné est reconverti en devise étrangère
+ 	 *
+ 	 * @param montant - Montant à retirer (en devise locale)
+ 	 * @return le montant équivalent dans la devise étrangère
+ 	 */
 	@Override
 	public double retirer(double montant) throws Exception {
 		this.solde -=montant ;
 		return montant / devise.exchangeRate;
 	}
 	
-	
-	//GETTERS
+	/**
+ 	 * 
+ 	 * @return la devise associée à ce compte
+ 	 */
 	public Devise getDevise() {
 		return this.devise;
 	}

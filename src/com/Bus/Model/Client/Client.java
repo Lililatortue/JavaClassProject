@@ -1,33 +1,42 @@
 package com.Bus.Model.Client;
 import java.io.Serializable;
 
-
- /*
- * La classe Client représente un utilisateur ayant un rôle de client dans le système bancaire.
- * Elle hérite de la classe Utilisateur et implémente Serializable pour permettre la persistance des données.
- * 
- * Un client possède un email, un numéro de téléphone et une liste de comptes bancaires.
- * Par défaut, un compte chèque est attribué à chaque client lors de sa création.
- */
-
+/*
+* La classe Client représente un utilisateur ayant un rôle de client dans le système bancaire.
+* Elle hérite de la classe Utilisateur et implémente Serializable pour permettre la persistance des données.
+* 
+* Chaque client possède des informations personnelles telles que son numéro de téléphone et son adresse email.
+* Par défaut, un compte chèque est attribué à chaque client lors de sa création.
+*/
 public class Client extends Utilisateur implements Serializable {
 	
 	private static final long serialVersionUID = 2445142944692786364L;
 	
-
-	// Informations personnelles du client
+	// Numéro de téléphone du client
 	private String telephone;
 
 	
-	 /*
-	 * Constructeur de la classe Client.
-	 * Initialise un client avec ses informations personnelles et lui attribue un compte chèque par défaut.
-	 */
+	/**
+ 	 * Constructeur de la classe Client
+ 	 * 
+ 	 * @param id
+ 	 * @param nom
+ 	 * @param prenom
+ 	 * @param adresse
+ 	 * @param nip
+ 	 * @param email
+ 	 * @param telephone
+ 	 */
 	 public Client(int id, String nom, String prenom, String adresse, String nip, String email, String telephone) {
 		 super(id, nom, prenom, adresse, nip, "Client",email);
 	     this.telephone = telephone;
 	 }
-	 //prototype
+	 
+	 /**
+ 	  * Constructeur de copie
+ 	  * 
+ 	  * @param c
+ 	  */
 	 public Client(Client c) {
 		 super(c);
 	     this.telephone = c.telephone;
@@ -60,6 +69,11 @@ public class Client extends Utilisateur implements Serializable {
                             " | Téléphone: " + telephone);
 	 }
 	 
+	 /**
+ 	  * Représentation textuelle du client
+ 	  * 
+ 	  * @return une chaîne de caractères décrivant le client
+ 	  */
 	 @Override 
 	 public String toString() {
 		 return "Client : " + nom + " " + prenom +" | ID: " + id +

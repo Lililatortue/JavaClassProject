@@ -4,7 +4,6 @@ package com.Bus.Model.Compte;
  * Enumération représentant différentes devises monétaires.
  * Chaque devise est associée à un symbole et un taux de conversion.
  */
-
 public enum  Devise{
 	
 	// Dollar américain avec son symbole et son taux de conversion
@@ -22,20 +21,30 @@ public enum  Devise{
 	// Taux de conversion de la devise par rapport à la devise de référence
 	public double exchangeRate;
 	
-	 /*
-     * Constructeur de l'énumération Devise.
-     */
+	/**
+	 * Constructeur de l'énumération Devise
+	 * 
+	 * @param signe
+	 * @param exchangeRate
+	 */
 	Devise(String signe, double exchangeRate) {
 		this.signe = signe;
         this.exchangeRate = exchangeRate;
 	}
 	
-	// GETTERS
+	/**
+ 	 * 
+ 	 * @return le symbole monétaire de la devise
+ 	 */
 	public String getSigne() {
         return signe;
-    } // Obtient le symbole de la devise
+    }
 	
+	/**
+ 	 * 
+ 	 * @return le taux de conversion de la devise vers la devise de référence
+ 	 */
 	public double getExchangeRate() {
         return exchangeRate;
-    } // Obtient le taux de conversion de la devise
+    }
 }

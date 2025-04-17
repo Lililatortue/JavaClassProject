@@ -4,34 +4,42 @@ package com.Bus.Model.Compte;
 /*
  * Classe représentant un compte courant (CompteCheque) dans le système bancaire.
  * 
- * Un compte courant permet de gérer les transactions courantes telles que les dépôts et les retraits. 
- * Cette classe étend la classe abstraite Compte et ajoute des fonctionnalités spécifiques aux comptes chèques,
- * telles que la gestion du nombre de transactions gratuites et des frais associés aux transactions supplémentaires.
+ * Ce type de compte permet de gérer des transactions régulières (dépôts et retraits)
+ * avec un nombre limité de transactions gratuites. Au-delà de ce nombre,
+ * des frais sont appliqués à chaque transaction supplémentaire.
  */
-
 public class CompteCheque extends Compte{
 
 	private static final long serialVersionUID = 2650636843608742412L;
 	
-	// Nombre de transactions gratuites
+	// Nombre total de transactions gratuites autorisées
 	private int nbTransGratuite;
 	
-	// Transactions restantes gratuites
+	// Nombre de transactions gratuites restantes
 	private int TransactionRestante;
 	
-	// Frais pour les transactions au-delà du nombre gratuit
+	// Frais appliqués à chaque transaction une fois le quota gratuit épuisé
 	private double fraisTransaction;
 	
-    /*
-	 * Constructeur de la classe CompteCheque.
-	 */
-		public CompteCheque(int clientId, double solde, double fraisTransaction) {
+	/**
+ 	 * Constructeur de la classe CompteCheque
+ 	 * 
+ 	 * @param clientId
+ 	 * @param solde
+ 	 * @param fraisTransaction
+ 	 */
+	public CompteCheque(int clientId, double solde, double fraisTransaction) {
 			super(clientId, solde, CompteType.CHCK );
 			this.setTransactionsGratuite(2);
 			this.setFraisTransaction(fraisTransaction);
 			this.TransactionRestante =this.nbTransGratuite;
-		}
-		//prototype
+	}
+
+	/**
+     * Constructeur de copie
+     * 
+     * @param compte
+     */
 	 public CompteCheque(CompteCheque compte) {
 		    super(compte);
 		    this.setTransactionsGratuite(2);
@@ -39,8 +47,12 @@ public class CompteCheque extends Compte{
 		    this.TransactionRestante = compte.TransactionRestante;
 		}
 	
-
-
+	 /**
+ 	  * Effectue un dépôt sur le compte
+ 	  * 
+ 	  * @param montant - Montant à déposer
+ 	  * @throws Exception - Si le montant est inférieur ou égal à 0
+ 	  */
 		@Override
 		public void deposer(double montant) throws Exception {
 			if(montant>0) {
@@ -50,12 +62,20 @@ public class CompteCheque extends Compte{
 			throw new Exception("insuffisant funds");
 		}
 
+		/**
+ 		 * Effectue un retrait depuis le compte, en prenant en compte les transactions gratuites restantes.
+ 		 * Si aucune transaction gratuite ne reste, des frais sont appliqués.
+ 		 *
+ 		 * @param montant - Montant à retirer
+ 		 * @return le montant effectivement retiré
+ 		 * @throws Exception - Si les fonds sont insuffisants ou si le montant est invalide
+ 		 */
 		@Override
 		public double retirer(double montant) throws Exception{
 			
 				if(this.TransactionRestante>0) 
 				{
-					//retire une transaction gratuite
+					// Utilisation d'une transaction gratuite
 					this.TransactionRestante-=1;
 					if(this.solde-montant>0) {
 						
@@ -69,6 +89,7 @@ public class CompteCheque extends Compte{
 				} 
 				else 
 				{
+					// Frais appliqués
 					if(this.solde-(montant+fraisTransaction)>0) {
 						
 						this.solde-=(montant+fraisTransaction);
@@ -80,28 +101,52 @@ public class CompteCheque extends Compte{
 				}
 		} 
 
-
-	
-	//getters
+		/**
+ 		 * 
+ 		 * @return le montant des frais de transaction
+ 		 */
 		public double getFraisTransaction() {
 			return fraisTransaction;
 		}
 
+		/**
+ 		 * 
+ 		 * @return le nombre total de transactions gratuites autorisées
+ 		 */
 		public int getTransactionsGratuite() {
 			return nbTransGratuite;
 		}
+		
+		/**
+ 		 * 
+ 		 * @return le nombre de transactions gratuites restantes
+ 		 */
 		public int getTransactionsRestante() {
 			return TransactionRestante;
 		}
-	//setters
+	
+		/**
+ 		 * Définit les frais de transaction à appliquer
+ 		 * 
+ 		 * @param fraisTransaction - Montant des frais
+ 		 */
 		public void setFraisTransaction(double fraisTransaction) {
 			this.fraisTransaction = fraisTransaction;
 		}
 		
+		/**
+ 		 * Définit le nombre de transactions gratuites disponibles pour le compte
+ 		 * 
+ 		 * @param transactionsGratuite - Nombre de transactions gratuites
+ 		 */
 		public void setTransactionsGratuite(int transactionsGratuite) {
 			this.nbTransGratuite = transactionsGratuite;
 		}
 
+		/**
+ 		 * 
+ 		 * @return une représentation textuelle du compte courant
+ 		 */
 		@Override 
 		public String toString() {
 			return "\n\ttype de compte: "+super.getType()+ " Solde: "+super.solde+""; 

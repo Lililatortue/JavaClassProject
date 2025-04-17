@@ -11,8 +11,12 @@ package com.Bus.Service.Logger;
  * dynamiquement la méthode de journalisation sans changer la logique principale
  * du système.
  */
-
 public interface LoggerStrategy {
-	// Enregistre un log en utilisant la stratégie de journalisation définie
+
+	/**
+ 	 * Enregistre un message de log en utilisant la stratégie définie
+ 	 * 
+ 	 * @param logger - Le logger appelant, contenant les données à enregistrer
+ 	 */
 	void log(Logger logger);
 }

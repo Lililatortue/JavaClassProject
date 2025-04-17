@@ -9,35 +9,42 @@ import com.Bus.Model.Compte.CompteType;
  * Classe abstraite représentant une transaction bancaire.
  * 
  * Cette classe définit les propriétés et comportements communs à toutes les transactions. 
- * Elle est destinée à être étendue par des classes concrètes.
  * 
- * Les transactions stockent des informations essentielles telles que :
- *   L'identifiant du client concerné
- *   L'identifiant du compte impacté
- *   La date de la transaction
- *   Le montant impliqué
- *   Le type de transaction
+ * Une transaction contient les informations suivantes :
+ *   Identifiant du client concerné
+ *   Type de compte impliqué
+ *   Date de la transaction
+ *   Montant de la transaction
+ *   Type de transaction (dépôt, retrait...)
  */
-
 public class Transaction implements Serializable {	
 
 	private static final long serialVersionUID = 2923352023714175172L;
 	
-	// Identifiant du client concerné
+	// Identifiant du client concerné par la transaction
 	private int idClient;
+	
+	// Type de compte impliqué dans la transaction
 	private CompteType compteType;
-	// Date et heure de la transaction
+	
+	// Date à laquelle la transaction a été effectuée
 	private LocalDate dateTransaction;
+	
 	// Montant de la transaction
 	private double montant;
-	//type de transaction
-	private TransactionType transactionType;
-	/*
-	 * Constructeur de la classe Transaction.
-	 */
 	
+	// Type de transaction
+	private TransactionType transactionType;
+	
+	/**
+ 	 * Constructeur de la classe Transaction
+ 	 * 
+ 	 * @param Id - L'identifiant du client associé
+ 	 * @param compteType - Le type de compte concerné
+ 	 * @param montant - Le montant de la transaction
+ 	 * @param type - Le type de la transaction
+ 	 */
 	public Transaction(int Id,CompteType compteType, double montant,TransactionType type) {	
-		//la clee unique de transaction est le id du client ET le type de compte
 		this.setClientId(Id);
 		this.compteType = compteType;
 		this.setDate(LocalDate.now());
@@ -45,50 +52,95 @@ public class Transaction implements Serializable {
 		this.setMontant(montant);
 	}
 	
-	// GETTERS
+	/**
+ 	 * 
+ 	 * @return l'identifiant du client
+ 	 */
 	public int getClientId() {
 		return this.idClient;
-	} // Retourne l'ID du client associé à la transaction
+	}
 	
+	/**
+ 	 * 
+ 	 * @return la date de la transaction
+ 	 */
 	public LocalDate getDate() {
 		return this.dateTransaction;
-	} // Retourne la date de la transaction
+	}
 	
+	/**
+ 	 * 
+ 	 * @return le montant impliqué dans la transaction
+ 	 */
 	public double getMontant() {
 		return this.montant;
-	} // Retourne le montant de la transaction
+	}
 	
+	/**
+ 	 * 
+ 	 * @return le type de compte associé à la transaction
+ 	 */
 	public CompteType getCompteType() {
 		return this.compteType;
 	}
 	
+	/**
+ 	 * 
+ 	 * @return le type de transaction effectuée
+ 	 */
 	public TransactionType getTransactionType() {
 		return this.transactionType;
 	}
-	// SETTERS
+	
+	/**
+ 	 * Définit l’identifiant du client
+ 	 * 
+ 	 * @param id - Identifiant du client
+ 	 */
 	public void setClientId(int id) {
 		this.idClient =id;
-	}// Définit l'ID du client en fonction du compte concerné
+	}
 	
+	/**
+ 	 * Définit la date de la transaction
+ 	 * 
+ 	 * @param date - Date de la transaction
+ 	 */
 	public void setDate(LocalDate date) {
 		this.dateTransaction = date;
-	} // Définit la date de la transaction
+	}
 	
+	/**
+ 	 * Définit le montant de la transaction
+ 	 * 
+ 	 * @param montant - Montant à fixer
+ 	 */
 	public void setMontant(double montant) {
 		this.montant = montant;
-	} // Définit le montant de la transaction
+	}
 	
+	/**
+ 	 * Définit le type de compte impliqué
+ 	 * 
+ 	 * @param type - Type de compte
+ 	 */
 	public void setType(CompteType type) {
 		this.compteType = type;
 	}
 	
+	/**
+ 	 * Définit le type de transaction
+ 	 * 
+ 	 * @param type - Type de transaction
+ 	 */
 	public void setTransactionType(TransactionType type) {
 		this.transactionType=type;
 	}
 	
-	/*
-	 * Redéfinition de la méthode toString pour afficher les détails de la transaction.
-	 */
+	/**
+ 	 * 
+ 	 * @return une représentation textuelle de la transaction
+ 	 */
 	@Override
 	public String toString() {
 		return "Client #" + idClient + " | Compte: " + this.getCompteType()
