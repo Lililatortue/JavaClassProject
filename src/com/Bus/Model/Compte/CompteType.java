@@ -1,15 +1,18 @@
 package com.Bus.Model.Compte;
 
 public enum CompteType{
-	CHCK("CHECK"),
+	CHEQUE("CHEQUE"),
 	CRED("CREDIT"),
-	LGNCRED("LIGNE DE CREDIT"),
+	LGNCRED("LGNECRED"),
 	DEV("DEVISE"),
 	EPRGN("EPARGNE"),
 	VRMNT("VIREMENT");
 	private final String displayName;
 
-    // Constructor to set the display name
+    /**
+     * contructeur par default
+     * @param displayName
+     */
     CompteType(String displayName) {
         this.displayName = displayName;
     }

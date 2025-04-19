@@ -10,11 +10,9 @@ public class TransactionValidation {
         }
     }
     
-    public static boolean isValidAccountNumber(String accountNumber) {
-    	return accountNumber != null && accountNumber.matches("C\\d+");
-    }
-    
     public static boolean areDifferentAccounts(String fromAccount, String toAccount) {
         return !fromAccount.equals(toAccount);
     }
+    
+    
 }

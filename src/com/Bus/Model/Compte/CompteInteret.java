@@ -1,9 +1,11 @@
 package com.Bus.Model.Compte;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
-
 import com.Bus.Event.IInterestEvent;
+import com.DAL.Repository.Exception.InvariantException;
 
 /*
  * Classe abstraite représentant un compte bancaire avec un taux d'intérêt.
@@ -13,7 +15,6 @@ import com.Bus.Event.IInterestEvent;
 public abstract class CompteInteret extends Compte implements IInterestEvent {
 	
 	private static final long serialVersionUID = -8200966552710101788L;
-	
 	// Année de la dernière mise à jour des intérêts
 	private int year;
 	
@@ -26,27 +27,49 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 	// Montant des intérêts mensuels dus
 	protected double interetMensuelDu;
 		
+	// Limite d'achat ou de retrait sur le compte
+	protected Double limite=null;
 	
-	//Constructeur par default du compte
-	public CompteInteret(int clientId, double tauxInteret,CompteType type) {
-		super(clientId,0,type);
+	/**
+	 * contructeur par default
+	 * @param clientId
+	 * @param tauxInteret
+	 * @param type
+	 */
+	public CompteInteret(int clientId, Double limite, double tauxInteret, CompteType type) {
+		super(clientId, 0, type);
 		this.setCurrentMonth(LocalDate.now());
 		this.setYear(LocalDate.now());
 		this.setTauxInteret(tauxInteret);
+		this.setLimite(limite);
 	}
-	//prototype
+	
+	/**
+	 * contructor de Oracle sql
+	 * @param rs
+	 * @throws SQLException
+	 */
+	public CompteInteret(ResultSet rs) throws SQLException {
+		super(rs);
+		this.setCurrentMonth(LocalDate.parse(rs.getString("CPT_DATE_OUV")));
+		this.setYear(LocalDate.parse(rs.getString("CPT_DATE_OUV")));
+		this.setTauxInteret(rs.getInt("CPT_TAUX"));
+		this.setLimite(rs.getDouble("CPT_LIMITE"));
+		this.update();
+	}
+	
+	/**
+	 * prototype
+	 * @param compte
+	 */
 	public CompteInteret(CompteInteret compte) {
 		super(compte);
 		this.moiActuel = compte.getMois();
 		this.year = compte.year;
 		this.tauxInteretParAnne = compte.tauxInteretParAnne;
-		this.interetMensuelDu = compte.interetMensuelDu;
+		this.limite = compte.limite;
+		this.update();
 	}	
-	/*
-	 * Définit les intérêts mensuels dus pour le compte.
-	 * Cette méthode est spécifique aux sous-classes et doit être implémentée.
-	 */
-	protected abstract void setInteretMensuelDu(); 
 		
 	// MÉTHODES DE GESTION DES OPÉRATIONS BANCAIRES
 	/*
@@ -54,49 +77,81 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 	 * Si des intérêts sont dus, le dépôt est d'abord utilisé pour les payer avant d'être ajouté au solde.
 	 */
 	@Override
-	public void deposer(double montant) {
+	public void deposer(double montant) throws InvariantException {	
 		if(this.interetMensuelDu <= montant) {
 			montant -= this.interetMensuelDu;
 			this.interetMensuelDu = 0.0;
+			this.solde-=montant;
 		} else {
 			this.interetMensuelDu -= montant;
-		}
-		this.solde-=montant;
+			return;
+		}	
 	}
 	
-	/*
-	 * Retrait d'un montant du compte.
-	 * Vérifie si le solde est suffisant avant d'autoriser le retrait.
-	 */
-	@Override
-	public double retirer(double montant) throws Exception {
-		this.solde += montant;
-		return montant;	
-	}
 	
 	// SETTERS
+	// Met à jour le mois actuel du compte si la date est valide
 	public void setCurrentMonth(LocalDate currentDate) {
 		if(currentDate.getYear()>=LocalDate.now().getYear()) {
 				this.moiActuel = currentDate.getMonth();
 		}	
-	} // Met à jour le mois actuel du compte si la date est valide
+	} 
 		
+	// Définit l'année de référence du compte
 	public void setYear(LocalDate currentDate) {
 		this.year=currentDate.getYear();	
-	} // Définit l'année de référence du compte
-		
+	} 
+	
+	// Définit le taux d'intérêt annuel du compte	
 	private void setTauxInteret(double tauxInteret) {
 		this.tauxInteretParAnne=tauxInteret;
-	} // Définit le taux d'intérêt annuel du compte
+	} 
+	
+	// Définit la limite du compte	
+	private void setLimite(Double limite) {
+		this.limite=limite;
+	} 
 		 
+		
+		
 	// GETTERS
+	// Retourne le mois actuel du compte
 	public Month getMois(){
 		return this.moiActuel;
-	} // Retourne le mois actuel du compte
+	} 
 	
+	
+	// Retourne le taux d'intérêt annuel appliqué au compte
 	public double getTauxInteretAnnuel() {
 		return this.tauxInteretParAnne;
-	} // Retourne le taux d'intérêt annuel appliqué au compte
+	} 
+	
+	
+	// Retourne le taux d'intérêt annuel appliqué au compte
+	public double getInteretDu() {
+		return this.interetMensuelDu;
+	} 
+	
+	// Définit la limite du compte	
+	public Double getLimite() {
+		return this.limite;
+	} 	
+	// MÉTHODE DE MISE À JOUR
+		/**
+		 * Mise à jour de l'intérêt mensuel.
+		 * Appelée pour ajuster les intérêts lorsque le mois change.
+		 */
+	@Override
+	public void update() {
+		if(this.getMois().getValue() < LocalDate.now().getMonth().getValue())
+			this.setInteretMensuelDu();
+	}
+		
+	// MÉTHODE D'INTÉRÊT
+	private void setInteretMensuelDu() {
+		this.solde+=(this.getTauxInteretAnnuel() / 12) * this.solde;
+	}
+	
 	
 	/**
 	 * Redéfinition de la méthode toString pour afficher les détails du compte à intérêt.

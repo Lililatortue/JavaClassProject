@@ -1,74 +1,133 @@
 package com.DAL.Repository;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.function.Predicate;
+
+import com.Bus.Model.Client.Client;
+import com.Bus.Model.Client.Gestionnaire;
 import com.Bus.Model.Client.Utilisateur;
-import com.DAL.Repository.Connection.RecordStrategy;
+import com.DAL.Repository.Connection.DbConnection;
 import com.DAL.Repository.Exception.*;
 
-public class UserRepository implements IRepository<Utilisateur>{
-	private ArrayList<Utilisateur> _user;
-	private RecordStrategy<Utilisateur> _strategy;
-	
 
-	public UserRepository(RecordStrategy<Utilisateur> strategy) {
-		this.setStrategy(strategy);
-		_user = _strategy.get((u)-> u.getId() >0 );//always return true
-	}
-	
-	//setters
-	public void setStrategy(RecordStrategy<Utilisateur> strategy) {
-		this._strategy = strategy;
-	}
-	
-	public Utilisateur findFirst(Predicate<Utilisateur> predicate) throws InvariantException {
-		for(var user : _user) {
-			if(predicate.test(user)) {
-				return user;
+public class UserRepository implements IRepository<Utilisateur>{
+
+	public ArrayList<Utilisateur> read() {
+		ArrayList<Utilisateur> utilisateur = new ArrayList<>();
+		String query = "SELECT * FROM view_utilisateur ORDER BY USR_ID ASC";
+		try (Connection conn = DbConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query)) {
+
+			while (rs.next()) {
+				if(rs.getString("USR_ROLE").equals("Client")) {	
+					utilisateur.add(new Client(rs));
+				} else {
+					utilisateur.add(new Gestionnaire(rs));
+				}
+					
 			}
+		} catch (SQLException e) {
+			System.out.println("Error getting departments: " + e.getMessage());
 		}
-		throw new InvariantException("User non existant");
+
+		return utilisateur;
 	}
 	
+	
+	public Utilisateur findOne(String email) {
+		String query = "SELECT * FROM view_utilisateur WHERE USR_EMAIL = ?";
+		Utilisateur utilisateur;
+		try (Connection conn = DbConnection.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(query)) {
+			
+				pstmt.setString(1, email);
+				ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				
+				if(rs.getString("USR_ROLE").equals("Client")) {	
+					 utilisateur= new Client(new Client(rs));
+					 return utilisateur;
+				} else {
+					 utilisateur = new Gestionnaire(new Gestionnaire(rs));
+					 return utilisateur;
+				}
+					
+			}
+		} catch (SQLException e) {
+			System.out.println("Error getting user: " + e.getMessage());
+		}
+		return null;
+
+	}
 	
 	@Override
-	public void create(Utilisateur user) throws KeyConstraintException {
-		//assurer integrite des donnes
-		for(var item : _user) {
-			if((item.getId()==user.getId())||(item.getEmail().equals(user.getEmail()))) {
-				throw new KeyConstraintException("User id or email already exist");	
-			}
+	public boolean create(Utilisateur user) {
+		String procedure = "{ call insert_user(?, ?, ?, ?, ?, ?, ?) }";
+		try (Connection conn = DbConnection.getConnection(); 
+				CallableStatement stmt = conn.prepareCall(procedure)) {
+
+			stmt.setString(1, user.getNom());
+			stmt.setString(2, user.getPrenom());
+			stmt.setString(3, user.getAdresse());
+			stmt.setString(4, user.getEmail());
+			stmt.setString(5, user.getNip());
+			stmt.setString(6, user.getRole());
+			
+			String tel = (user instanceof Client) ? ((Client) user).getTelephone() : "";
+			stmt.setString(7, tel);
+	        stmt.execute();
+	        return true;
+	        
+		} catch (SQLException e) {
+			System.out.println("Insert error: " + e.getMessage());
+			return false;
 		}
 		
-		_user.add(user);
-		_strategy.set(_user);
-	}
-
-	@Override
-	public ArrayList<Utilisateur> read() {	
-		return _user;
 	}
 	
 	@Override
-	public void  update(Utilisateur user) {
-		for(var  users : _user) {
-	        if(user.getId()==users.getId()) {
-	        	users=user;
-	        }    	
-	    }
-	        _strategy.set(_user);
-	}
-	@Override
-	public void delete(Utilisateur user) throws InvariantException {
-		if (_user.contains(user)) {
-	        _user.remove(user);
-	       
-	    } else {
-	    	throw new InvariantException("User non existant");
-	    }
+	public boolean update(Utilisateur user) {
+		String procedure = "{ call update_user(?, ?, ?, ?, ?, ?) }";
+		try (Connection conn = DbConnection.getConnection(); 
+				CallableStatement stmt = conn.prepareCall(procedure)) {
+				stmt.setString(1, user.getNom());
+				stmt.setString(2, user.getPrenom());
+				stmt.setString(3, user.getAdresse());
+				stmt.setString(4, user.getEmail());
+				stmt.setString(5, "CLIENT");
+
+				String tel = (user instanceof Client) ? ((Client) user).getTelephone() : "";
+				
+				
+				stmt.setString(6, tel);  
+				stmt.execute();
+				return true;
+			
+		}catch (SQLException e) {
+			System.out.println("Update error: " + e.getMessage());
+			return false;
+		}	
 	}
 
-	public void commit() {
-		 _strategy.set(_user);
+	@Override
+	public boolean delete(Utilisateur user) throws InvariantException {
+		String procedure = "{ call delete_user(?) }";
+		try (Connection conn = DbConnection.getConnection(); 
+				CallableStatement stmt = conn.prepareCall(procedure)) {
+			stmt.setString(1, user.getEmail());
+			stmt.execute();
+		    return true;
+			
+		}catch (SQLException e) {
+			System.out.println("Delete error: " + e.getMessage());
+			return false;
+		}
 	}
+
 }

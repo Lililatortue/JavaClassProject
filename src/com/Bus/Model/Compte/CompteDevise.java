@@ -1,4 +1,10 @@
 package com.Bus.Model.Compte;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.DAL.Repository.Exception.InvariantException;
+
 /*
  * Représente un compte bancaire en devise étrangère.
  * 
@@ -16,25 +22,51 @@ public class CompteDevise extends Compte {
 	// Devise associée à ce compte
 	private Devise devise;
 	
-	/*
-	 * Constructeur pour initialiser un compte bancaire en devise étrangère.
+	
+	/**
+	 *  Constructeur pour initialiser un compte bancaire en devise étrangère.
+	 * @param clientId
+	 * @param solde
+	 * @param devise
 	 */
 	public CompteDevise(int clientId, double solde,Devise devise) {
 		super(clientId, solde,CompteType.DEV);
 		this.devise = devise; // Associe la devise au compte
 	}
 	
-	//prototype
+	
+	/**
+	 *  Constructeur pour initialiser un compte bancaire en devise étrangère.
+	 * @param clientId
+	 * @param solde
+	 * @param devise
+	 * @throws SQLException 
+	 */
+	public CompteDevise(ResultSet rs) throws SQLException {
+		super(rs);
+		this.devise = Devise.valueOf(rs.getString("CPT_DEVISE")); // Associe la devise au compte
+	}
+	
+	
+	/**
+	 * prototype
+	 * @param compte
+	 */
 	public CompteDevise(CompteDevise compte) {
 		super(compte);
 		this.devise = compte.devise; // Associe la devise au compte
 	}
+	
+	
+	
+	
+	
 	/*
 	 * Dépôt d'une certaine somme sur le compte en devise.
 	 * Le montant déposé est converti selon le taux de change de la devise avant d'être ajouté au solde.
 	 */
 	@Override
-	public void deposer(double montant) {
+	public void deposer(double montant) throws InvariantException {
 		this.solde +=montant * devise.exchangeRate;
 	}
 	/*
@@ -42,7 +74,7 @@ public class CompteDevise extends Compte {
 	 * Le montant retiré est d'abord soustrait du solde, puis converti en devise de retrait en fonction du taux de change.
 	 */
 	@Override
-	public double retirer(double montant) throws Exception {
+	public double retirer(double montant) throws InvariantException {
 		this.solde -=montant ;
 		return montant / devise.exchangeRate;
 	}

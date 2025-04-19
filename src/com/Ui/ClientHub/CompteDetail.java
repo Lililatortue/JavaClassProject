@@ -80,7 +80,7 @@ public class CompteDetail extends JFrame {
 
 				try {
 					_transactions.ADDTransaction(transaction);
-					lbl_error_stream.setText("Deposer avec succes");
+					lbl_error_stream.setText("retirer avec succes");
 				} catch (Exception e1) {
 					lbl_error_stream.setText(e1.getMessage());
 				}
@@ -182,18 +182,19 @@ public class CompteDetail extends JFrame {
 		else if(compte instanceof CompteCredit) {
 			CompteCredit c = (CompteCredit)compte;
 			string.append("Taux interet annuel: "+c.getTauxInteretAnnuel()+"<br>");
-			string.append("limite: "+c.getLimite()+"\n");
-
+			string.append("limite: "+c.getLimite()+"<br>");
+			string.append("Taux Mensuel du: "+c.getInteretDu()+"<br>");
 		} 
 		else if(compte instanceof LigneDeCredit) {
 			LigneDeCredit c = (LigneDeCredit)compte;
 			string.append("Taux interet annuel: "+c.getTauxInteretAnnuel()+"<br>");
+			string.append("Taux Mensuel du: "+c.getInteretDu()+"<br>");
 			
 		} 
 		else if(compte instanceof CompteEpargne) {
 			CompteEpargne c = (CompteEpargne)compte;
-			string.append("Frais de transaction: "+c.getTauxInteretAnnuel()+"<br>");
-			
+			string.append("Taux interet annuel: "+c.getTauxInteretAnnuel()+"<br>");
+			string.append("Taux Mensuel du: "+c.getInteretDu()+"<br>");
 		} 
 		else {
 			CompteDevise c = (CompteDevise)compte;

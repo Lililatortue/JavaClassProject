@@ -16,36 +16,36 @@ Fortis Bank est une institution financière qui souhaite moderniser ses opérati
 - [x] Compte devise ---> doit rester actif a tous les ans
 
 ## 3 traitement des transactions
-- [ ] type de transaction disponible--> depot retrait virement
-- [ ] compte a un historique
+- [x] type de transaction disponible--> depot retrait virement
+- [x] compte a un historique
 - [x] compte cheque 2 transaction gratuit par moi
-- [ ] frais applique si transaction depasse quota
+- [x] frais applique si transaction depasse quota
 
 ## 4 Operation du gestionnaire de la banque
 le role de gestionnaire de la banque peux faire
-- [ ] creer client
-- [ ] approuver les demandes de comptes supplementaire
-- [ ] fermer des comptes client
-- [ ] et si fermer compte cheque effacer le client
+- [x] creer client
+- [x] approuver les demandes de comptes supplementaire
+- [x] fermer des comptes client
+- [x] et si fermer compte cheque effacer le client
 
 ## 5 Operations des clients
 client peux faire:
-- [ ] transaction
-- [ ] consulter le solde
-- [ ] consulter historique
+- [x] transaction
+- [x] consulter le solde
+- [x] consulter historique
 
 ## 6 Gestion des interets et du credit
 - [x] compte epargne genere interet annuel
 
 ## 7 Notification & Alertes en temps reel
-- [ ] notifier le client quand transaction est effectue ou soldes est faible
-- [ ] notifier gestionnaire quand demande compte est faite ou tombe en dessous du seuil critique
+- [x] notifier le client quand transaction est effectue ou soldes est faible
+- [x] notifier gestionnaire quand demande compte est fait ou tombe en dessous du seuil critique
 
 ## 8 Rapport Financiers et Audits
-- [ ] gestionnaire accede au log des clients
-- [ ] gestionnaire accede au log des transactions
-- [ ] gestionnaire accede au log des comptes
-- [ ] creation de rapport auto genere 
+- [x] gestionnaire accede au log des clients
+- [x] gestionnaire accede au log des transactions
+- [x] gestionnaire accede au log des comptes
+- [x] creation de rapport auto genere 
 ## 9 evolutivite & architecture modulaire
 - [x] Enforcer les principes SOLID
 - [x] utilisation des patterns ou ces necessaires

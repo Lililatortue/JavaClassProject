@@ -65,9 +65,6 @@ public class EffacerGestionnaire extends JFrame {
 		btnNewButton.setBounds(10, 40, 89, 23);
 		contentPane.add(btnNewButton);
 		
-
-		
-		
 	}
 
 }

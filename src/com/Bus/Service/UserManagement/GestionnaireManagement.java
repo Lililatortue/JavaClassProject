@@ -3,9 +3,7 @@ package com.Bus.Service.UserManagement;
 import java.util.ArrayList;
 
 import com.Bus.Model.Client.Gestionnaire;
-import com.Bus.Model.Client.Utilisateur;
 import com.DAL.Repository.UserRepository;
-import com.DAL.Repository.Connection.SerializeRecord;
 import com.DAL.Repository.Exception.InvariantException;
 import com.DAL.Repository.Exception.KeyConstraintException;
 
@@ -15,7 +13,7 @@ public class GestionnaireManagement {
 	
 	public GestionnaireManagement() {
 
-		_repo = new UserRepository(new SerializeRecord<Utilisateur>(".\\src\\data\\user\\UserList.ser"));
+		_repo = new UserRepository();
 		for(var user : _repo.read()) {
 			if(user instanceof Gestionnaire) {
 				_gestionnaire.add((Gestionnaire)user);

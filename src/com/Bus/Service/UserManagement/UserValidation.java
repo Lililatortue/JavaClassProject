@@ -10,7 +10,7 @@ public class UserValidation {
 		checkPrenom(u.getPrenom());
 		checkAdresse(u.getAdresse());
 		checkNip(u.getNip());
-		checkType(u.getType());
+		checkType(u.getRole());
 		checkEmail(u.getEmail());
 	}
 	private static void checkNom(String nom) throws UserValidationException {

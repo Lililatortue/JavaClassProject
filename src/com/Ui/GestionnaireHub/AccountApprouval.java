@@ -57,6 +57,8 @@ public class AccountApprouval extends JFrame {
 				try {
 					requestManagement.ApprouveRequestCompte(
 							(Compte)comboBox_approuvedAccount.getSelectedItem());
+					lbl_error_stream.setText("Account approuved");
+					loadCompte(comboBox_approuvedAccount);
 				} catch (UserValidationException | InvariantException e1) {
 					lbl_error_stream.setText(e1.getMessage());
 				} 
@@ -72,6 +74,8 @@ public class AccountApprouval extends JFrame {
 				try {
 					requestManagement.DenyRequestCompte(
 							(Compte)comboBox_approuvedAccount.getSelectedItem());
+					lbl_error_stream.setText("Account denied");
+					loadCompte(comboBox_approuvedAccount);
 				} catch (InvariantException e1) {
 					lbl_error_stream.setText(e1.getMessage());
 				}
@@ -79,9 +83,11 @@ public class AccountApprouval extends JFrame {
 		});
 		btnRefuse.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnRefuse.setBounds(292, 82, 244, 47);
-		contentPane.add(btnRefuse);
-		
-		
-		
+		contentPane.add(btnRefuse);	
+	}
+	public void loadCompte(JComboBox<Compte>comboBox) {
+		for(var item : requestManagement.read()) {
+			comboBox.addItem(item);
+		}
 	}
 }

@@ -58,7 +58,7 @@ public static void main(String[] args) {
 	public LOGIN(ConnectionHandler h) {
 		setTitle("FORTIS BANK");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 317, 323);
+		setBounds(100, 100, 1071, 323);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -66,7 +66,7 @@ public static void main(String[] args) {
 		contentPane.setLayout(null);
 		
 		JLabel lbl_error_stream = new JLabel("input");
-		lbl_error_stream.setBounds(23, 214, 252, 27);
+		lbl_error_stream.setBounds(23, 215, 1022, 27);
 		contentPane.add(lbl_error_stream);
 		
 		JLabel lblLogin = new JLabel("WELCOME TO FORTIS BANK");
@@ -100,7 +100,7 @@ public static void main(String[] args) {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					h.Handle(new Request(Integer.parseInt(textB_name.getText()),textB_psw.getText()));
+					h.Handle(new Request(textB_name.getText(),textB_psw.getText()));
 				} catch (Exception e1) {
 					lbl_error_stream.setText(e1.getMessage());
 				}

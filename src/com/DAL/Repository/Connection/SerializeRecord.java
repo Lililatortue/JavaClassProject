@@ -18,7 +18,7 @@ public  class SerializeRecord<c> implements RecordStrategy<c>{
 	}
 	
 	@Override
-	public void set(ArrayList<c> c)  {
+	public void commit(ArrayList<c> c)  {
 		try {
 			FileOutputStream fos = new FileOutputStream(this.connectionString);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -35,7 +35,7 @@ public  class SerializeRecord<c> implements RecordStrategy<c>{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<c> get(Predicate<c> predicate) {
+	public ArrayList<c> read() {
 		ArrayList<c> temp = new ArrayList<c>();
 		
 		//check if file is empty
@@ -47,13 +47,7 @@ public  class SerializeRecord<c> implements RecordStrategy<c>{
 		try (FileInputStream fis = new FileInputStream(file);ObjectInputStream ois = new ObjectInputStream(fis)){
 		
 			while(fis.available() > 0) {
-				
-				ArrayList<c> items = (ArrayList<c>) ois.readObject();
-				for(var user : items) {
-					if( predicate.test(user)) {//check if condition is meeted
-						temp.add(user);
-					}	
-				}
+				temp = (ArrayList<c>) ois.readObject();
 			}
 			ois.close();
 		} catch (FileNotFoundException e) {
@@ -64,5 +58,20 @@ public  class SerializeRecord<c> implements RecordStrategy<c>{
 			e.printStackTrace();
 		}
 		return temp;
+	}
+
+	@Override
+	public void create(Predicate<c> predicate) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void delete(c item) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void update(c item) {
+		// TODO Auto-generated method stub	
 	}
 }

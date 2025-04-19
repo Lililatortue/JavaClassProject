@@ -2,7 +2,6 @@ package com.Bus.Model.Transaction;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import com.Bus.Model.Compte.Compte;
 import com.Bus.Model.Compte.CompteType;
 
 /*

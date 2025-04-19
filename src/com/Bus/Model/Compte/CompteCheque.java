@@ -1,5 +1,9 @@
 package com.Bus.Model.Compte;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.DAL.Repository.Exception.InvariantException;
 
 /*
  * Classe représentant un compte courant (CompteCheque) dans le système bancaire.
@@ -14,70 +18,79 @@ public class CompteCheque extends Compte{
 	private static final long serialVersionUID = 2650636843608742412L;
 	
 	// Nombre de transactions gratuites
-	private int nbTransGratuite;
+	private final int nbTransGratuite = 2;
 	
 	// Transactions restantes gratuites
 	private int TransactionRestante;
 	
 	// Frais pour les transactions au-delà du nombre gratuit
 	private double fraisTransaction;
-	
-    /*
+
+	/**
 	 * Constructeur de la classe CompteCheque.
+	 * @param clientId
+	 * @param solde
+	 * @param fraisTransaction
 	 */
-		public CompteCheque(int clientId, double solde, double fraisTransaction) {
-			super(clientId, solde, CompteType.CHCK );
-			this.setTransactionsGratuite(2);
+		public CompteCheque(int clientId,double solde, double fraisTransaction) {
+			super(clientId, solde, CompteType.CHEQUE);
 			this.setFraisTransaction(fraisTransaction);
 			this.TransactionRestante =this.nbTransGratuite;
 		}
-		//prototype
+		
+		/**
+		 * contructor de Oracle sql
+		 * @param rs
+		 * @throws SQLException
+		 */
+		public CompteCheque(ResultSet rs) throws SQLException {
+			super(rs);
+			this.setFraisTransaction(rs.getInt("CPT_FRAIS_TRANSACTION"));
+		}
+		/**
+		 * prototype
+		 * @param compte
+		 */
 	 public CompteCheque(CompteCheque compte) {
 		    super(compte);
-		    this.setTransactionsGratuite(2);
 		    this.setFraisTransaction(compte.getFraisTransaction());
 		    this.TransactionRestante = compte.TransactionRestante;
 		}
 	
-
-
 		@Override
-		public void deposer(double montant) throws Exception {
+		public void deposer(double montant) throws InvariantException {
 			if(montant>0) {
 					this.solde+=montant;
 					return;
 			}	
-			throw new Exception("insuffisant funds");
+			throw new InvariantException("insuffisant funds");
 		}
 
 		@Override
-		public double retirer(double montant) throws Exception{
+		public double retirer(double montant) throws InvariantException{
 			
-				if(this.TransactionRestante>0) 
-				{
-					//retire une transaction gratuite
-					this.TransactionRestante-=1;
-					if(this.solde-montant>0) {
+			if(this.TransactionRestante>0) 
+			{
+				//retire une transaction gratuite
+				this.TransactionRestante-=1;
+				if(this.solde-montant>0) {
 						
-						this.solde-=montant;
-						return montant;
+					this.solde-=montant;
+					return montant;	
+				} else {
+					throw new InvariantException("insuffisant funds");
+				}		
+			} 
+			else 
+			{
+				if(this.solde-(montant+fraisTransaction)>0) {
 						
-					} else {
-						throw new Exception("insuffisant funds");
-					}
-						
-				} 
-				else 
-				{
-					if(this.solde-(montant+fraisTransaction)>0) {
-						
-						this.solde-=(montant+fraisTransaction);
-						return montant;
-					}
-					else {
-						throw new Exception("insuffisant funds");
-					}
+					this.solde-=(montant+fraisTransaction);
+					return montant;
+				} else {
+					throw new InvariantException("insuffisant funds");
 				}
+			}
 		} 
 
 
@@ -86,20 +99,13 @@ public class CompteCheque extends Compte{
 		public double getFraisTransaction() {
 			return fraisTransaction;
 		}
-
-		public int getTransactionsGratuite() {
-			return nbTransGratuite;
-		}
+		
 		public int getTransactionsRestante() {
 			return TransactionRestante;
 		}
 	//setters
 		public void setFraisTransaction(double fraisTransaction) {
 			this.fraisTransaction = fraisTransaction;
-		}
-		
-		public void setTransactionsGratuite(int transactionsGratuite) {
-			this.nbTransGratuite = transactionsGratuite;
 		}
 
 		@Override 

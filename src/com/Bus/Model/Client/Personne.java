@@ -20,8 +20,13 @@ public abstract class Personne implements Serializable{
     protected String prenom;
     protected String adresse;
     
-     /*
+
+    /**
      * Constructeur de la classe Personne.
+     * @param id
+     * @param nom
+     * @param prenom
+     * @param adresse
      */
     public Personne(int id, String nom, String prenom, String adresse) {
         this.id = id;
@@ -29,7 +34,11 @@ public abstract class Personne implements Serializable{
         this.prenom = prenom;
         this.adresse = adresse;
     }
-    //prototype
+
+    /**
+     * prototype
+     * @param personne
+     */
     public Personne(Personne personne) {
         this.id = personne.id;
         this.nom = personne.nom;

@@ -3,6 +3,7 @@ package com.Ui.ClientHub;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import com.Bus.Model.Client.Utilisateur;
 import com.Bus.Model.Compte.*;
 import com.Bus.Service.CompteManagement.CompteRequestManagement;
@@ -27,7 +28,7 @@ public class ClientHub extends JFrame {
 	 */
 	public ClientHub(Utilisateur user) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 677, 436);
+		setBounds(100, 100, 367, 436);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -62,7 +63,7 @@ public class ClientHub extends JFrame {
 		JComboBox<Compte> comboBox_compteDisponible = new JComboBox<Compte>();
 		comboBox_compteDisponible.setBounds(12, 64, 176, 22);
 		panel.add(comboBox_compteDisponible);
-		for(var item : _client.getClientCompte(user.getId()) ) {
+		for(var item : _client.readAccounts(user) ) {
 			comboBox_compteDisponible.addItem(item);
 		}
 		
@@ -99,7 +100,7 @@ public class ClientHub extends JFrame {
 		for(var types: CompteType.values()) {
 			
 			comboBox_ouvertureCompte.addItem(types);
-			for(var item : _client.getClientCompte(user.getId())) {
+			for(var item : _client.readAccounts(user)) {
 				if(item.getType() == types) {
 					comboBox_ouvertureCompte.removeItem(types);
 				}	
@@ -126,18 +127,6 @@ public class ClientHub extends JFrame {
 		});
 		btnAppliquerLaDemande.setBounds(200, 61, 97, 25);
 		panel_1.add(btnAppliquerLaDemande);
-		
-		
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(346, 105, 303, 279);
-		contentPane.add(panel_2);
-		
-		
-		
-		JLabel label_Event = new JLabel("Event");
-		label_Event.setFont(new Font("Tahoma", Font.BOLD, 18));
-		panel_2.add(label_Event);
 	}
 	
 }

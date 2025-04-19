@@ -1,10 +1,9 @@
 package com.Bus.Service.LoginValidation;
 
+import javax.security.auth.login.CredentialException;
+
 import com.Bus.Model.Client.Utilisateur;
 import com.DAL.Repository.UserRepository;
-import com.DAL.Repository.Connection.SerializeRecord;
-import com.DAL.Repository.Exception.*;
-import com.Ui.GestionnaireHub.GestionnaireHub;
 
 /*
  * Classe gérant l'authentification des utilisateurs via la chaîne de responsabilité.
@@ -23,25 +22,11 @@ public class Authentification extends ConnectionHandler{
 	// Gère la requête d'authentification
 	@Override
 	public void Handle(final Request request) throws Exception  {	
-		// Cas spécial : ID 0 pour tester, ouvre l'interface de gestion
-
-		if(request.getId()==0) {
-			GestionnaireHub gHub =new GestionnaireHub();
-			gHub.setVisible(true);
-			return;
-		}
 		// Création du repository utilisateur avec sérialisation
-		UserRepository repo = new UserRepository(new SerializeRecord<Utilisateur>(".\\src\\data\\user\\UserList.ser"));
+		UserRepository repo = new UserRepository();
 		
-		
-		
-		
-				
 		// Recherche du premier utilisateur correspondant à l'ID de la requête
-		this._user = repo.findFirst((u)-> u.getId()==request.getId());
-		
-		
-		//segment pour tester juste rentrer 0  et le gestionnaire hub seras ouvert
+		this._user = repo.findOne(request.getEmail());
 
 		
 		
@@ -52,7 +37,7 @@ public class Authentification extends ConnectionHandler{
 			// Passe la requête au prochain gestionnaire dans la chaîne
 			super.Handle(request);
 		} else {
-			throw new InvariantException("Invalid Credential");
+			throw new CredentialException("Invalid Credential");
 		}
 	}
 }

@@ -1,28 +1,28 @@
 package com.Bus.Model.Transaction;
 
+import javax.security.auth.login.CredentialException;
+
 import com.Bus.Model.Compte.Compte;
 import com.Bus.Model.Compte.CompteType;
 
 //est un proxy il contientune source, un destinataire, un mot de passe et la transaction
 //
-public class Virement extends Transaction{
-
+public class Virement extends Transaction{	
 	private static final long serialVersionUID = 1L;
+	//transaction envoyer a la personne
 	private Transaction destinataire;
-	//mot de passe pour acceder au virement
+	//psw pour acceder a la transaction envoyer
 	private String psw;
 	
 	
-	public Virement(Compte source, Transaction t, String psw) {
+	public Virement(Compte source, Transaction transaction, String psw) {
 		//retrait du compte source
-		super(source.getClientId(), source.getType(), t.getMontant(), TransactionType.retrait);
-		
+		super(source.getClientId(), source.getType(), transaction.getMontant(), TransactionType.retrait);	
 		//creation de la transaction destinataire
 		//set les prerequis
-		t.setTransactionType(TransactionType.depot);
-		t.setType(CompteType.VRMNT);
-		destinataire =t;
-		
+		transaction.setTransactionType(TransactionType.depot);
+		transaction.setType(CompteType.VRMNT);
+		destinataire =transaction;
 		this.setPassword(psw);
 	}
 
@@ -30,24 +30,19 @@ public class Virement extends Transaction{
 	public void setPassword(String psw){
 		this.psw = psw;
 	}
-	
 	//getters
 	public int getTransactionId(){
 		return this.destinataire.getClientId();
 	} 
-	
-	public Transaction getTransaction(String psw,CompteType type) throws Exception {
-		
+	public Transaction getTransaction(String psw,CompteType Comptetype) throws CredentialException {
+		//verifi si le mot de passe concorde
 		if(this.psw.equals(psw)) {
-			destinataire.setType(type);
+			destinataire.setType(Comptetype);
 			return this.destinataire;
 		}
 		else {
-			throw new Exception("Invalid credential ");
+			throw new CredentialException("Invalid credential ");
 		}
 	}
-	
-	public int GetDestinataireId() {
-		return this.destinataire.getClientId();
-	}
+
 }

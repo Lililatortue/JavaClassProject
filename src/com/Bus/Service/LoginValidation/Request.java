@@ -12,8 +12,8 @@ import com.Bus.Model.Client.Utilisateur;
 
 public class Request {
 	
-	// Identifiant unique de l'utilisateur
-	private int _id;
+	// Email de l'utilisateur
+	private String _email;
 	
 	// Mot de passe de l'utilisateur
 	private String _password;
@@ -24,14 +24,14 @@ public class Request {
 	/*
      * Constructeur de la classe Request.
      */
-	public Request(int id, String psw) {
-		this._id= id;
+	public Request(String email, String psw) {
+		this._email= email;
 		this._password = psw;
 	}
 	
 	// GETTERS
-	public int getId() {
-		return this._id;
+	public String getEmail() {
+		return this._email;
 	} // Retourne l'identifiant de l'utilisateur
 	
 	public String getPassword() {

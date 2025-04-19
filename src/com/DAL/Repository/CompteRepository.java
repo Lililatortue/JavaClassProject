@@ -1,66 +1,153 @@
 package com.DAL.Repository;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
 import com.Bus.Model.Compte.Compte;
-import com.DAL.Repository.Connection.RecordStrategy;
+import com.Bus.Model.Compte.CompteCheque;
+import com.Bus.Model.Compte.CompteCredit;
+import com.Bus.Model.Compte.CompteDevise;
+import com.Bus.Model.Compte.CompteEpargne;
+import com.Bus.Model.Compte.CompteInteret;
+import com.Bus.Model.Compte.LigneDeCredit;
+import com.DAL.Repository.Connection.DbConnection;
 import com.DAL.Repository.Exception.*;
 
 public class CompteRepository implements IRepository<Compte> {
-	private ArrayList<Compte> _compte;
-	private RecordStrategy<Compte> _strategy;
+	//private RecordStrategy<Compte> _strategy;
 	
-	//default constructor
-	public CompteRepository(RecordStrategy<Compte> strategy) {
-		this.setStrategy(strategy);
-		_compte = _strategy.get((c)-> c!=null );//always return true
-	}
-	
-	//personnalise repository
-	public CompteRepository(RecordStrategy<Compte> strategy,Predicate<Compte> predicate) {
-		this.setStrategy(strategy);
-		_compte = _strategy.get(predicate);
-	}
-	
-	
-	public void setStrategy(RecordStrategy<Compte> strategy) {
-		this._strategy = strategy;	
-	}
-	
-	@Override
-	public void create(Compte item) throws KeyConstraintException {
-		for(var _item : _compte) {
-			if(_item.getClientId()==item.getClientId() && _item.getType()==item.getType()) {
-				throw new KeyConstraintException("account already exist");
-			}
-		}
-		_compte.add(item);
-		_strategy.set(_compte);	
-	}
-	
-	@Override
 	public ArrayList<Compte> read() {
-		return this._compte;
+		ArrayList<Compte> compte = new ArrayList<>();
+		String query = "SELECT * FROM View_COMPTES_PAR_CLIENT ORDER BY USR_ID ASC";
+		try (Connection conn = DbConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query)) {
+
+			while (rs.next()) {
+				if(rs.getString("CPT_TYPE").equals("CREDIT")) {	
+					compte.add(new CompteCredit(rs));
+				} 
+				else if(rs.getString("CPT_TYPE").equals("CHEQUE"))
+				{
+					compte.add(new CompteCheque(rs));
+				}
+				else if(rs.getString("CPT_TYPE").equals("DEVISE"))
+				{
+					compte.add(new CompteDevise(rs));
+				}
+				else if(rs.getString("CPT_TYPE").equals("EPARGNE"))
+				{
+					compte.add(new CompteEpargne(rs));
+				}
+				else if(rs.getString("CPT_TYPE").equals("EPARGNE"))
+				{
+					compte.add(new LigneDeCredit(rs));
+				}
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error getting compte: " + e.getMessage());
+		}
+
+		return compte;
+	}
+	
+	public ArrayList<Compte> findOne(int id) {
+		ArrayList<Compte> compte = new ArrayList<>();
+		String query = "SELECT * FROM T_COMPTE WHERE CLI_ID = ?";
+		try (Connection conn = DbConnection.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+			
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				if(rs.getString("CPT_TYPE").equals("CREDIT")) {	
+					compte.add(new CompteCredit(rs));
+				} 
+				else if(rs.getString("CPT_TYPE").equals("CHEQUE"))
+				{
+					compte.add(new CompteCheque(rs));
+				}
+				else if(rs.getString("CPT_TYPE").equals("DEVISE"))
+				{
+					compte.add(new CompteDevise(rs));
+				}
+				else if(rs.getString("CPT_TYPE").equals("EPARGNE"))
+				{
+					compte.add(new CompteEpargne(rs));
+				}
+				else if(rs.getString("CPT_TYPE").equals("EPARGNE"))
+				{
+					compte.add(new LigneDeCredit(rs));
+				}
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error getting compte: " + e.getMessage());
+		}
+
+		return compte;
 	}
 	
 	@Override
-	public void update(Compte compte) {
-		for(var item : _compte) {
-			if(item.getClientId()==compte.getClientId())
-				item= compte;
-		}
+	public boolean create(Compte compte) {
+		String procedure = "{ call insert_compte(?, ?, ?, ?, ?, ?)}";
+		try (Connection conn = DbConnection.getConnection(); 
+				CallableStatement stmt = conn.prepareCall(procedure)) {
+			
+			stmt.setString(1, compte.getType().toString());
+			stmt.setDouble(2, compte.getSolde());
+			stmt.setInt(3, compte.getClientId());
+			
+			String devise = (compte instanceof CompteDevise) ?  ((CompteDevise) compte).getDevise().toString(): null;
+			stmt.setString(4,devise);
+			
+			if(compte instanceof CompteInteret) {
+				stmt.setDouble(5,  ((CompteInteret)compte).getTauxInteretAnnuel());				
+				stmt.setDouble(6, ((CompteInteret)compte).getLimite());
+			}
+			
+			
+	        stmt.execute();
+	        return true;
+		} catch (SQLException e) {
+			System.out.println("Insert error: " + e.getMessage());
+			return false;
+		}		
 	}
+
+
+
+
 	@Override
-	public void delete(Compte compte) throws InvariantException {
-		if(_compte.contains(compte)) {
-			_compte.remove(compte);
+	public boolean delete(Compte compte) throws InvariantException {
+		String procedure = "{ call delete_compte(?) }";
+		try (Connection conn = DbConnection.getConnection(); 
+				CallableStatement stmt = conn.prepareCall(procedure)) {
+			
+			stmt.setInt(1, compte.getCompteId());
+	        stmt.execute();
+		    return true;
+		        	        	
+		}catch (SQLException e) {
+			System.out.println("Delete error: " + e.getMessage());
+			return false;
 		}
-		else
-			throw new InvariantException("compte does not exist");
 	}
-	public void commit() {
-		_strategy.set(_compte);
+
+	@Override
+	public boolean update(Compte item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
+	
+
+	
+	
 	
 }

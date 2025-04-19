@@ -17,7 +17,6 @@ public class Authorisation extends ConnectionHandler {
      */
 	@Override
 	public void Handle(Request request) {
-		System.out.println("Authorisation en cours...\n");
 		
 		// Vérifie que l'utilisateur est bien authentifié avant de procéder
         if (request.getUser() == null) {
@@ -27,13 +26,13 @@ public class Authorisation extends ConnectionHandler {
         }
         
         // Redirige l'utilisateur vers l'interface appropriée
-		switch(request.getUser().getType()) {
-		case "Client" :{
+		switch(request.getUser().getRole()) {
+		case "CLIENT" :{
 			ClientHub hub = new ClientHub(request.getUser());
 			hub.setVisible(true);
 			break;
 		}
-		case "Gestionnaire":{
+		case "GESTIONNAIRE":{
 			GestionnaireHub hub = new GestionnaireHub(/*request.getUser()*/);
 			hub.setVisible(true);
 			break;

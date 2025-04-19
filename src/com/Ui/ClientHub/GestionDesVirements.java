@@ -1,8 +1,16 @@
 package com.Ui.ClientHub;
 
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.Bus.Model.Client.Client;
@@ -14,18 +22,10 @@ import com.Bus.Model.Transaction.Virement;
 import com.Bus.Model.Transaction.Validation.VirementManagement;
 import com.Bus.Service.UserManagement.ClientManagement;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-
 public class GestionDesVirements extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -6058401125452024079L;
 	private JPanel contentPane;
 	private JTextField textField_motdepasse;
 	private JTextField textField_CreationDuMotsDePasse;
@@ -50,6 +50,10 @@ public class GestionDesVirements extends JFrame {
 		for(var item: _virements.getVirement(compte.getClientId())) {
 			comboBox_virementDisponible.addItem(item);
 		}
+		
+		JLabel lbl_error_stream = new JLabel("input");
+		lbl_error_stream.setBounds(12, 227, 472, 38);
+		contentPane.add(lbl_error_stream);
 		
 		JLabel lbl_virementtag = new JLabel("virement disponible");
 		lbl_virementtag.setBounds(12, 45, 134, 16);
@@ -104,12 +108,16 @@ public class GestionDesVirements extends JFrame {
 				
 				Compte compte =(Compte)comboBox_choixDecompte.getSelectedItem();
 				try {
-					_virements.recevoirVirement((Virement)comboBox_virementDisponible.getSelectedItem(),
+					_virements.accepterVirement((Virement)comboBox_virementDisponible.getSelectedItem(),
 												textField_motdepasse.getText(),
 												compte.getType()
 												 );
+					
+					
+					lbl_error_stream.setText("virement accepter");
+					loadVirement(comboBox_virementDisponible,compte);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					lbl_error_stream.setText(e1.getMessage());
 					e1.printStackTrace();
 				}
 			}
@@ -147,10 +155,11 @@ public class GestionDesVirements extends JFrame {
 												 );
 				
 				try {
-					_virements.faireVirement(virement);
+					_virements.envoyerVirement(virement);
+					loadVirement(comboBox_virementDisponible,compte);
+					lbl_error_stream.setText("virement envoyer");
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					lbl_error_stream.setText(e1.getMessage());
 				}
 			}
 			
@@ -163,9 +172,7 @@ public class GestionDesVirements extends JFrame {
 		lbl_pswtag_1.setBounds(290, 99, 134, 16);
 		contentPane.add(lbl_pswtag_1);
 		
-		JLabel lbl_error_stream = new JLabel("input");
-		lbl_error_stream.setBounds(12, 227, 472, 38);
-		contentPane.add(lbl_error_stream);
+		
 		
 		
 		JLabel lbl_pswtag_1_1 = new JLabel("compte a deposer");
@@ -173,4 +180,11 @@ public class GestionDesVirements extends JFrame {
 		contentPane.add(lbl_pswtag_1_1);
 	}
 
+	private void loadVirement(JComboBox<Virement> comboBox,Compte compte) {
+		comboBox.removeAllItems();
+		_virements = new VirementManagement();
+        for (var item : _virements.getVirement(compte.getClientId())) {
+            comboBox.addItem(item);
+        }
+    }
 }

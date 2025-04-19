@@ -46,5 +46,16 @@ public class TransactionManagement {
 		
 		return temp;
 	}
+	public ArrayList<Transaction> getClientTransactions(int id) {
+		ArrayList<Transaction> temp = new ArrayList<Transaction>();
 
+		for(var item : _transaction.read() ) {
+			if(item.getClientId()==id)
+			{
+				temp.add(item);
+			}
+		}
+		
+		return temp;
+	}
 }

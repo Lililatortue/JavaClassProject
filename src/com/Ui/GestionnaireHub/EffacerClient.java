@@ -50,6 +50,8 @@ public class EffacerClient extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					management.DeleteClient((Client) comboBox.getSelectedItem());
+					lbl_error_stream.setText("client effacer");
+					loadClient(comboBox);
 				} catch (UserValidationException | InvariantException e1) {
 					lbl_error_stream.setText(e1.getMessage());
 				}
@@ -64,7 +66,12 @@ public class EffacerClient extends JFrame {
 		lblDeleteClient.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblDeleteClient.setBounds(12, 10, 132, 16);
 		contentPane.add(lblDeleteClient);
-		
-		
 	}
+	
+	public void loadClient(JComboBox<Client> combo) {
+		for(var compte : management.read()) {
+			combo.addItem(compte);
+		}
+	}
+	
 }
