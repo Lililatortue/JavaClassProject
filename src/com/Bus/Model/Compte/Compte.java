@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.DAL.Repository.Exception.InvariantException;
 
@@ -47,7 +48,7 @@ public abstract class Compte implements Serializable{
 	public Compte(int clientId, double solde,CompteType type) {
 		this.clientId = clientId;
 		this.setSolde(solde);
-		this.setDateOuverture(LocalDate.now());	
+		this.setDateOuverture(LocalDateTime.now().toLocalDate());	
 		this.type=type;
 	}
 
@@ -59,7 +60,8 @@ public abstract class Compte implements Serializable{
 		this.compteId = rs.getInt("CPT_NUMERO");
 		this.clientId = rs.getInt("CLI_ID");
 		this.solde = rs.getInt("CPT_SOLDE");
-		this.dateOuverture = LocalDate.parse(rs.getString("CPT_DATE_OUV").substring(0, 10)) ;
+		LocalDate date=rs.getDate("CPT_DATE_OUV") == null ? LocalDate.now(): rs.getDate("CPT_DATE_OUV").toLocalDate();
+		this.dateOuverture = date;
 		this.type = CompteType.valueOf(rs.getString("CPT_TYPE"));
 	}
 	/**

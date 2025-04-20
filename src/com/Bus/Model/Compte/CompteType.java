@@ -2,10 +2,10 @@ package com.Bus.Model.Compte;
 
 public enum CompteType{
 	CHEQUE("CHEQUE"),
-	CRED("CREDIT"),
-	LGNCRED("LGNECRED"),
-	DEV("DEVISE"),
-	EPRGN("EPARGNE"),
+	CREDIT("CREDIT"),
+	LGNECRED("LGNECRED"),
+	DEVISE("DEVISE"),
+	EPARGNE("EPARGNE"),
 	VRMNT("VIREMENT");
 	private final String displayName;
 

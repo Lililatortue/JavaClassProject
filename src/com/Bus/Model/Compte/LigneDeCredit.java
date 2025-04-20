@@ -18,7 +18,7 @@ public class LigneDeCredit extends CompteInteret {
 	 * @param tauxInteret
 	 */
 	public LigneDeCredit(int clientId, double tauxInteret) {
-		super(clientId, null, tauxInteret, CompteType.LGNCRED);
+		super(clientId, null, tauxInteret, CompteType.LGNECRED);
 		this.interetMensuelDu=0.0;
 	}
 	
@@ -31,7 +31,7 @@ public class LigneDeCredit extends CompteInteret {
 	 */
 	public LigneDeCredit(ResultSet rs) throws SQLException {
 		super(rs);
-		this.interetMensuelDu=rs.getInt("interetMensuel");
+		this.interetMensuelDu=rs.getInt("CPT_TAUX");
 	}
 	
 	/**

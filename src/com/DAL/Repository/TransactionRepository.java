@@ -1,56 +1,86 @@
 package com.DAL.Repository;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.function.Predicate;
+
+import com.Bus.Model.Compte.Compte;
+import com.Bus.Model.Compte.CompteCheque;
+import com.Bus.Model.Compte.CompteCredit;
+import com.Bus.Model.Compte.CompteDevise;
+import com.Bus.Model.Compte.CompteEpargne;
+import com.Bus.Model.Compte.CompteInteret;
+import com.Bus.Model.Compte.LigneDeCredit;
 import com.Bus.Model.Transaction.Transaction;
+import com.DAL.Repository.Connection.DbConnection;
 import com.DAL.Repository.Connection.RecordStrategy;
 import com.DAL.Repository.Exception.InvariantException;
+import com.DAL.Repository.Exception.KeyConstraintException;
 
 public class TransactionRepository implements IRepository<Transaction>{
-	private ArrayList<Transaction> _transactions;
-	private RecordStrategy<Transaction> _strategy;
 	
-    public TransactionRepository(RecordStrategy<Transaction> strategy) {
-        this.setStrategy(strategy);
-        _transactions = _strategy.get((c) -> c != null); // Toujours retourner vrai
-      
-    }
-	
-    public TransactionRepository(RecordStrategy<Transaction> strategy, Predicate<Transaction> predicate) {
-        this.setStrategy(strategy);
-        _transactions = _strategy.get(predicate);
-    }
-	
-	public void setStrategy(RecordStrategy<Transaction> strategy) {
-		this._strategy = strategy;
-	}
-	
-	@Override
-	public void create(Transaction item) {
-		_transactions.add(item);
-        // Sauvegarder la liste de transactions après ajout
-        _strategy.set(_transactions);
-	}
-
-	@Override
 	public ArrayList<Transaction> read() {
-		return this._transactions;
+		ArrayList<Transaction> transaction = new ArrayList<>();
+		String query = "SELECT * FROM View_COMPTES_PAR_CLIENT ORDER BY USR_ID ASC";
+		try (Connection conn = DbConnection.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query)) {
+
+
+		} catch (SQLException e) {
+			System.out.println("Error getting compte: " + e.getMessage());
+		}
+		return null;
+
+	}
+	
+	public ArrayList<Transaction> findOne(int id) {
+		ArrayList<Compte> compte = new ArrayList<>();
+		String query = "SELECT * FROM T_COMPTE WHERE CLI_ID = ?";
+		try (Connection conn = DbConnection.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+		
+
+		} catch (SQLException e) {
+			System.out.println("Error getting compte: " + e.getMessage());
+		}
+
+		return compte;
 	}
 	
 	@Override
-	public void update(Transaction item) {
-		//no implimentation
+	public boolean create(Transaction compte) {
+		String procedure = "{ call insert_compte(?, ?, ?, ?, ?, ?)}";
+		try (Connection conn = DbConnection.getConnection(); 
+				CallableStatement stmt = conn.prepareCall(procedure)) {
+
+			
+
+			
+			
+	        stmt.execute();
+	        return true;
+		} catch (SQLException e) {
+			System.out.println("Insert error: " + e.getMessage());
+			return false;
+		}	
+		
 	}
 
 	@Override
-	public void delete(Transaction item) throws InvariantException {
-		if(_transactions.contains(item)) {
-			_transactions.remove(item);
-		}
-		else
-			throw new InvariantException("transaction does not exist");
+	public boolean update(Transaction item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	public void commit() {
-		_strategy.set(_transactions);
+
+	@Override
+	public boolean delete(Transaction item) throws InvariantException {
+		// TODO Auto-generated method stub
+		return false;
 	}
-		
+
 }

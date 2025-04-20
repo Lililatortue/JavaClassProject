@@ -68,7 +68,7 @@ public class UserRepository implements IRepository<Utilisateur>{
 	
 	@Override
 	public boolean create(Utilisateur user) {
-		String procedure = "{ call insert_user(?, ?, ?, ?, ?, ?, ?) }";
+		String procedure = "{ call pkg_userManager.proc_insertUser(?, ?, ?, ?, ?, ?, ?) }";
 		try (Connection conn = DbConnection.getConnection(); 
 				CallableStatement stmt = conn.prepareCall(procedure)) {
 
@@ -93,7 +93,7 @@ public class UserRepository implements IRepository<Utilisateur>{
 	
 	@Override
 	public boolean update(Utilisateur user) {
-		String procedure = "{ call update_user(?, ?, ?, ?, ?, ?) }";
+		String procedure = "{ call pkg_userManager.proc_updateUser(?, ?, ?, ?, ?, ?) }";
 		try (Connection conn = DbConnection.getConnection(); 
 				CallableStatement stmt = conn.prepareCall(procedure)) {
 				stmt.setString(1, user.getNom());
@@ -117,7 +117,7 @@ public class UserRepository implements IRepository<Utilisateur>{
 
 	@Override
 	public boolean delete(Utilisateur user) throws InvariantException {
-		String procedure = "{ call delete_user(?) }";
+		String procedure = "{ call pkg_userManager.proc_deleteUser(?) }";
 		try (Connection conn = DbConnection.getConnection(); 
 				CallableStatement stmt = conn.prepareCall(procedure)) {
 			stmt.setString(1, user.getEmail());

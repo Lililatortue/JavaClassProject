@@ -100,7 +100,7 @@ public class ClientHub extends JFrame {
 		for(var types: CompteType.values()) {
 			
 			comboBox_ouvertureCompte.addItem(types);
-			for(var item : _client.readAccounts(user)) {
+			for(var item : request.read((u)->u.getClientId()==user.getId())) {
 				if(item.getType() == types) {
 					comboBox_ouvertureCompte.removeItem(types);
 				}	
@@ -112,10 +112,11 @@ public class ClientHub extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Compte item = null;
 				switch((CompteType)comboBox_ouvertureCompte.getSelectedItem()) {
-					case CRED: 	 item = new CompteCredit(user.getId(),0.05,5000);break;
-					case LGNCRED:item = new LigneDeCredit(user.getId(),0.05);break;
-					case DEV:	 item = new CompteDevise(user.getId(),0,Devise.EUR);break;
-					case EPRGN:	 item = new CompteEpargne(user.getId(),0.05,2000.0);break;
+					case CHEQUE: 	item = new CompteCheque(user.getId(), 0,0.05);break;
+					case CREDIT: 	item = new CompteCredit(user.getId(), 5000.0 ,0.05);break;
+					case LGNECRED:	item = new LigneDeCredit(user.getId(),0.05);		break;
+					case DEVISE:	item = new CompteDevise(user.getId(),0,Devise.EUR); break;
+					case EPARGNE:	item = new CompteEpargne(user.getId(),2000.0,0.05); break;
 					default:
 				}
 				try {

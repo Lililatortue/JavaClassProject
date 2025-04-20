@@ -30,7 +30,7 @@ public class CompteDevise extends Compte {
 	 * @param devise
 	 */
 	public CompteDevise(int clientId, double solde,Devise devise) {
-		super(clientId, solde,CompteType.DEV);
+		super(clientId, solde,CompteType.DEVISE);
 		this.devise = devise; // Associe la devise au compte
 	}
 	

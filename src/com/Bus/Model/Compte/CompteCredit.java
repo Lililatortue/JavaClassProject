@@ -22,7 +22,7 @@ public class CompteCredit extends CompteInteret {
 	 * @param limite
 	 */
 	public CompteCredit(int clientId, Double limite, double tauxInteret){
-		super(clientId, limite, tauxInteret,CompteType.CRED);
+		super(clientId, limite, tauxInteret,CompteType.CREDIT);
 		this.interetMensuelDu = 0.0;
 	}
 	

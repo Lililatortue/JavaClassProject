@@ -51,10 +51,12 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 	 */
 	public CompteInteret(ResultSet rs) throws SQLException {
 		super(rs);
-		this.setCurrentMonth(LocalDate.parse(rs.getString("CPT_DATE_OUV")));
-		this.setYear(LocalDate.parse(rs.getString("CPT_DATE_OUV")));
+		LocalDate date=rs.getDate("CPT_DATE_OUV") == null ? LocalDate.now(): rs.getDate("CPT_DATE_OUV").toLocalDate();
+		this.setCurrentMonth(date);
+		this.setYear(date);
 		this.setTauxInteret(rs.getInt("CPT_TAUX"));
-		this.setLimite(rs.getDouble("CPT_LIMITE"));
+		double val = rs.getDouble("CPT_LIMITE");
+		this.setLimite(rs.wasNull() ? null : val);
 		this.update();
 	}
 	
@@ -67,7 +69,7 @@ public abstract class CompteInteret extends Compte implements IInterestEvent {
 		this.moiActuel = compte.getMois();
 		this.year = compte.year;
 		this.tauxInteretParAnne = compte.tauxInteretParAnne;
-		this.limite = compte.limite;
+		this.limite = compte.getLimite();
 		this.update();
 	}	
 		

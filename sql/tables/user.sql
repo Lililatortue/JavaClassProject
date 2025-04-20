@@ -1,0 +1,41 @@
+-- TABLE DES UTILISATEURS
+CREATE TABLE T_USER (
+    USR_ID       INT            CONSTRAINT USR_ID_PK PRIMARY KEY,
+    USR_NOM      VARCHAR2(50)   CONSTRAINT USR_NOM_NN NOT NULL,
+    USR_PRENOM   VARCHAR2(50)   CONSTRAINT USR_PRENOM_NN NOT NULL,  
+    USR_ADRESSE  VARCHAR2(100)  CONSTRAINT USR_ADRESSE_NN NOT NULL,
+    USR_EMAIL    VARCHAR2(100)  UNIQUE CONSTRAINT CLI_EMAIL_NN NOT NULL,
+    USR_NIP      VARCHAR2(10)   CONSTRAINT USR_NIP_NN NOT NULL,
+    USR_ROLE     VARCHAR2(20)   CONSTRAINT USR_ROLE_NN NOT NULL CHECK (USR_ROLE IN ('CLIENT', 'GESTIONNAIRE'))
+)
+
+-- TABLE DES CLIENT
+CREATE TABLE T_CLIENT (
+    CLI_ID       INT CONSTRAINT CLI_ID_PK PRIMARY KEY,
+    CLI_TEL      VARCHAR2(15) CONSTRAINT CLI_TEL_NN NOT NULL,
+    CONSTRAINT CLI_USR_ID_FK FOREIGN KEY(CLI_ID) REFERENCES T_USER(USR_ID) ON DELETE CASCADE,
+    CONSTRAINT CLI_TEL_UQ UNIQUE (CLI_TEL)
+
+)
+
+-- TABLE DES GESTINNAIRE
+CREATE TABLE T_GESTIONNAIRE (
+    GEST_ID      INT CONSTRAINT GEST_ID_PK PRIMARY KEY,
+    CONSTRAINT GEST_USR_ID_FK FOREIGN KEY(GEST_ID) REFERENCES T_USER(USR_ID) ON DELETE CASCADE
+)
+
+
+COMMENT ON TABLE T_USER IS "table parent qui encapsule les donnes necessaire pour etre un utilisateur";
+
+COMMENT ON TABLE T_CLIENT IS "subtable qui encapsule les donnes necessaire pour etre un client";
+
+COMMENT ON TABLE T_GESTIONNAIRE IS "subtable qui encapsule les donnes necessaire pour etre un gestionnaire";
+
+-- ========================================
+-- table:   T_USER
+--          T_Client
+--          T_GESTIONNAIRE
+--
+-- Purpose: table relation parent-enfant des users
+-- Auteur:  Tafsirul Huque
+-- ========================================

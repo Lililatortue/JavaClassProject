@@ -30,7 +30,7 @@ public class CompteEpargne extends CompteInteret  {
 	 * @param limite
 	 */
 	public CompteEpargne(int clientId, double limite, double tauxInteret) {
-		super(clientId, limite, tauxInteret,CompteType.EPRGN);
+		super(clientId, limite, tauxInteret,CompteType.EPARGNE);
 	}
 	
 
