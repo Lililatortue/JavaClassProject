@@ -63,7 +63,7 @@ public class ClientHub extends JFrame {
 		JComboBox<Compte> comboBox_compteDisponible = new JComboBox<Compte>();
 		comboBox_compteDisponible.setBounds(12, 64, 176, 22);
 		panel.add(comboBox_compteDisponible);
-		for(var item : _client.readAccounts(user) ) {
+		for(var item : _client.readAccounts(user.getId()) ) {
 			comboBox_compteDisponible.addItem(item);
 		}
 		

@@ -6,9 +6,9 @@ package com.Bus.Model.Transaction;
 
 public enum TransactionType {
 	// Représente un dépôt d'argent sur un compte
-	depot,
+	DEPOT,
 	
 	// Représente un retrait d'argent d'un compte
-	retrait,
+	RETRAIT,
 	
 }

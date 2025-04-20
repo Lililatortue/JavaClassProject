@@ -25,12 +25,15 @@ public class CompteDetail extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private TransactionManagement _transactions = new TransactionManagement();
+	private TransactionManagement _transactions;
 	private JTextField textField_montantTransaction;
 	/**
 	 * Create the frame.
 	 */
 	public CompteDetail(Compte compte) {
+		//initialisation des transactions
+		_transactions = new TransactionManagement(compte);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 561, 510);
 		contentPane = new JPanel();
@@ -52,13 +55,13 @@ public class CompteDetail extends JFrame {
 		JButton btnDeposer = new JButton("Deposer");
 		btnDeposer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Transaction transaction = new Transaction(compte.getClientId(),
+				Transaction transaction = new Transaction(compte.getCompteId(),
 						  								  compte.getType(),
 						  								  Double.parseDouble(textField_montantTransaction.getText()),
-						  								  TransactionType.depot);
+						  								  TransactionType.DEPOT);
 
 				try {
-					_transactions.ADDTransaction(transaction);
+					_transactions.buy(transaction);
 					lbl_error_stream.setText("Deposer avec succes");
 				} catch (Exception e1) {
 					//lbl_error_stream.setText(e1.getMessage());
@@ -73,13 +76,13 @@ public class CompteDetail extends JFrame {
 		JButton btnRetirer = new JButton("Retirer");
 		btnRetirer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Transaction transaction = new Transaction(compte.getClientId(),
+				Transaction transaction = new Transaction(compte.getCompteId(),
 														  compte.getType(),
 														  Double.parseDouble(textField_montantTransaction.getText()),
-														  TransactionType.retrait);
+														  TransactionType.RETRAIT);
 
 				try {
-					_transactions.ADDTransaction(transaction);
+					_transactions.sell(transaction);
 					lbl_error_stream.setText("retirer avec succes");
 				} catch (Exception e1) {
 					lbl_error_stream.setText(e1.getMessage());
@@ -165,7 +168,7 @@ public class CompteDetail extends JFrame {
 				 (DefaultListModel<Transaction>) list.getModel();
 	    
 		    ArrayList<Transaction> newTransactions = 
-		    		_transactions.getSpecifiqueTransactions(compte.getClientId(), compte.getType());
+		    		_transactions.getSpecifiqueTransactions(compte);
 		    for (Transaction transaction : newTransactions) {
 		        model.addElement(transaction);
 		    }

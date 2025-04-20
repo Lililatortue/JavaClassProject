@@ -40,7 +40,7 @@ public class ClientManagement {
 		return _client;
 	}
 	
-	public ArrayList<Compte> readAccounts(Utilisateur client){
-		return _compteRepo.findOne(client.getId());
+	public ArrayList<Compte> readAccounts(int id){
+		return _compteRepo.findOne(id);
 	}
 }

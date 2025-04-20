@@ -1,5 +1,13 @@
 CREATE OR REPLACE PACKAGE pkg_userManager AS
-    -- Inserts a new user into the system (client or manager)
+-- ========================================
+-- Procedure: proc_insertUser
+--            proc_updateUser
+--            proc_deleteUser
+--
+-- Purpose: manipulation des tables du scripts user
+-- Auteur: William
+-- ========================================
+
     PROCEDURE proc_insertUser(
         nom           IN T_USER.USR_NOM%TYPE,
         prenom        IN T_USER.USR_PRENOM%TYPE,
@@ -10,7 +18,7 @@ CREATE OR REPLACE PACKAGE pkg_userManager AS
         telephone     IN T_CLIENT.CLI_TEL%TYPE DEFAULT NULL
     );
 
-    -- Updates an existing user by email (partial updates supported)
+
     PROCEDURE proc_updateUser(
         nom         IN T_USER.USR_NOM%TYPE,
         prenom      IN T_USER.USR_PRENOM%TYPE,
@@ -20,7 +28,7 @@ CREATE OR REPLACE PACKAGE pkg_userManager AS
         telephone   IN T_CLIENT.CLI_TEL%TYPE DEFAULT NULL
     );
 
-    -- Deletes a user by email
+
     PROCEDURE proc_deleteUser(
         email       IN T_USER.USR_EMAIL%TYPE
     );

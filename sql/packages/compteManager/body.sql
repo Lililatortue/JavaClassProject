@@ -35,10 +35,3 @@ CREATE OR REPLACE PACKAGE BODY pkg_compteManager AS
 
 END pkg_compteManager;
 
--- ========================================
--- Procedure: proc_insertCompte
---            proc_deleteCompte
---
--- Purpose: manipulation des tables du scripts compte
--- Auteur: William
--- ========================================

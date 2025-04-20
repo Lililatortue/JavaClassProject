@@ -82,7 +82,7 @@ public class GestionDesVirements extends JFrame {
 		contentPane.add(comboBox_choixDecompte);
 		
 		
-		for(var types: _client.getClientCompte(compte.getClientId())) {
+		for(var types: _client.readAccounts(compte.getClientId())) {
 			comboBox_choixDecompte.addItem(types);
 		}
 		

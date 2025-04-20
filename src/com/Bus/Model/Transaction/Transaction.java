@@ -1,6 +1,8 @@
 package com.Bus.Model.Transaction;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import com.Bus.Model.Compte.CompteType;
 
@@ -23,7 +25,7 @@ public class Transaction implements Serializable {
 	private static final long serialVersionUID = 2923352023714175172L;
 	
 	// Identifiant du client concerné
-	private int idClient;
+	private int idCompte;
 	private CompteType compteType;
 	// Date et heure de la transaction
 	private LocalDate dateTransaction;
@@ -37,25 +39,34 @@ public class Transaction implements Serializable {
 	
 	public Transaction(int Id,CompteType compteType, double montant,TransactionType type) {	
 		//la clee unique de transaction est le id du client ET le type de compte
-		this.setClientId(Id);
-		this.compteType = compteType;
+		this.setCompteId(Id);
+		this.setCompteType(compteType);
 		this.setDate(LocalDate.now());
-		this.transactionType = type;
+		this.setTransactionType(type); 
 		this.setMontant(montant);
 	}
 	
+	public Transaction(ResultSet rs) throws SQLException {	
+		this.setCompteId(rs.getInt("CPT_NUMERO")); 
+		this.setDate(rs.getDate("TRX_DATE").toLocalDate());
+		this.setTransactionType(TransactionType.valueOf(rs.getString("TRX_TYPE")));
+		this.setMontant(rs.getDouble("TRX_Montant"));
+	}
 	// GETTERS
-	public int getClientId() {
-		return this.idClient;
-	} // Retourne l'ID du client associé à la transaction
+	// Retourne l'ID du client associé à la transaction
+	public int getCompteId() {
+		return this.idCompte;
+	} 
 	
+	// Retourne la date de la transaction
 	public LocalDate getDate() {
 		return this.dateTransaction;
-	} // Retourne la date de la transaction
+	} 
 	
+	// Retourne le montant de la transaction
 	public double getMontant() {
 		return this.montant;
-	} // Retourne le montant de la transaction
+	} 
 	
 	public CompteType getCompteType() {
 		return this.compteType;
@@ -64,20 +75,25 @@ public class Transaction implements Serializable {
 	public TransactionType getTransactionType() {
 		return this.transactionType;
 	}
-	// SETTERS
-	public void setClientId(int id) {
-		this.idClient =id;
-	}// Définit l'ID du client en fonction du compte concerné
 	
+	
+	// SETTERS
+	// Définit l'ID du client en fonction du compte concerné
+	public void setCompteId(int id) {
+		this.idCompte =id;
+	}
+	
+	// Définit la date de la transaction
 	public void setDate(LocalDate date) {
 		this.dateTransaction = date;
-	} // Définit la date de la transaction
+	} 
 	
+	// Définit le montant de la transaction
 	public void setMontant(double montant) {
 		this.montant = montant;
-	} // Définit le montant de la transaction
+	} 
 	
-	public void setType(CompteType type) {
+	public void setCompteType(CompteType type) {
 		this.compteType = type;
 	}
 	
@@ -90,7 +106,7 @@ public class Transaction implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Client #" + idClient + " | Compte: " + this.getCompteType()
+		return "CompteId #" + idCompte + " | Compte: " + this.getCompteType()
 			   + " | Montant: " + montant + " $ | Date: " + dateTransaction+" $ | transaction type: " + transactionType;
 	}
 }

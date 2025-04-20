@@ -7,16 +7,16 @@ import com.Bus.Model.Compte.CompteType;
 import com.Bus.Model.Transaction.Transaction;
 import com.Bus.Model.Transaction.Virement;
 import com.DAL.Repository.TransactionRepository;
+import com.DAL.Repository.VirementDAO;
 import com.DAL.Repository.Connection.SerializeRecord;
 
 public class VirementManagement {
-	private TransactionRepository _virement;
-	private TransactionManagement _transaction;
+	private VirementDAO _virement;
+
 	
 	//default constructor
 	public VirementManagement() {
-		_virement = new TransactionRepository(
-				new SerializeRecord<Transaction>("./src/data/user/Virement.ser"));
+		_virement = new VirementDAO();
 		_transaction = new TransactionManagement();	
 	}
 	

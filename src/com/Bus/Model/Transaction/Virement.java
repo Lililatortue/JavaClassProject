@@ -17,11 +17,11 @@ public class Virement extends Transaction{
 	
 	public Virement(Compte source, Transaction transaction, String psw) {
 		//retrait du compte source
-		super(source.getClientId(), source.getType(), transaction.getMontant(), TransactionType.retrait);	
+		super(source.getClientId(), source.getType(), transaction.getMontant(), TransactionType.RETRAIT);	
 		//creation de la transaction destinataire
 		//set les prerequis
-		transaction.setTransactionType(TransactionType.depot);
-		transaction.setType(CompteType.VRMNT);
+		transaction.setTransactionType(TransactionType.DEPOT);
+		transaction.setCompteType(CompteType.VRMNT);
 		destinataire =transaction;
 		this.setPassword(psw);
 	}
@@ -32,12 +32,12 @@ public class Virement extends Transaction{
 	}
 	//getters
 	public int getTransactionId(){
-		return this.destinataire.getClientId();
+		return this.destinataire.getCompteId();
 	} 
 	public Transaction getTransaction(String psw,CompteType Comptetype) throws CredentialException {
 		//verifi si le mot de passe concorde
 		if(this.psw.equals(psw)) {
-			destinataire.setType(Comptetype);
+			destinataire.setCompteType(Comptetype);
 			return this.destinataire;
 		}
 		else {
