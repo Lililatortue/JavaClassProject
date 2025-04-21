@@ -29,8 +29,7 @@ CREATE OR REPLACE PACKAGE pkg_transactionManager AS
         destination     IN QUEUE_VIREMENT.VIR_DES%TYPE,
         psw             IN QUEUE_VIREMENT.VIR_PSW%TYPE,
         montant         IN QUEUE_VIREMENT.TRX_MONTANT%TYPE,
-        types           IN QUEUE_VIREMENT.TRX_TYPE%TYPE
-
+        compte          IN QUEUE_VIREMENT.CPT_NUMERO%TYPE
     );
 
     PROCEDURE proc_acceptVirement(

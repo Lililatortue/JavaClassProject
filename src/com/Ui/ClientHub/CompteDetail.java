@@ -7,7 +7,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.Bus.Model.Compte.*;
 import com.Bus.Model.Transaction.Transaction;
-import com.Bus.Model.Transaction.TransactionType;
 import com.Bus.Model.Transaction.Validation.TransactionManagement;
 
 import javax.swing.JLabel;
@@ -56,9 +55,8 @@ public class CompteDetail extends JFrame {
 		btnDeposer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Transaction transaction = new Transaction(compte.getCompteId(),
-						  								  compte.getType(),
-						  								  Double.parseDouble(textField_montantTransaction.getText()),
-						  								  TransactionType.DEPOT);
+						  								  Double.parseDouble(textField_montantTransaction.getText())
+						  								  );
 
 				try {
 					_transactions.buy(transaction);
@@ -77,9 +75,8 @@ public class CompteDetail extends JFrame {
 		btnRetirer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Transaction transaction = new Transaction(compte.getCompteId(),
-														  compte.getType(),
-														  Double.parseDouble(textField_montantTransaction.getText()),
-														  TransactionType.RETRAIT);
+														  Double.parseDouble(textField_montantTransaction.getText())
+														  );
 
 				try {
 					_transactions.sell(transaction);

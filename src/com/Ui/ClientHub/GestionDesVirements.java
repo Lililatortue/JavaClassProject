@@ -15,9 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.Bus.Model.Client.Client;
 import com.Bus.Model.Compte.Compte;
-import com.Bus.Model.Compte.CompteType;
 import com.Bus.Model.Transaction.Transaction;
-import com.Bus.Model.Transaction.TransactionType;
 import com.Bus.Model.Transaction.Virement;
 import com.Bus.Model.Transaction.Validation.VirementManagement;
 import com.Bus.Service.UserManagement.ClientManagement;
@@ -29,13 +27,17 @@ public class GestionDesVirements extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField_motdepasse;
 	private JTextField textField_CreationDuMotsDePasse;
-	private ClientManagement _client = new ClientManagement();
-	private VirementManagement _virements = new VirementManagement();
 	private JTextField textField_montant;
+	
+	private ClientManagement _client = new ClientManagement();
+	private VirementManagement _virements;
+	
 	/**
 	 * Create the frame.
 	 */
 	public GestionDesVirements(Compte compte) {
+		
+		_virements = new VirementManagement(compte);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 543, 329);
 		contentPane = new JPanel();
@@ -110,7 +112,7 @@ public class GestionDesVirements extends JFrame {
 				try {
 					_virements.accepterVirement((Virement)comboBox_virementDisponible.getSelectedItem(),
 												textField_motdepasse.getText(),
-												compte.getType()
+												compte
 												 );
 					
 					
@@ -144,18 +146,19 @@ public class GestionDesVirements extends JFrame {
 				Client client =(Client) comboBox_user.getSelectedItem();
 				
 				Transaction transaction = 
-						new Transaction(client.getId(), 
-								CompteType.VRMNT,  
-								Double.parseDouble(textField_montant.getText()), 
-								TransactionType.depot);
+						new Transaction(client.getId(),  
+								Double.parseDouble(textField_montant.getText()) 
+								);
 								
 				Virement virement = new Virement(compte,
+												 client.getId(),
 											     transaction,
 												 textField_CreationDuMotsDePasse.getText()
 												 );
 				
 				try {
-					_virements.envoyerVirement(virement);
+					System.out.print(virement);
+					_virements.creerVirement(virement);
 					loadVirement(comboBox_virementDisponible,compte);
 					lbl_error_stream.setText("virement envoyer");
 				} catch (Exception e1) {
@@ -182,7 +185,7 @@ public class GestionDesVirements extends JFrame {
 
 	private void loadVirement(JComboBox<Virement> comboBox,Compte compte) {
 		comboBox.removeAllItems();
-		_virements = new VirementManagement();
+		_virements = new VirementManagement(compte);
         for (var item : _virements.getVirement(compte.getClientId())) {
             comboBox.addItem(item);
         }

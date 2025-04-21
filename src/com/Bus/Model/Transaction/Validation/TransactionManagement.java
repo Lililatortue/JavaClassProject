@@ -16,7 +16,9 @@ public class TransactionManagement {
 		_transaction = new TransactionDAO();
 		_compte=compte;
 	}
-	
+	public TransactionManagement() {
+		_transaction = new TransactionDAO();
+	}
 	
 	public void buy(Transaction t) throws Exception {
 		_compte.deposer(t.getMontant());
@@ -27,7 +29,7 @@ public class TransactionManagement {
 		_transaction.sell(t);
 	}
 	
-	public ArrayList<Transaction> getSpecifiqueTransactions(Compte compte) {
+	public ArrayList<Transaction> getCompteTransactions(Compte compte) {
 		return _transaction.findOne(compte);
 	}
 

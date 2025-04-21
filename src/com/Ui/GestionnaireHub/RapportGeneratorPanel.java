@@ -13,13 +13,14 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class RapportGeneratorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private ClientManagement _clients = new ClientManagement();
-	private TransactionManagement _transaction;
+	private TransactionManagement _transaction = new TransactionManagement();
 
 	public RapportGeneratorPanel()  {
 		setLayout(null);
@@ -66,14 +67,17 @@ public class RapportGeneratorPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				Client _client=(Client)comboBox_ClientList.getSelectedItem();
+				ArrayList<Compte> comptes=_clients.readAccounts(_client.getId());
 				if(chckbxTransactionLog.isSelected() ) {
-					_transaction = new TransactionManagement();
+					
 					
 					try {
+						for(var item : comptes) {
 						RapportGenerator<Transaction> _rapport= new RapportGenerator<Transaction>(
-								new TXTStrategy<Transaction>("transaction"),"./src/Printer/transaction.txt");
-						_rapport.createDocument(_transaction.getClientTransactions(_client.getId()));
+								new TXTStrategy<Transaction>("transaction"),"./src/Printer/"+item.getType()+item.getCompteId()+".txt");
 						
+						_rapport.createDocument(_transaction.getCompteTransactions(item));
+						}
 						lbl_error_stream.setText("generer avec succes");
 					} catch (Exception e1) {
 						lbl_error_stream.setText(e1.getMessage());
@@ -85,7 +89,7 @@ public class RapportGeneratorPanel extends JPanel {
 					try {
 						RapportGenerator<Compte> _rapport= new RapportGenerator<Compte>(
 								new TXTStrategy<Compte>("Compte"),"./src/Printer/Compte.txt");
-						_rapport.createDocument(_clients.getClientCompte(_client.getId()));
+						_rapport.createDocument(comptes);
 						
 						lbl_error_stream.setText("generer avec succes");
 					} catch (Exception e1) {

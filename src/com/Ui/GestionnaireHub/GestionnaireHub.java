@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class GestionnaireHub extends JFrame {
@@ -38,7 +37,7 @@ public class GestionnaireHub extends JFrame {
 		JLabel lblNoRequestTo = new JLabel("no request to approuve");
 		lblNoRequestTo.setBounds(12, 43, 323, 16);
 		contentPane.add(lblNoRequestTo);
-		if(request.read().size()>0) {
+		if(request.read((c)->c != null).size()>0) {
 			lblNoRequestTo.setText("request to accomplish");
 		}
 		

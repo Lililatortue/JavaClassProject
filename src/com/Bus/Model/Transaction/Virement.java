@@ -1,44 +1,89 @@
 package com.Bus.Model.Transaction;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.security.auth.login.CredentialException;
 
 import com.Bus.Model.Compte.Compte;
-import com.Bus.Model.Compte.CompteType;
 
 //est un proxy il contientune source, un destinataire, un mot de passe et la transaction
 //
 public class Virement extends Transaction{	
-	private static final long serialVersionUID = 1L;
-	//transaction envoyer a la personne
-	private Transaction destinataire;
-	//psw pour acceder a la transaction envoyer
-	private String psw;
+
+	private int _virementId;
+	//id des clients concerner
+	private int _source;
+	private int _destinataire;
+	
+	private Transaction _transaction;
+	private String _psw;
 	
 	
-	public Virement(Compte source, Transaction transaction, String psw) {
-		//retrait du compte source
-		super(source.getClientId(), source.getType(), transaction.getMontant(), TransactionType.RETRAIT);	
-		//creation de la transaction destinataire
-		//set les prerequis
-		transaction.setTransactionType(TransactionType.DEPOT);
-		transaction.setCompteType(CompteType.VRMNT);
-		destinataire =transaction;
+	public Virement(Compte source, int destinataireId, Transaction transaction, String psw) {
+		//source
+		super(source.getCompteId(), transaction.getMontant());
+		this.setSource(source.getClientId());
+		this.setDestinataire(destinataireId);
+		
+		_transaction =transaction;
 		this.setPassword(psw);
 	}
-
-	//setters
-	public void setPassword(String psw){
-		this.psw = psw;
+	
+	public Virement(ResultSet rs) throws SQLException {
+		//source
+		super(rs.getInt("CPT_NUMERO"), rs.getInt("TRX_MONTANT"));
+		
+		_virementId=rs.getInt("VIR_ID");
+		this.setSource(rs.getInt("VIR_SRC"));
+		this.setDestinataire(rs.getInt("VIR_DES"));
+		
+		_transaction = new Transaction(rs);
+		this.setPassword(rs.getString("VIR_PSW"));
 	}
+	
+	
+	//setters
+	public void setSource(int source){
+		this._source = source;
+	}
+	
+	public void setDestinataire(int destinataire){
+		this._destinataire = destinataire;
+	}
+	
+	public void setPassword(String psw){
+		this._psw = psw;
+	}
+	
+	
 	//getters
-	public int getTransactionId(){
-		return this.destinataire.getCompteId();
-	} 
-	public Transaction getTransaction(String psw,CompteType Comptetype) throws CredentialException {
-		//verifi si le mot de passe concorde
-		if(this.psw.equals(psw)) {
-			destinataire.setCompteType(Comptetype);
-			return this.destinataire;
+	public int getSource(){
+		return this._source;
+	}
+	
+	public int getDestinataire(){
+		return this._destinataire;
+	}
+	
+	public String getPassword(){
+		return this._psw;
+	}
+	
+	public int getVirementId(){
+		return this._virementId;
+	}
+	
+	//retourner la source transaction
+	public Transaction getSourceTransaction() {
+		return (Transaction)this;
+	}
+	//retourner la transaction destinataire
+	public Transaction getDestinataireTransaction(String psw, int id) throws CredentialException {
+		//verify si le psw est valide
+		if(_psw.equals(psw)) {
+			_transaction.setCompteId(id);
+			return this._transaction;
 		}
 		else {
 			throw new CredentialException("Invalid credential ");

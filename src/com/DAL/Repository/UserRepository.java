@@ -25,7 +25,7 @@ public class UserRepository implements IRepository<Utilisateur>{
 				ResultSet rs = stmt.executeQuery(query)) {
 
 			while (rs.next()) {
-				if(rs.getString("USR_ROLE").equals("Client")) {	
+				if(rs.getString("USR_ROLE").equals("CLIENT")) {	
 					utilisateur.add(new Client(rs));
 				} else {
 					utilisateur.add(new Gestionnaire(rs));

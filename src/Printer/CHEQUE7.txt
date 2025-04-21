@@ -1,0 +1,8 @@
+CompteId #7 | Compte: null | Montant: 20.0 $ | Date: 2025-04-20 $ | transaction type: null
+CompteId #7 | Compte: null | Montant: 20.0 $ | Date: 2025-04-20 $ | transaction type: null
+CompteId #7 | Compte: null | Montant: -20.0 $ | Date: 2025-04-21 $ | transaction type: null
+CompteId #7 | Compte: null | Montant: 20.0 $ | Date: 2025-04-21 $ | transaction type: null
+CompteId #7 | Compte: null | Montant: 123.0 $ | Date: 2025-04-20 $ | transaction type: null
+CompteId #7 | Compte: null | Montant: 123.0 $ | Date: 2025-04-20 $ | transaction type: null
+CompteId #7 | Compte: null | Montant: -370.0 $ | Date: 2025-04-20 $ | transaction type: null
+CompteId #7 | Compte: null | Montant: 123.0 $ | Date: 2025-04-20 $ | transaction type: null

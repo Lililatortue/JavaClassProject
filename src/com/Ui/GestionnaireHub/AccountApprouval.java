@@ -42,7 +42,7 @@ public class AccountApprouval extends JFrame {
 		JComboBox<Compte> comboBox_approuvedAccount = new JComboBox<Compte>();
 		comboBox_approuvedAccount.setBounds(10, 156, 526, 22);
 		contentPane.add(comboBox_approuvedAccount);
-		for(var item : requestManagement.read()) {
+		for(var item : requestManagement.read((c)->c != null) ) {
 			comboBox_approuvedAccount.addItem(item);
 		}
 		
@@ -86,7 +86,7 @@ public class AccountApprouval extends JFrame {
 		contentPane.add(btnRefuse);	
 	}
 	public void loadCompte(JComboBox<Compte>comboBox) {
-		for(var item : requestManagement.read()) {
+		for(var item : requestManagement.read((c)->c != null)) {
 			comboBox.addItem(item);
 		}
 	}

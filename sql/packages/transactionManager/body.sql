@@ -46,14 +46,13 @@ CREATE OR REPLACE PACKAGE BODY pkg_transactionManager AS
         destination     IN QUEUE_VIREMENT.VIR_DES%TYPE,
         psw             IN QUEUE_VIREMENT.VIR_PSW%TYPE,
         montant         IN QUEUE_VIREMENT.TRX_MONTANT%TYPE,
-        types           IN QUEUE_VIREMENT.TRX_TYPE%TYPE
-
+        compte          IN QUEUE_VIREMENT.CPT_NUMERO%TYPE
     ) AS
     id QUEUE_VIREMENT.VIR_ID%TYPE;
     BEGIN
         id := SEQ_VIREMENT_ID.NEXTVAL;
-        INSERT INTO QUEUE_VIREMENT (VIR_ID, VIR_SRC, VIR_DES, VIR_PSW, TRX_MONTANT, TRX_TYPE, TRX_DATE)
-        VALUES (id, source, destination, psw, montant, types, SYSDATE);
+        INSERT INTO QUEUE_VIREMENT (VIR_ID, VIR_SRC, VIR_DES, VIR_PSW, TRX_MONTANT, TRX_DATE, CPT_NUMERO)
+        VALUES (id, source, destination, psw, montant, SYSDATE,compte);
     END;
 
 
@@ -65,7 +64,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_transactionManager AS
         SELECT * INTO virement FROM QUEUE_VIREMENT WHERE VIR_ID = id;
         proc_sellTransaction(virement.VIR_SRC, virement.TRX_MONTANT);
         proc_buyTransaction(virement.VIR_DES,virement.TRX_MONTANT);
-
+        proc_deleteVirement(id);
         EXCEPTION
             WHEN OTHERS THEN
                 ROLLBACK;
@@ -81,3 +80,4 @@ CREATE OR REPLACE PACKAGE BODY pkg_transactionManager AS
     END;
 END pkg_transactionManager;
 
+SELECT * FROM QUEUE_VIREMENT;

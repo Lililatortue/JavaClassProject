@@ -54,11 +54,13 @@ public class EffacerCompte extends JFrame {
 		comboBox_1.setBounds(12, 130, 194, 24);
 		contentPane.add(comboBox_1);
 		JButton btnChoisir = new JButton("choisir");
+		
+		
 		btnChoisir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				comboBox_1.removeAllItems();
 				Client client = (Client)comboBox.getSelectedItem();
-				for(var item: _client.readAccounts(client))
+				for(var item: _client.readAccounts(client.getId()))
 				comboBox_1.addItem(item);
 			}
 		});

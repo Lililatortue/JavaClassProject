@@ -8,23 +8,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.Bus.Model.Compte.Compte;
 import com.Bus.Model.Transaction.Transaction;
+import com.Bus.Model.Transaction.Virement;
 import com.DAL.Repository.Connection.DbConnection;
 //TODO: make it work
 public class VirementDAO {
 	
-	public ArrayList<Transaction> read() {
-		ArrayList<Transaction> transaction = new ArrayList<>();
-		String query = "SELECT * FROM T_TRANSACTION ORDER BY USR_ID ASC";
+	public ArrayList<Virement> read() {
+		ArrayList<Virement> virement = new ArrayList<>();
+		String query = "SELECT * FROM QUEUE_VIREMENT ORDER BY VIR_DES ASC";
 		try (Connection conn = DbConnection.getConnection();	
 			 Statement stmt = conn.createStatement();
 			 ResultSet rs = stmt.executeQuery(query)) {
 			
 			while (rs.next()) {
-				transaction.add(new Transaction(rs));
+				virement.add(new Virement(rs));
 			}
-			return transaction;
+			return virement;
 		} catch (SQLException e) {
 			System.out.println("Error getting compte: " + e.getMessage());
 		}
@@ -33,34 +33,54 @@ public class VirementDAO {
 	
 	
 	
-	public ArrayList<Transaction> findOne(Compte compte) {
-		ArrayList<Transaction> transaction = new ArrayList<>();
-		String query = "SELECT * FROM T_TRANSACTION WHERE CPT_NUMERO = ?";
+	public ArrayList<Virement> findOne(int numero) {
+		ArrayList<Virement> virement = new ArrayList<>();
+		String query = "SELECT * FROM QUEUE_VIREMENT WHERE VIR_DES = ?";
 		try (Connection conn = DbConnection.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query)) {
 			
-			stmt.setInt(1, compte.getCompteId());
+			stmt.setInt(1, numero);
 			ResultSet rs = stmt.executeQuery();
 				
 			while (rs.next()) {
-				transaction.add(new Transaction(rs));
+				virement.add(new Virement(rs));
 			}
-			return transaction;
+			return virement;
 		} catch (SQLException e) {
 			System.out.println("Error findone compte: " + e.getMessage());
 		}
 
-		return transaction;
+		return virement;
 	}
 
 	
 	
-	public boolean create(Transaction item) {
-		String procedure = "{ call pkg_transactionManager.proc_buyTransaction(?, ?)}";
+	public boolean create(Virement virement) {
+		String procedure = "{ call pkg_transactionManager.proc_createVirement(?, ?, ?, ?, ?)}";
 		try (Connection conn = DbConnection.getConnection(); 
 				CallableStatement stmt = conn.prepareCall(procedure)) {
-			stmt.setInt(1, item.getCompteId());
-			stmt.setDouble(2, item.getMontant());
+			stmt.setInt(	1, 		virement.getSource());
+			stmt.setInt(	2, 		virement.getDestinataire());
+			stmt.setString(	3, 		virement.getPassword());
+			stmt.setDouble(	4, 		virement.getMontant());
+			stmt.setInt(	5, 		virement.getCompteId());
+	        stmt.execute();
+	        return true;
+		} catch (SQLException e) {
+			System.out.println("Insert error: " + e.getMessage());
+			return false;
+		}	
+		
+	}
+	public boolean accept(Transaction source, Transaction destinataire, int id) {
+		String procedure = "{ call pkg_transactionManager.proc_acceptVirement(?, ?, ?, ?)}";
+		try (Connection conn = DbConnection.getConnection(); 
+				CallableStatement stmt = conn.prepareCall(procedure)) {
+			stmt.setInt(	1, 		id);
+			stmt.setInt(	2, 		source.getCompteId());
+			stmt.setInt(	3, 		destinataire.getCompteId());
+			stmt.setDouble(	4, 		source.getMontant());
+
 	        stmt.execute();
 	        return true;
 		} catch (SQLException e) {
@@ -71,33 +91,4 @@ public class VirementDAO {
 	}
 	
 	
-	
-	public boolean accept(Transaction item) {
-		String procedure = "{ call pkg_transactionManager.proc_buyTransaction(?, ?)}";
-		try (Connection conn = DbConnection.getConnection(); 
-				CallableStatement stmt = conn.prepareCall(procedure)) {
-			stmt.setInt(1, item.getCompteId());
-			stmt.setDouble(2, item.getMontant());
-	        stmt.execute();
-	        return true;
-		} catch (SQLException e) {
-			System.out.println("Insert error: " + e.getMessage());
-			return false;
-		}	
-		
-	}
-
-	public boolean refuse(Transaction item) {
-		String procedure = "{ call pkg_transactionManager.proc_sellTransaction(?, ?)}";
-		try (Connection conn = DbConnection.getConnection(); 
-				CallableStatement stmt = conn.prepareCall(procedure)) {
-			stmt.setInt(1, item.getCompteId());
-			stmt.setDouble(2, item.getMontant());
-	        stmt.execute();
-	        return true;
-		} catch (SQLException e) {
-			System.out.println("Insert error: " + e.getMessage());
-			return false;
-		}	
-	}
 }
